@@ -1,30 +1,48 @@
-# React + TypeScript + Vite
+# Event-Website
+A functional, aesthetically pleasing website design template for a event/festival
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Rules
 
-Currently, two official plugins are available:
+- Employ transparent and significant nomenclature for variables, functions, classes, and so forth.
+- Maintain consistent vocabulary for identical types of variables, functions, or classes.
+- Adhere to the camelCase naming convention for variables, functions, and methods.
+- Conform to the PascalCase naming convention for classes and interfaces.
+- Utilize comments to elucidate the logic implemented in functions and classes.
+- Leverage components to enhance the readability and maintainability of the code.
+- use yarn for installing dependencies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## 2. to run the project
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- fork the project
+- clone the project
+
+```
+yarn
+yarn dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+for husky not set as executable run this command
+
+
+```
+chmod ug+x .husky/*
+```
+
+
+## 3. Resources
+
+### 3.1. React
+- [React](https://reactjs.org/)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Router](https://reactrouter.com/web/guides/quick-start)
+
+### 3.2. Tailwind CSS
+
+- [tailwind tutorial](https://flexiple.com/css/tailwind-css-cheat-sheet)
+
+
+
+__Please make the UI Mobile Responsive also, Use appropriate units so overflow doesn't occur__

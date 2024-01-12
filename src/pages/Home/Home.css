@@ -1,0 +1,6 @@
+
+.text-outline{
+    
+      -webkit-text-stroke: 1px white; /* Width and color of the text outline */
+      color: black; /* Text color */
+}
