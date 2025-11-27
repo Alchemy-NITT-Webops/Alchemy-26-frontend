@@ -1,4 +1,4 @@
-# alchemy 2026 fronted
+# Alchemy 2026 Frontend
 ## 1. Rules
 
 - Employ transparent and significant nomenclature for variables, functions, classes, and so forth.
