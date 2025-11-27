@@ -1,6 +1,4 @@
-# Event-Website
-A functional, aesthetically pleasing website design template for a event/festival
-
+# alchemy 2026 fronted
 ## 1. Rules
 
 - Employ transparent and significant nomenclature for variables, functions, classes, and so forth.
