@@ -7,8 +7,7 @@
  *   npm install gsap swiper lucide-react
  *
  * Add to your global CSS (e.g. globals.css):
- *   @import 'swiper/css';
- *   @import 'swiper/css/effect-coverflow';
+ *   @import 'swiper/swiper-bundle.css';
  *
  * Usage:
  *   import EventCarousel from './EventCarousel';
@@ -42,8 +41,7 @@ import {
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
+import 'swiper/swiper-bundle.css';
 
 export interface EventItem {
     id: number;
