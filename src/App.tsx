@@ -84,7 +84,7 @@ function App() {
     <div className="relative bg-[#0a0a0a] text-white min-h-screen">
       {/* Fixed SideNav overlay */}
       <StaggeredMenu
-      logoUrl='/logo.jpeg'
+        logoUrl='/logo.png'
         isFixed={true}
         position="right"
         items={menuItems}

@@ -37,7 +37,6 @@ import {
 } from "lucide-react";
 
 import "swiper/swiper-bundle.css";
-import { useGSAP } from "@gsap/react";
 
 export interface EventItem {
     id: number;
