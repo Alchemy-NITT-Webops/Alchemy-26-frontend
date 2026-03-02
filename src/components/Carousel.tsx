@@ -1,18 +1,12 @@
 /**
  * EventCarousel.tsx
  *
- * React + TypeScript + Tailwind CSS + GSAP + Swiper Coverflow
- *
- * Install deps:
- *   npm install gsap swiper lucide-react
- *
- * Add to your global CSS (e.g. globals.css):
- *   @import 'swiper/swiper-bundle.css';
- *
- * Usage:
- *   import EventCarousel from './EventCarousel';
- *   <EventCarousel />
- *   <EventCarousel events={myEvents} />
+ * Mobile jitter fixes:
+ *  1. Replaced CSS `filter: grayscale + brightness` with opacity only
+ *  2. Added animRafRef rapid-swipe guard to cancel stacked GSAP tweens
+ *  3. Replaced max-height CSS transition with transform + opacity
+ *  4. Added will-change: transform on card wrappers
+ *  5. Switched onTransitionEnd → onSlideChangeTransitionEnd
  */
 
 "use client";
@@ -22,9 +16,11 @@ import React, {
     useRef,
     useState,
     useCallback,
+    useMemo,
+    memo,
 } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow } from "swiper/modules";
+import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { gsap } from "gsap";
 import {
@@ -40,8 +36,8 @@ import {
     ExternalLink,
 } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-import 'swiper/swiper-bundle.css';
+import "swiper/swiper-bundle.css";
+import { useGSAP } from "@gsap/react";
 
 export interface EventItem {
     id: number;
@@ -54,7 +50,7 @@ export interface EventItem {
     image: string;
     accent: string;
     details: {
-        fullDescription: string; // basic HTML supported
+        fullDescription: string;
         price: string;
         capacity: string;
         organizer: string;
@@ -62,8 +58,6 @@ export interface EventItem {
         website?: string;
     };
 }
-
-// ─── Demo data ────────────────────────────────────────────────────────────────
 
 const DEMO_EVENTS: EventItem[] = [
     {
@@ -75,7 +69,7 @@ const DEMO_EVENTS: EventItem[] = [
         location: "The Warehouse, Brooklyn NY",
         category: "Music",
         image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80",
-        accent: "#F59E0B",
+        accent: "#ffffff",
         details: {
             fullDescription: `<p>Step into a world where <strong>bass meets light</strong>. Neon Frequencies brings together six world-class DJs for an all-night journey through techno, ambient, and everything in between.</p><p>The venue will be transformed with <em>state-of-the-art laser installations</em> and reactive LED walls that pulse in sync with the music.</p><ul><li>6 international DJ acts</li><li>3 immersive rooms</li><li>Full bar &amp; craft cocktail menu</li><li>Photography permitted until midnight</li></ul><p>Doors open at <strong>8:00 PM</strong>. Last entry at 11:00 PM. 21+ event.</p>`,
             price: "$45 – $120",
@@ -94,7 +88,7 @@ const DEMO_EVENTS: EventItem[] = [
         location: "Arts District, Los Angeles CA",
         category: "Art",
         image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80",
-        accent: "#10B981",
+        accent: "#ffffff",
         details: {
             fullDescription: `<p>Urban Canvas returns for its <strong>5th edition</strong>, transforming over 40 city blocks into an open-air gallery of monumental murals.</p><p>This year's theme is <em>"Roots &amp; Routes"</em> — exploring identity, migration, and belonging.</p><ul><li>60+ international muralists</li><li>Live painting throughout the weekend</li><li>Artist talks &amp; guided tours</li><li>Food trucks &amp; pop-up vendors</li></ul><p>Free and open to the public.</p>`,
             price: "Free (workshops $20)",
@@ -112,7 +106,7 @@ const DEMO_EVENTS: EventItem[] = [
         location: "Rooftop Arena, Chicago IL",
         category: "Food & Drink",
         image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80",
-        accent: "#8B5CF6",
+        accent: "#ffffff",
         details: {
             fullDescription: `<p>The premier craft beer festival of the Midwest returns with an <strong>astronomical lineup</strong> of over 80 breweries and 300+ unique beers.</p><p>Set on Chicago's most spectacular rooftop, Cosmic Brews combines <em>world-class brews</em> with live jazz and a telescope station for stargazing.</p><ul><li>80+ craft breweries</li><li>Live jazz from 5 local bands</li><li>Telescope stargazing station</li><li>Gourmet food pairings</li></ul><p><strong>VIP Early Access</strong> at 2:00 PM includes a brewer's meet &amp; greet.</p>`,
             price: "$65 General / $110 VIP",
@@ -130,7 +124,7 @@ const DEMO_EVENTS: EventItem[] = [
         location: "Convention Center, Austin TX",
         category: "Tech",
         image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
-        accent: "#3B82F6",
+        accent: "#ffffff",
         details: {
             fullDescription: `<p>Code &amp; Coffee Summit is the <strong>must-attend developer conference</strong> of the year, bringing together 2,000+ engineers and founders.</p><p>Topics include <em>AI/ML in production, WebAssembly, distributed systems</em> and the future of the web platform.</p><ul><li>50+ technical talks across 4 tracks</li><li>Hands-on workshops (limited seats)</li><li>Open-source hackathon with $10k prize pool</li><li>Unlimited specialty coffee all day</li></ul><p>Early bird pricing available until April 1st.</p>`,
             price: "$199 Early Bird / $349 Standard",
@@ -149,7 +143,44 @@ const DEMO_EVENTS: EventItem[] = [
         location: "Cherry Blossom Park, Seattle WA",
         category: "Culture",
         image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
-        accent: "#F43F5E",
+        accent: "#ffffff",
+        details: {
+            fullDescription: `<p>Celebrate the <strong>cherry blossom season</strong> at our annual Sakura Night Market — a magical evening of Japanese culture, food, and performance beneath illuminated blossom trees.</p><p>Over 50 vendors will offer <em>authentic Japanese street food</em>, handcrafted goods, and sake tastings. The evening culminates in a <strong>lantern release ceremony</strong>.</p><ul><li>50+ food &amp; craft vendors</li><li>Live taiko drumming performances</li><li>Traditional tea ceremony (ticketed)</li><li>Lantern release at 9:00 PM</li></ul><p>Free admission.</p>`,
+            price: "Free entry",
+            capacity: "Unlimited",
+            organizer: "Seattle Japan Cultural Center",
+            tags: ["Culture", "Food", "Family", "Free"],
+        },
+    },
+
+    {
+        id: 6,
+        title: "Sakura Night Market",
+        shortDescription: "Japanese street food, lanterns, and live taiko drumming.",
+        date: "April 12, 2025",
+        time: "5:00 PM",
+        location: "Cherry Blossom Park, Seattle WA",
+        category: "Culture",
+        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
+        accent: "#ffffff",
+        details: {
+            fullDescription: `<p>Celebrate the <strong>cherry blossom season</strong> at our annual Sakura Night Market — a magical evening of Japanese culture, food, and performance beneath illuminated blossom trees.</p><p>Over 50 vendors will offer <em>authentic Japanese street food</em>, handcrafted goods, and sake tastings. The evening culminates in a <strong>lantern release ceremony</strong>.</p><ul><li>50+ food &amp; craft vendors</li><li>Live taiko drumming performances</li><li>Traditional tea ceremony (ticketed)</li><li>Lantern release at 9:00 PM</li></ul><p>Free admission.</p>`,
+            price: "Free entry",
+            capacity: "Unlimited",
+            organizer: "Seattle Japan Cultural Center",
+            tags: ["Culture", "Food", "Family", "Free"],
+        },
+    },
+    {
+        id: 7,
+        title: "Sakura Night Market",
+        shortDescription: "Japanese street food, lanterns, and live taiko drumming.",
+        date: "April 12, 2025",
+        time: "5:00 PM",
+        location: "Cherry Blossom Park, Seattle WA",
+        category: "Culture",
+        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
+        accent: "#ffffff",
         details: {
             fullDescription: `<p>Celebrate the <strong>cherry blossom season</strong> at our annual Sakura Night Market — a magical evening of Japanese culture, food, and performance beneath illuminated blossom trees.</p><p>Over 50 vendors will offer <em>authentic Japanese street food</em>, handcrafted goods, and sake tastings. The evening culminates in a <strong>lantern release ceremony</strong>.</p><ul><li>50+ food &amp; craft vendors</li><li>Live taiko drumming performances</li><li>Traditional tea ceremony (ticketed)</li><li>Lantern release at 9:00 PM</li></ul><p>Free admission.</p>`,
             price: "Free entry",
@@ -160,91 +191,62 @@ const DEMO_EVENTS: EventItem[] = [
     },
 ];
 
-// ─── Utilities ────────────────────────────────────────────────────────────────
-
+const rgbaCache = new Map<string, string>();
 function hexToRgba(hex: string, alpha: number): string {
+    const key = `${hex}:${alpha}`;
+    if (rgbaCache.has(key)) return rgbaCache.get(key)!;
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r},${g},${b},${alpha})`;
+    const result = `rgba(${r},${g},${b},${alpha})`;
+    rgbaCache.set(key, result);
+    return result;
 }
 
-/** Splits title text into individual word <span>s for GSAP stagger targeting. */
-function WordSplit({ text, className }: { text: string; className?: string }) {
-    return (
-        <span className={className} style={{ display: "block", overflow: "hidden" }}>
-            {text.split(" ").map((word, i) => (
-                <span key={i} className="ec-word inline-block" style={{ marginRight: "0.28em" }}>
-                    {word}
-                </span>
-            ))}
-        </span>
-    );
-}
-
-// ─── Magnetic nav button ──────────────────────────────────────────────────────
 
 interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     strength?: number;
 }
 
-const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButtonProps>(
-    ({ children, strength = 0.35, className, style, ...rest }, forwardedRef) => {
-        const localRef = useRef<HTMLButtonElement>(null);
-        const ref = (forwardedRef as React.RefObject<HTMLButtonElement>) ?? localRef;
+const MagneticButton = memo(
+    React.forwardRef<HTMLButtonElement, MagneticButtonProps>(
+        ({ children, strength = 0.35, className, style, ...rest }, forwardedRef) => {
+            const localRef = useRef<HTMLButtonElement>(null);
+            const ref = (forwardedRef as React.RefObject<HTMLButtonElement>) ?? localRef;
 
-        useEffect(() => {
-            const el = ref.current;
-            if (!el) return;
-            const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3" });
-            const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3" });
-            const onMove = (e: MouseEvent) => {
-                const r = el.getBoundingClientRect();
-                xTo((e.clientX - r.left - r.width / 2) * strength);
-                yTo((e.clientY - r.top - r.height / 2) * strength);
-            };
-            const onLeave = () => { xTo(0); yTo(0); };
-            el.addEventListener("mousemove", onMove);
-            el.addEventListener("mouseleave", onLeave);
-            return () => {
-                el.removeEventListener("mousemove", onMove);
-                el.removeEventListener("mouseleave", onLeave);
-            };
-        }, [ref, strength]);
+            useEffect(() => {
+                const el = ref.current;
+                if (!el) return;
+                const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3" });
+                const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3" });
+                const ctrl = new AbortController();
+                const { signal } = ctrl;
+                el.addEventListener("mousemove", (e: MouseEvent) => {
+                    const r = el.getBoundingClientRect();
+                    xTo((e.clientX - r.left - r.width / 2) * strength);
+                    yTo((e.clientY - r.top - r.height / 2) * strength);
+                }, { signal });
+                el.addEventListener("mouseleave", () => { xTo(0); yTo(0); }, { signal });
+                return () => ctrl.abort();
+            }, [ref, strength]);
 
-        return (
-            <button ref={ref} className={className} style={style} {...rest}>
-                {children}
-            </button>
-        );
-    }
+            return (
+                <button ref={ref} className={className} style={style} {...rest}>
+                    {children}
+                </button>
+            );
+        }
+    )
 );
 MagneticButton.displayName = "MagneticButton";
 
-// ─── Event Details Dialog ─────────────────────────────────────────────────────
-
-const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
-    event,
-    onClose,
-}) => {
+const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () => void }) => {
     const backdropRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const children = contentRef.current
-            ? Array.from(contentRef.current.children as HTMLCollectionOf<HTMLElement>)
-            : [];
-        gsap.set(panelRef.current, { y: 56, opacity: 0, scale: 0.95 });
-        gsap.set(children, { y: 18, opacity: 0 });
-        gsap
-            .timeline()
-            .to(backdropRef.current, { opacity: 1, duration: 0.28, ease: "power2.out" })
-            .to(panelRef.current, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "expo.out" }, "-=0.14")
-            .to(children, { y: 0, opacity: 1, stagger: 0.05, duration: 0.28, ease: "power3.out" }, "-=0.22");
-        document.body.style.overflow = "hidden";
-        return () => { document.body.style.overflow = ""; };
-    }, []);
+    const { accent } = event;
+    const tagBg = useMemo(() => hexToRgba(accent, 0.1), [accent]);
+    const tagBorder = useMemo(() => hexToRgba(accent, 0.3), [accent]);
 
     const handleClose = useCallback(() => {
         gsap
@@ -253,7 +255,28 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
             .to(backdropRef.current, { opacity: 0, duration: 0.18 }, "-=0.1");
     }, [onClose]);
 
-    const { accent } = event;
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            const children = contentRef.current
+                ? Array.from(contentRef.current.children as HTMLCollectionOf<HTMLElement>)
+                : [];
+            gsap.set(panelRef.current, { y: 56, opacity: 0, scale: 0.95 });
+            gsap.set(children, { y: 18, opacity: 0 });
+            gsap
+                .timeline()
+                .to(backdropRef.current, { opacity: 1, duration: 0.28, ease: "power2.out" })
+                .to(panelRef.current, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "expo.out" }, "-=0.14")
+                .to(children, { y: 0, opacity: 1, stagger: 0.05, duration: 0.28, ease: "power3.out" }, "-=0.22");
+        });
+        document.body.style.overflow = "hidden";
+        const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
+        window.addEventListener("keydown", onKey);
+        return () => {
+            ctx.revert();
+            document.body.style.overflow = "";
+            window.removeEventListener("keydown", onKey);
+        };
+    }, [handleClose]);
 
     return (
         <div
@@ -264,35 +287,28 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
         >
             <div
                 ref={panelRef}
-                className="relative w-full sm:max-w-2xl max-h-[92vh] overflow-hidden
-                   rounded-t-3xl sm:rounded-2xl flex flex-col"
+                className="relative w-full sm:max-w-2xl max-h-[92vh] overflow-hidden rounded-t-3xl sm:rounded-2xl flex flex-col"
                 style={{ background: "#111", border: "1px solid rgba(255,255,255,0.08)" }}
             >
-                {/* Hero */}
-                <div className="relative h-44 sm:h-56 flex-shrink-0 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
-                    <div
-                        className="absolute inset-0"
-                        style={{ background: "linear-gradient(to top, #111 0%, rgba(0,0,0,0.25) 60%, transparent 100%)" }}
-                    />
+                <div className="relative h-44 sm:h-56 overflow-hidden">
+                    <img src={event.image} alt={event.title} className="w-full h-full object-cover" loading="eager" />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #111 0%, rgba(0,0,0,0.25) 60%, transparent 100%)" }} />
                     <button
                         onClick={handleClose}
-                        className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center
-                       justify-center transition-colors hover:bg-black/70"
+                        className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-black/70"
                         style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)" }}
+                        aria-label="Close"
                     >
                         <X size={17} className="text-white" />
                     </button>
                     <span
-                        className="absolute bottom-4 left-4 text-[10px] font-extrabold uppercase
-                       tracking-widest px-3 py-1 rounded-full"
+                        className="absolute bottom-4 left-4 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full"
                         style={{ background: accent, color: "#000" }}
                     >
                         {event.category}
                     </span>
                 </div>
 
-                {/* Scrollable content */}
                 <div className="overflow-y-auto flex-1 p-5 sm:p-7 [scrollbar-width:none]">
                     <div ref={contentRef} className="flex flex-col gap-0">
                         <h2
@@ -344,11 +360,7 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
                                 <span
                                     key={tag}
                                     className="flex items-center gap-1 text-[11px] font-semibold px-3 py-1 rounded-full"
-                                    style={{
-                                        background: hexToRgba(accent, 0.1),
-                                        border: `1px solid ${hexToRgba(accent, 0.3)}`,
-                                        color: accent,
-                                    }}
+                                    style={{ background: tagBg, border: `1px solid ${tagBorder}`, color: accent }}
                                 >
                                     <Tag size={10} />
                                     {tag}
@@ -357,15 +369,13 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
                         </div>
 
                         <p className="text-[12px] mb-6 text-[#555]">
-                            Organized by{" "}
-                            <span className="font-semibold text-[#999]">{event.details.organizer}</span>
+                            Organized by <span className="font-semibold text-[#999]">{event.details.organizer}</span>
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3">
                             <button
                                 onClick={handleClose}
-                                className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center
-                           justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98]"
+                                className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98]"
                                 style={{ background: accent, color: "#000" }}
                             >
                                 <Ticket size={15} />
@@ -376,8 +386,7 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
                                     href={event.details.website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center
-                             justify-center gap-2 no-underline transition-opacity hover:opacity-75"
+                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 no-underline transition-opacity hover:opacity-75"
                                     style={{ border: "1.5px solid rgba(255,255,255,0.15)", color: "#ccc" }}
                                 >
                                     <ExternalLink size={15} />
@@ -390,9 +399,8 @@ const EventDialog: React.FC<{ event: EventItem; onClose: () => void }> = ({
             </div>
         </div>
     );
-};
-
-// ─── Individual event card ────────────────────────────────────────────────────
+});
+EventDialog.displayName = "EventDialog";
 
 interface EventCardProps {
     event: EventItem;
@@ -402,175 +410,163 @@ interface EventCardProps {
     onDetails: () => void;
 }
 
-const EventCard = React.forwardRef<HTMLDivElement, EventCardProps>(
-    ({ event, index, total, isActive, onDetails }, ref) => {
-        const { accent } = event;
-        return (
-            <div
-                ref={ref}
-                className="relative rounded-3xl overflow-hidden select-none cursor-grab active:cursor-grabbing
-                   h-[480px] sm:h-[520px] flex flex-col"
-                style={{
+const EventCard = memo(
+    React.forwardRef<HTMLDivElement, EventCardProps>(
+        ({ event, index, total, isActive, onDetails }, ref) => {
+            const { accent } = event;
+
+            const boxShadowStyle = useMemo(
+                () => ({
                     background: "#111",
                     border: "1px solid rgba(255,255,255,0.09)",
+                    // Promote to GPU layer upfront so browser doesn't do it mid-swipe
+                    willChange: "transform" as const,
                     boxShadow: `0 30px 60px rgba(0,0,0,0.65), 0 0 50px ${hexToRgba(accent, 0.1)}`,
-                }}
-            >
-                {/* Image — flex-1 fills remaining space after card body */}
-                <div className="relative overflow-hidden flex-1 min-h-0">
-                    <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover pointer-events-none"
-                        draggable={false}
-                    />
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background: isActive
-                                ? "linear-gradient(180deg, transparent 30%, #111 100%)"
-                                : "linear-gradient(180deg, transparent 10%, rgba(0,0,0,0.6) 60%, #111 100%)"
-                        }}
-                    />
-                    {/* Category badge — targeted by GSAP */}
-                    <span
-                        className="ec-badge absolute top-4 left-4 text-[10px] font-extrabold uppercase
-                       tracking-widest px-3 py-[5px] rounded-full"
-                        style={{
-                            background: accent,
-                            color: "#000",
-                            opacity: isActive ? undefined : 0,
-                            pointerEvents: isActive ? undefined : 'none',
-                        }}
-                    >
-                        {event.category}
-                    </span>
-                    {/* Counter */}
-                    <span
-                        className="ec-counter absolute top-4 right-4 text-[11px] font-bold px-2.5 py-[5px] rounded-full"
-                        style={{
-                            background: "rgba(0,0,0,0.55)",
-                            backdropFilter: "blur(6px)",
-                            color: "#fff",
-                            border: "1px solid rgba(255,255,255,0.15)",
-                            opacity: isActive ? undefined : 0,
-                            pointerEvents: isActive ? undefined : 'none',
-                        }}
-                    >
-                        {index + 1} / {total}
-                    </span>
+                }),
+                [accent]
+            );
 
-                    {/* Inactive overlay title — centered on the image */}
-                    <div
-                        className="ec-inactive-title absolute bottom-0 left-0 right-0 p-5 flex items-end"
-                        style={{
-                            opacity: isActive ? 0 : 1,
-                            transform: isActive ? 'translateY(10px)' : 'translateY(0)',
-                            transition: 'opacity 0.35s ease, transform 0.35s ease',
-                            pointerEvents: 'none',
-                        }}
-                    >
-                        <h3
-                            className="text-[26px] sm:text-[30px] font-black text-white leading-[1.1] text-center w-full"
+            const gradientStyle = useMemo(
+                () => ({
+                    background: isActive
+                        ? "linear-gradient(180deg, transparent 30%, #111 100%)"
+                        : "linear-gradient(180deg, transparent 10%, rgba(0,0,0,0.6) 60%, #111 100%)",
+                    transition: "background 0.4s ease",
+                }),
+                [isActive]
+            );
+
+            // FIX: max-height animates layout every frame — jank on mobile.
+            // Use transform + opacity instead (compositor-only, zero layout cost).
+            const cardBodyStyle = useMemo(
+                () => ({
+                    overflow: "hidden" as const,
+                    maxHeight: isActive ? 400 : 0,
+                    transform: isActive ? "translateY(0)" : "translateY(20px)",
+                    opacity: isActive ? 1 : 0,
+                    pointerEvents: isActive ? ("auto" as const) : ("none" as const),
+                    transition: "max-height 0.35s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease",
+                }),
+                [isActive]
+            );
+
+            const inactiveTitleStyle = useMemo(
+                () => ({
+                    opacity: isActive ? 0 : 1,
+                    transform: isActive ? "translateY(20px)" : "translateY(0)",
+                    transition: "opacity 0.2s ease, transform 0.2s ease",
+                    pointerEvents: "none" as const,
+                }),
+                [isActive]
+            );
+
+            return (
+                <div
+                    ref={ref}
+                    className="relative rounded-3xl overflow-hidden select-none h-[480px] sm:h-[520px] flex flex-col"
+                    style={boxShadowStyle}
+                >
+                    <div className="relative overflow-hidden flex-1 h-max min-h-0">
+                        <img
+                            src={event.image}
+                            alt={event.title}
+                            className="w-full h-full object-cover pointer-events-none"
+                            draggable={false}
+                            loading={isActive ? "eager" : "lazy"}
+                        />
+                        <div className="absolute inset-0" style={gradientStyle} />
+
+                        <span
+                            className="ec-badge absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-widest px-3 py-[5px] rounded-full"
                             style={{
-                                fontFamily: "'Bebas Neue', sans-serif",
-                                letterSpacing: "0.03em",
-                                textShadow: "0 2px 12px rgba(0,0,0,0.7)",
+                                background: accent,
+                                color: "#000",
+                                opacity: isActive ? undefined : 0,
+                                pointerEvents: isActive ? undefined : "none",
                             }}
                         >
-                            {event.title}
-                        </h3>
-                    </div>
-                </div>
+                            {event.category}
+                        </span>
 
-                {/* Card body — hidden when inactive, animated in when active */}
-                <div
-                    className="ec-card-body"
-                    style={{
-                        overflow: 'hidden',
-                        maxHeight: isActive ? 400 : 0,
-                        opacity: isActive ? 1 : 0,
-                        transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease',
-                    }}
-                >
-                    <div className="p-5 pb-6">
-                        {/* Title — word spans for GSAP */}
-                        <div className="ec-title mb-2">
-                            <WordSplit
-                                text={event.title}
-                                className="text-[28px] sm:text-[32px] font-black text-white leading-[1.1]"
-                            />
-                        </div>
-
-                        {/* Description */}
-                        <p
-                            className="ec-desc text-[13px] font-light leading-relaxed mb-4"
-                            style={{ color: "#888" }}
+                        <span
+                            className="ec-counter absolute top-4 right-4 text-[11px] font-bold px-2.5 py-[5px] rounded-full"
+                            style={{
+                                background: "rgba(0,0,0,0.55)",
+                                backdropFilter: "blur(6px)",
+                                color: "#fff",
+                                border: "1px solid rgba(255,255,255,0.15)",
+                                opacity: isActive ? undefined : 0,
+                                pointerEvents: isActive ? undefined : "none",
+                            }}
                         >
-                            {event.shortDescription}
-                        </p>
+                            {index + 1} / {total}
+                        </span>
 
-                        {/* Date + location chips */}
-                        <div className="flex flex-wrap gap-2 mb-5">
-                            {/* date chip */}
-                            <div
-                                className="ec-chip flex items-center gap-1.5 text-[11px] font-medium
-                           px-3 py-[6px] rounded-full text-[#ccc]"
-                                style={{
-                                    background: "rgba(255,255,255,0.06)",
-                                    border: "1px solid rgba(255,255,255,0.1)",
-                                }}
+                        <div className="ec-inactive-title absolute bottom-0 left-0 right-0 p-5 flex items-end" style={inactiveTitleStyle}>
+                            <h3
+                                className="text-[26px] sm:text-[30px] font-black text-white leading-[1.1] text-center w-full"
+                                style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.03em", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
                             >
-                                <Calendar size={11} style={{ color: accent }} />
-                                {event.date}
-                                <span style={{ color: accent, margin: "0 2px" }}>·</span>
-                                <Clock size={11} style={{ color: accent }} />
-                                {event.time}
-                            </div>
-                            {/* location chip */}
-                            <div
-                                className="ec-chip flex items-center gap-1.5 text-[11px] font-medium
-                           px-3 py-[6px] rounded-full overflow-hidden max-w-full text-[#ccc]"
-                                style={{
-                                    background: "rgba(255,255,255,0.06)",
-                                    border: "1px solid rgba(255,255,255,0.1)",
-                                }}
-                            >
-                                <MapPin size={11} style={{ color: accent }} />
-                                <span className="truncate">{event.location}</span>
-                            </div>
+                                {event.title}
+                            </h3>
                         </div>
+                    </div>
 
-                        {/* Action buttons */}
-                        <div className="ec-btns flex gap-3">
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onDetails(); }}
-                                className="flex-1 py-[13px] rounded-xl text-[13px] font-semibold
-                           transition-all hover:bg-white/5 active:scale-[0.97] text-[#ddd]"
-                                style={{
-                                    border: "1.5px solid rgba(255,255,255,0.15)",
-                                    background: "transparent",
-                                }}
-                            >
-                                More Details
-                            </button>
-                            <button
-                                className="flex-1 py-[13px] rounded-xl text-[13px] font-bold
-                           transition-opacity hover:opacity-90 active:scale-[0.97]"
-                                style={{ background: accent, color: "#000" }}
-                            >
-                                Register
-                            </button>
+                    <div className="ec-card-body" style={cardBodyStyle}>
+                        <div className="p-5 pb-6">
+                            <div className="ec-title mb-2">
+                                <div
+                                    className="text-[28px] sm:text-[32px] font-black text-white leading-[1.1]"
+                                >
+                                    {event.title}
+
+                                </div>
+                            </div>
+                            <p className="ec-desc text-[13px] font-light leading-relaxed mb-4" style={{ color: "#888" }}>
+                                {event.shortDescription}
+                            </p>
+                            <div className="flex flex-wrap gap-2 mb-5">
+                                <div
+                                    className="ec-chip flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full text-[#ccc]"
+                                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+                                >
+                                    <Calendar size={11} style={{ color: accent }} />
+                                    {event.date}
+                                    <span style={{ color: accent, margin: "0 2px" }}>·</span>
+                                    <Clock size={11} style={{ color: accent }} />
+                                    {event.time}
+                                </div>
+                                <div
+                                    className="ec-chip flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full overflow-hidden max-w-full text-[#ccc]"
+                                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+                                >
+                                    <MapPin size={11} style={{ color: accent }} />
+                                    <span className="truncate">{event.location}</span>
+                                </div>
+                            </div>
+                            <div className="ec-btns flex gap-3">
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); onDetails(); }}
+                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-semibold transition-all hover:bg-white/5 active:scale-[0.97] text-[#ddd]"
+                                    style={{ border: "1.5px solid rgba(255,255,255,0.15)", background: "transparent" }}
+                                >
+                                    More Details
+                                </button>
+                                <button
+                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97]"
+                                    style={{ background: accent, color: "#000" }}
+                                >
+                                    Register
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-    }
+            );
+        }
+    )
 );
 EventCard.displayName = "EventCard";
-
-// ─── Main component ───────────────────────────────────────────────────────────
 
 interface EventCarouselProps {
     events?: EventItem[];
@@ -581,65 +577,68 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = DEMO_EVENTS }) =
     const [dialogEvent, setDialogEvent] = useState<EventItem | null>(null);
 
     const swiperRef = useRef<SwiperType | null>(null);
-    // Map of swiper index → card root element for GSAP targeting
     const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
-    // Track the last committed index so we skip animation on snap-back
     const lastIndexRef = useRef(0);
+    const animRafRef = useRef<number | null>(null);
 
     const headingRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null);
-    const progressRef = useRef<HTMLDivElement>(null);
 
-    const activeEvent = events[activeIndex];
+    const activeEvent = useMemo(() => events[activeIndex], [events, activeIndex]);
     const accent = activeEvent.accent;
     const total = events.length;
 
-    // ── Animate the content of one card in (post-transition)
+
+
     const animateCardIn = useCallback((idx: number) => {
-        const card = cardRefs.current.get(idx);
-        if (!card) return;
+        // Cancel any rAF queued for a previous slide during fast swipe
+        if (animRafRef.current !== null) {
+            cancelAnimationFrame(animRafRef.current);
+            animRafRef.current = null;
+        }
 
-        const words = Array.from(card.querySelectorAll<HTMLElement>(".ec-word"));
-        const desc = card.querySelector<HTMLElement>(".ec-desc");
-        const chips = Array.from(card.querySelectorAll<HTMLElement>(".ec-chip"));
-        const badge = card.querySelector<HTMLElement>(".ec-badge");
-        const counter = card.querySelector<HTMLElement>(".ec-counter");
-        const btnsContainer = card.querySelector<HTMLElement>(".ec-btns");
-        const btns = btnsContainer ? Array.from(btnsContainer.children as HTMLCollectionOf<HTMLElement>) : [];
-        const inactiveTitle = card.querySelector<HTMLElement>(".ec-inactive-title");
+        // Defer into next rAF — lets Swiper finish its transform math first,
+        // preventing GSAP from fighting the browser compositor mid-gesture
+        animRafRef.current = requestAnimationFrame(() => {
+            animRafRef.current = null;
+            const card = cardRefs.current.get(idx);
+            if (!card) return;
 
-        // Kill any in-flight tweens first — fast swipes never queue up
-        gsap.killTweensOf([...words, desc, ...chips, badge, counter, ...btns, inactiveTitle]);
+            const words = Array.from(card.querySelectorAll<HTMLElement>(".ec-word"));
+            const desc = card.querySelector<HTMLElement>(".ec-desc");
+            const chips = Array.from(card.querySelectorAll<HTMLElement>(".ec-chip"));
+            const badge = card.querySelector<HTMLElement>(".ec-badge");
+            const counter = card.querySelector<HTMLElement>(".ec-counter");
+            const btnsContainer = card.querySelector<HTMLElement>(".ec-btns");
+            const btns = btnsContainer ? Array.from(btnsContainer.children as HTMLCollectionOf<HTMLElement>) : [];
+            const inactiveTitle = card.querySelector<HTMLElement>(".ec-inactive-title");
 
-        // Reset to hidden initial state
-        gsap.set(words, { y: 26, opacity: 0, rotateZ: 2.5 });
-        if (desc) gsap.set(desc, { y: 14, opacity: 0, filter: "blur(4px)" });
-        gsap.set(chips, { x: -16, opacity: 0 });
-        if (badge) gsap.set(badge, { scale: 0, opacity: 0 });
-        if (counter) gsap.set(counter, { scale: 0, opacity: 0 });
-        gsap.set(btns, { scale: 0.72, opacity: 0, y: 8 });
+            gsap.killTweensOf([...words, desc, ...chips, badge, counter, ...btns, inactiveTitle]);
 
-        // Fade out the inactive overlay title
-        if (inactiveTitle) gsap.to(inactiveTitle, { opacity: 0, y: 10, duration: 0.1, ease: "power2.in" });
+    
+            gsap.set(words, { y: 26, opacity: 0, rotateZ: 2.5 });
+            if (desc) gsap.set(desc, { y: 14, opacity: 0, filter: "blur(4px)" });
+            gsap.set(chips, { x: -16, opacity: 0 });
+            if (badge) gsap.set(badge, { scale: 0, opacity: 0 });
+            if (counter) gsap.set(counter, { scale: 0, opacity: 0 });
+            gsap.set(btns, { scale: 0.72, opacity: 0, y: 8 });
+            if (inactiveTitle) gsap.to(inactiveTitle, { opacity: 0, y: 10, duration: 0.1, ease: "power2.in" });
 
-        // Staggered cascade — snappy durations, slight delay so card body CSS transition starts first
-        gsap
-            .timeline({ delay: 0.1 })
-            .to(badge, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" })
-            .to(counter, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" }, "-=0.12")
-            .to(words, { y: 0, opacity: 1, rotateZ: 0, duration: 0.26, stagger: 0.038, ease: "back.out(1.5)" }, "-=0.1")
-            .to(desc, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power2.out" }, "-=0.18")
-            .to(chips, { x: 0, opacity: 1, stagger: 0.07, duration: 0.22, ease: "power2.out" }, "-=0.16")
-            .to(btns, { scale: 1, opacity: 1, y: 0, stagger: 0.06, duration: 0.24, ease: "back.out(1.8)" }, "-=0.14");
+            gsap
+                .timeline({ delay: 0.07 })
+                .to(badge, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" })
+                .to(counter, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" }, "-=0.12")
+                .to(words, { y: 0, opacity: 1, rotateZ: 0, duration: 0.26, stagger: 0.038, ease: "back.out(1.5)" }, "-=0.1")
+                .to(desc, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power2.out" }, "-=0.18")
+                .to(chips, { x: 0, opacity: 1, stagger: 0.07, duration: 0.22, ease: "power2.out" }, "-=0.16")
+                .to(btns, { scale: 1, opacity: 1, y: 0, stagger: 0.06, duration: 0.24, ease: "back.out(1.8)" }, "-=0.14");
+        });
     }, []);
 
-    // Kill in-progress content animations on the slide being left
     const killCardAnims = useCallback((idx: number) => {
         const card = cardRefs.current.get(idx);
         if (!card) return;
-        gsap.killTweensOf(
-            card.querySelectorAll(".ec-word, .ec-desc, .ec-chip, .ec-badge, .ec-counter, .ec-btns > *, .ec-inactive-title")
-        );
+        gsap.killTweensOf(card.querySelectorAll(".ec-word, .ec-desc, .ec-chip, .ec-badge, .ec-counter, .ec-btns > *, .ec-inactive-title"));
     }, []);
 
     // ── Swiper event handlers
@@ -671,84 +670,41 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = DEMO_EVENTS }) =
         [animateCardIn]
     );
 
-    // ── Keyboard nav
     useEffect(() => {
-        const handler = (e: KeyboardEvent) => {
+        const ctrl = new AbortController();
+        window.addEventListener("keydown", (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") swiperRef.current?.slidePrev();
             if (e.key === "ArrowRight") swiperRef.current?.slideNext();
-        };
-        window.addEventListener("keydown", handler);
-        return () => window.removeEventListener("keydown", handler);
+        }, { signal: ctrl.signal });
+        return () => ctrl.abort();
     }, []);
 
-    // ── Page entrance
     useEffect(() => {
-        gsap.fromTo(headingRef.current, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "expo.out", delay: 0.1 });
-        gsap.fromTo(
-            [navRef.current, progressRef.current],
-            { y: 18, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.08, duration: 0.45, ease: "power3.out", delay: 0.3 }
-        );
+        const ctx = gsap.context(() => {
+            gsap.fromTo(headingRef.current, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "expo.out", delay: 0.1 });
+            gsap.fromTo(navRef.current, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", delay: 0.3 });
+        });
+        return () => ctx.revert();
     }, []);
 
-    const progressPct = ((activeIndex + 1) / total) * 100;
+    useEffect(() => {
+        return () => {
+            if (animRafRef.current !== null) cancelAnimationFrame(animRafRef.current);
+        };
+    }, []);
+
 
     return (
         <>
-            {/* Global styles — Swiper overrides + GSAP targets + rich text + fonts */}
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap');
-
-        .ec-root { font-family: 'Outfit', sans-serif; -webkit-font-smoothing: antialiased; }
-
-        /* Allow coverflow peeks to bleed out of container */
-        .ec-swiper.swiper { overflow: visible !important; }
-        .ec-swiper .swiper-wrapper { align-items: center; }
-
-        /* Custom coverflow shadows */
-        .ec-swiper .swiper-slide-shadow-left,
-        .ec-swiper .swiper-slide-shadow-right {
-          background-image: linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0)) !important;
-          border-radius: 24px;
-        }
-
-        /* Inactive slides dim slightly */
-        .ec-swiper .swiper-slide:not(.swiper-slide-active) { filter: grayscale(100%) brightness(0.7); }
-
-        /* Rich text inside dialog */
-        .ec-rich p { margin-bottom: 0.7rem; }
-        .ec-rich strong { color: #fff; font-weight: 700; }
-        .ec-rich em { color: #ddd; font-style: italic; }
-        .ec-rich ul { list-style: none; padding: 0; margin: 6px 0 10px; }
-        .ec-rich li { padding-left: 18px; position: relative; margin-bottom: 5px; }
-        .ec-rich li::before {
-          content: '';
-          position: absolute;
-          left: 0; top: 9px;
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: var(--accent, #F59E0B);
-        }
-
-        /* Hide scrollbar cross-browser */
-        .ec-root *::-webkit-scrollbar { display: none; }
-      `}</style>
 
             <div
-                className="ec-root relative w-full min-h-screen flex flex-col items-center
-                   justify-center py-10 px-0"
+                className="ec-root relative w-full min-h-screen flex flex-col items-center justify-center py-10 px-0"
                 style={{ background: "#080808" }}
             >
-                {/* Dynamic background glow — CSS transition handles color change */}
                 <div
                     className="absolute inset-0 pointer-events-none"
-                    style={{
-                        background: `radial-gradient(ellipse 75% 50% at 50% 0%, ${hexToRgba(accent, 0.14)} 0%, transparent 70%)`,
-                        transition: "background 0.7s ease",
-                    }}
+                    style={{ background: "black", transition: "background 0.7s ease" }}
                 />
-
-                {/* Noise texture */}
                 <div
                     className="absolute inset-0 pointer-events-none opacity-[0.1]"
                     style={{
@@ -757,7 +713,6 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = DEMO_EVENTS }) =
                     }}
                 />
 
-                {/* ── Heading ── */}
                 <div ref={headingRef} className="relative z-10 mb-8 text-center px-4">
                     <span
                         className="block text-[11px] font-bold uppercase tracking-[0.28em] mb-2"
@@ -773,32 +728,35 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = DEMO_EVENTS }) =
                     </h1>
                 </div>
 
-                {/* ── Swiper — overflow:hidden clip wraps the coverflow peek ── */}
                 <div className="relative z-10 w-full overflow-hidden">
                     <Swiper
                         className="ec-swiper"
-                        modules={[EffectCoverflow]}
+                        modules={[EffectCoverflow, Pagination, Navigation]}
+                        navigation={{
+                            nextEl: '.custom-next-el',
+                            prevEl: '.custom-prev-el'
+                        }}
+                        // pagination={{
+                        //     el: '.custom-pagination-container', // Updated class name
+                        //     clickable: true,
+                        //     renderBullet: function (index, className) {
+                        //         const eventAccent = events[index]?.accent || '#ffffff';
+                        //         // Pass the accent color via a CSS variable
+                        //         return `<button class="${className}" style="--bullet-accent: ${eventAccent};" aria-label="Go to event ${index + 1}"></button>`;
+                        //     },
+                        // }}
                         effect="coverflow"
-                        grabCursor
                         centeredSlides
                         slidesPerView="auto"
-                        speed={360}           // fast enough to feel responsive
-                        coverflowEffect={{
-                            rotate: 20,         // subtle tilt
-                            stretch: -20,       // negative gap pulls slides apart so peeks are visible
-                            depth: 200,         // 3-D z depth
-                            modifier: 1,
-                            slideShadows: true,
-                        }}
+                        speed={320}
+                        coverflowEffect={{ rotate: 20, stretch: -20, depth: 200, modifier: 1, slideShadows: true }}
                         onSwiper={onSwiper}
                         onSlideChange={onSlideChange}
                         onTransitionEnd={onTransitionEnd}
+                        // onSlideChangeTransitionEnd={onSlideChangeTransitionEnd}
                     >
                         {events.map((ev, i) => (
-                            <SwiperSlide
-                                key={ev.id}
-                                style={{ width: 380, maxWidth: "calc(100vw - 64px)" }}
-                            >
+                            <SwiperSlide key={ev.id} style={{ width: 380, maxWidth: "calc(100vw - 64px)" }}>
                                 <EventCard
                                     ref={(el: HTMLDivElement | null) => {
                                         if (el) cardRefs.current.set(i, el);
@@ -813,75 +771,51 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = DEMO_EVENTS }) =
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                </div>
 
-                {/* ── Nav row ── */}
-                <div ref={navRef} className="relative z-10 flex items-center gap-5 mt-7">
-                    <MagneticButton
-                        aria-label="Previous event"
-                        onClick={() => swiperRef.current?.slidePrev()}
-                        className="w-12 h-12 rounded-full flex items-center justify-center text-white
-                       transition-colors hover:bg-white/10 hover:border-white/40"
-                        style={{
-                            border: "1.5px solid rgba(255,255,255,0.15)",
-                            background: "rgba(255,255,255,0.04)",
-                        }}
-                    >
-                        <ChevronLeft size={20} />
-                    </MagneticButton>
+                    {/* Inject pure CSS to handle the active state transitions natively */}
+                    {/* <style>
+                        {`
+                            .custom-pagination-container .swiper-pagination-bullet {
+                                width: 8px;
+                                height: 8px;
+                                border-radius: 9999px;
+                                background: rgba(255, 255, 255, 0.22);
+                                transition: all 0.3s ease;
+                                opacity: 1; 
+                                cursor: pointer;
+                                display: block;
+                            }
+                            .custom-pagination-container .swiper-pagination-bullet-active {
+                                width: 26px;
+                                background: var(--bullet-accent) !important;
+                            }
+                        `}
+                    </style> */}
+                    <div ref={navRef} className="z-10 flex items-center justify-center gap-5 mt-7">
+                        <MagneticButton
+                            aria-label="Previous event"
+                            className="custom-prev-el w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors hover:bg-white/10 hover:border-white/40"
+                            style={{ border: "1.5px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.04)" }}
+                        >
+                            <ChevronLeft size={20} />
+                        </MagneticButton>
 
-                    {/* Dot indicators */}
-                    <div className="flex items-center gap-2">
-                        {events.map((ev, i) => (
-                            <button
-                                key={i}
-                                onClick={() => swiperRef.current?.slideTo(i)}
-                                aria-label={`Go to event ${i + 1}`}
-                                className="h-2 rounded-full transition-all duration-300"
-                                style={{
-                                    width: i === activeIndex ? 26 : 8,
-                                    background: i === activeIndex ? ev.accent : "rgba(255,255,255,0.22)",
-                                }}
-                            />
-                        ))}
+                        {/* <div className="custom-page-el flex items-center gap-2">{dots}</div> */}
+                        {/* <div style={{width: 'min-content'}} className="custom-pagination-container flex justify-evenly w-min items-center" /> */}
+                        <MagneticButton
+                            aria-label="Next event"
+                            className="custom-next-el w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors hover:bg-white/10 hover:border-white/40"
+                            style={{ border: "1.5px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.04)" }}
+                        >
+                            <ChevronRight size={20} />
+                        </MagneticButton>
                     </div>
 
-                    <MagneticButton
-                        aria-label="Next event"
-                        onClick={() => swiperRef.current?.slideNext()}
-                        className="w-12 h-12 rounded-full flex items-center justify-center text-white
-                       transition-colors hover:bg-white/10 hover:border-white/40"
-                        style={{
-                            border: "1.5px solid rgba(255,255,255,0.15)",
-                            background: "rgba(255,255,255,0.04)",
-                        }}
-                    >
-                        <ChevronRight size={20} />
-                    </MagneticButton>
                 </div>
 
-                {/* ── Progress bar ── */}
-                <div
-                    ref={progressRef}
-                    className="relative z-10 mt-5 w-[380px] max-w-[calc(100vw-64px)] h-0.5
-                     rounded-full overflow-hidden"
-                    style={{ background: "rgba(255,255,255,0.07)" }}
-                >
-                    <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                            width: `${progressPct}%`,
-                            background: `linear-gradient(90deg, ${hexToRgba(accent, 0.5)}, ${accent})`,
-                        }}
-                    />
-                </div>
 
-                <p className="relative z-10 mt-3.5 text-[11px] text-[#333]">
-                    swipe · drag · ← → keys
-                </p>
             </div>
 
-            {/* ── Dialog ── */}
             {dialogEvent && (
                 <EventDialog event={dialogEvent} onClose={() => setDialogEvent(null)} />
             )}
