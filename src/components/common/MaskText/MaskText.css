@@ -1,0 +1,11 @@
+.mask-text-body h1,
+.mask-text-body h2,
+.mask-text-body h3,
+.mask-text-body p {
+    margin: 0;
+    line-height: normal;
+}
+
+.line-mask {
+    overflow: hidden;
+}

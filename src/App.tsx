@@ -1,23 +1,19 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import EventCarousel from './components/Carousel';
 import StaggeredMenu from './components/SideNav';
+import HeroSection from './components/herosection/HeroSection';
+import Preloader from './components/Preloader';
+import ZoomParallax from './components/ZoomParalax/ZoomParallax';
+import About from './components/Aboutus/About';
+import CountdownTimer from './components/CountdownTimer';
+import EVENTS_DATA from './data/events';
+import SplashCursor from './components/SplashCursor';
+import { menuItems, socialItems } from './data/sidenavbar';
 
 gsap.registerPlugin(ScrollToPlugin);
-const menuItems = [
-  { label: 'Home', ariaLabel: 'Go to home section', link: '#home' },
-  { label: 'Events', ariaLabel: 'View events', link: '#events' },
-  { label: 'About', ariaLabel: 'Learn about us', link: '#about' },
-  { label: 'Schedule', ariaLabel: 'View schedule', link: '#schedule' },
-  { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
-];
 
-const socialItems = [
-  { label: 'Twitter', link: 'https://twitter.com' },
-  { label: 'GitHub', link: 'https://github.com' },
-  { label: 'LinkedIn', link: 'https://linkedin.com' },
-];
 
 /* ───── Placeholder section component ───── */
 function PlaceholderSection({
@@ -44,7 +40,7 @@ function PlaceholderSection({
         }}
       />
 
-      
+
 
       <div className="relative text-center max-w-3xl mx-auto">
         <h2
@@ -55,7 +51,7 @@ function PlaceholderSection({
             WebkitTextFillColor: 'transparent',
           }}
         >
-          
+
           {title}
         </h2>
         <p className="text-lg sm:text-xl text-[#888] leading-relaxed">
@@ -68,6 +64,8 @@ function PlaceholderSection({
 
 /* ───── App ───── */
 function App() {
+  const [complete, setComplete] = useState(false);
+
   const handleItemClick = useCallback((link: string, e: React.MouseEvent) => {
     e.preventDefault();
     const targetId = link.replace('#', '');
@@ -81,57 +79,60 @@ function App() {
   }, []);
 
   return (
-    <div className="relative bg-[#0a0a0a] text-white min-h-screen">
-      {/* Fixed SideNav overlay */}
-      <StaggeredMenu
-        logoUrl='/logo.png'
-        isFixed={true}
-        position="right"
-        items={menuItems}
-        socialItems={socialItems}
-        colors={['#1a1a2e', '#5227FF']}
-        accentColor="#5227FF"
-        menuButtonColor="#fff"
-        openMenuButtonColor="#000"
-        displayItemNumbering={true}
-        displaySocials={true}
-        onItemClick={handleItemClick}
-      />
+    <>
+      <Preloader setComplete={setComplete} />
+      <div className={`relative bg-[#0a0a0a] text-white min-h-screen ${complete ? 'complete' : 'not_complete'}`}>
+        {/* Fixed SideNav overlay */}
+        <StaggeredMenu
+          logoUrl='/logo.png'
+          isFixed={true}
+          position="right"
+          items={menuItems}
+          socialItems={socialItems}
+          colors={['#1a1a2e', '#5227FF']}
+          accentColor="#5227FF"
+          menuButtonColor="#fff"
+          openMenuButtonColor="#000"
+          displayItemNumbering={true}
+          displaySocials={true}
+          onItemClick={handleItemClick}
+        />
 
-      {/* ─── Sections ─── */}
-      <PlaceholderSection
-        id="home"
-        title="Alchemy '26"
-        description="Where ideas transmute into innovation. Experience the premier technical symposium that brings together the brightest minds."
-        gradient="#5227FF"
-      />
+        {/* ─── Hero Section ─── */}
+        <HeroSection ready={complete} />
 
+        {/* ─── Countdown Timer ─── */}
+        <CountdownTimer />
 
-      <section id="events" className="relative min-h-screen py-12">
-        <EventCarousel />
-      </section>
+        {/* ─── About Us ─── */}
+        <About />
 
-      <PlaceholderSection
-        id="about"
-        title="About Us"
-        description="This section will showcase the story behind the symposium, our mission, and what makes Alchemy '26 a unique experience."
-        gradient="#00C9A7"
-      />
+        {/* ─── Highlights (Zoom Parallax) ─── */}
+        <ZoomParallax />
 
-      <PlaceholderSection
-        id="schedule"
-        title="Schedule"
-        description="Stay tuned — a full day-by-day breakdown of talks, workshops, and competitions will appear here."
-        gradient="#FF6B6B"
-      />
+        {/* ─── Events ─── */}
+        <section id="events" className="relative min-h-screen py-12">
+          <EventCarousel events={EVENTS_DATA} />
+        </section>
 
-      <PlaceholderSection
-        id="contact"
-        title="Contact"
-        description="Questions? Sponsorship enquiries? Drop us a line — our team is always happy to help."
-        gradient="#FFD93D"
-      />
-    </div>
+        <PlaceholderSection
+          id="schedule"
+          title="Schedule"
+          description="Stay tuned — a full day-by-day breakdown of talks, workshops, and competitions will appear here."
+          gradient="#FF6B6B"
+        />
+
+        <PlaceholderSection
+          id="contact"
+          title="Contact"
+          description="Questions? Sponsorship enquiries? Drop us a line — our team is always happy to help."
+          gradient="#FFD93D"
+        />
+        {
+          window.innerWidth >= 1024 && <SplashCursor />
+        }
+      </div>
+    </>
   );
 }
 

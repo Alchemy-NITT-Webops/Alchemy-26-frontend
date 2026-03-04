@@ -379,7 +379,21 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [closeOnClickAway, open, closeMenu]);
+// // --- ADD THIS EFFECT ---
+//     // Locks background scroll when the menu is open
+//     React.useEffect(() => {
+//         if (open) {
+//             document.body.style.overflow = 'hidden';
+//         } else {
+//             document.body.style.overflow = '';
+//         }
 
+//         // Cleanup just in case the component unmounts while the menu is open
+//         return () => {
+//             document.body.style.overflow = '';
+//         };
+//     }, [open]);
+//     // -----------------------
     return (
         <div
             className={`sm-scope z-40 ${isFixed ? 'fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none' : 'w-full h-full'}`}
@@ -472,7 +486,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 <aside
                     id="staggered-menu-panel"
                     ref={panelRef}
-                    className="staggered-menu-panel absolute top-0 right-0 h-full bg-white flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px] pointer-events-auto"
+                    className="staggered-menu-panel absolute top-0 right-0 h-full bg-white flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-md pointer-events-auto"
                     style={{ WebkitBackdropFilter: 'blur(12px)' }}
                     aria-hidden={!open}
                 >
@@ -486,7 +500,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                                 items.map((it, idx) => (
                                     <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
                                         <a
-                                            className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
+                                            className="sm-panel-item relative text-black font-semibold cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
                                             href={it.link}
                                             aria-label={it.ariaLabel}
                                             data-index={idx + 1}
@@ -580,8 +594,14 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 .sm-scope .sm-panel-item:hover { color: var(--sm-accent, #ff0000); }
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
 .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 3.2em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
-@media (max-width: 1024px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
-@media (max-width: 640px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
+@media (max-width: 400px) {
+    .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 2.4em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
+    .sm-scope .sm-panel-item { position: relative; color: #000; font-weight: 600; font-size: 3rem; cursor: pointer; line-height: 1; letter-spacing: -2px; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; padding-right: 1.4em; }
+}
+@media (max-width: 768px) { 
+    .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } 
+    .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } 
+}
       `}</style>
         </div>
     );

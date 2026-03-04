@@ -1,0 +1,23 @@
+.get-started-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6.25rem;
+    background: linear-gradient(135deg, #5227FF, #7B5FFF);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.get-started-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(82, 39, 255, 0.4);
+}
+
+.get-started-btn:active {
+    transform: translateY(0);
+}
