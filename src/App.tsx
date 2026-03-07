@@ -1,16 +1,21 @@
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import EventCarousel from './components/Carousel';
-import StaggeredMenu from './components/SideNav';
+
 import HeroSection from './components/herosection/HeroSection';
 import Preloader from './components/Preloader';
 import ZoomParallax from './components/ZoomParalax/ZoomParallax';
 import About from './components/Aboutus/About';
-import CountdownTimer from './components/CountdownTimer';
 import EVENTS_DATA from './data/events';
 import SplashCursor from './components/SplashCursor';
-import { menuItems, socialItems } from './data/sidenavbar';
+import Lenis from 'lenis';
+import Navbar from './components/Navbar/Navbar';
+import WORKSHOPS_DATA from './data/workshops';
+import AlchemyFAQ from './components/FAQ/Faq';
+import Footer from './components/Footer/Footer';
+import GuestLecture from './components/GuestLecture/GuestLecture';
+import { GUEST_LECTURES_DATA } from './data/guestLectures';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -66,43 +71,49 @@ function PlaceholderSection({
 function App() {
   const [complete, setComplete] = useState(false);
 
-  const handleItemClick = useCallback((link: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    const targetId = link.replace('#', '');
-    const el = document.getElementById(targetId);
-    if (el) {
-      gsap.to(window, {
-        scrollTo: { y: el, offsetY: 0 },
-        ease: "none",
-      });
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 650);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Removed old horizontal slide animation to allow native scrolling and GSAP scrollTrigger in AboutUs.tsx
+
+  const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null); // State to hold Lenis instance
+
+  useEffect(() => {
+    const lenis = new Lenis({ // Create Lenis instance
+      duration: 2.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.8
+    });
+    setLenisInstance(lenis); // Set Lenis instance in state
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
   }, []);
 
   return (
     <>
       <Preloader setComplete={setComplete} />
       <div className={`relative bg-[#0a0a0a] text-white min-h-screen ${complete ? 'complete' : 'not_complete'}`}>
+        <Navbar isMobile={isMobile} lenis={lenisInstance} />
         {/* Fixed SideNav overlay */}
-        <StaggeredMenu
-          logoUrl='/logo.png'
-          isFixed={true}
-          position="right"
-          items={menuItems}
-          socialItems={socialItems}
-          colors={['#1a1a2e', '#5227FF']}
-          accentColor="#5227FF"
-          menuButtonColor="#fff"
-          openMenuButtonColor="#000"
-          displayItemNumbering={true}
-          displaySocials={true}
-          onItemClick={handleItemClick}
-        />
 
         {/* ─── Hero Section ─── */}
         <HeroSection ready={complete} />
-
-        {/* ─── Countdown Timer ─── */}
-        <CountdownTimer />
 
         {/* ─── About Us ─── */}
         <About />
@@ -115,6 +126,27 @@ function App() {
           <EventCarousel events={EVENTS_DATA} />
         </section>
 
+        {/* ─── Workshops ─── */}
+        <section id="workshops" className="relative min-h-screen py-12">
+          <EventCarousel events={WORKSHOPS_DATA} />
+        </section>
+
+        {/* ─── Guest Lectures ─── */}
+        <section id="guest-lectures" className="relative min-h-screen py-12 flex flex-col items-center justify-center">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-12 text-center text-white" style={{
+            background: 'linear-gradient(135deg, #A855F7, #EC4899)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            Guest Lectures
+          </h2>
+          <GuestLecture items={GUEST_LECTURES_DATA} />
+        </section>
+
+        <section id="faq" className="relative min-h-screen py-12">
+          <AlchemyFAQ />
+        </section>
+
         <PlaceholderSection
           id="schedule"
           title="Schedule"
@@ -122,12 +154,7 @@ function App() {
           gradient="#FF6B6B"
         />
 
-        <PlaceholderSection
-          id="contact"
-          title="Contact"
-          description="Questions? Sponsorship enquiries? Drop us a line — our team is always happy to help."
-          gradient="#FFD93D"
-        />
+        <Footer />
         {
           window.innerWidth >= 1024 && <SplashCursor />
         }

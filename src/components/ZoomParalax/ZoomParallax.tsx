@@ -20,7 +20,7 @@ export const ZoomParallax = () => {
   const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5]);
   const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6]);
   const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8]);
-  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
+  // const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
 
   const pictures = [
     {

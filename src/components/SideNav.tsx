@@ -379,21 +379,21 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [closeOnClickAway, open, closeMenu]);
-// // --- ADD THIS EFFECT ---
-//     // Locks background scroll when the menu is open
-//     React.useEffect(() => {
-//         if (open) {
-//             document.body.style.overflow = 'hidden';
-//         } else {
-//             document.body.style.overflow = '';
-//         }
+    // // --- ADD THIS EFFECT ---
+    //     // Locks background scroll when the menu is open
+    //     React.useEffect(() => {
+    //         if (open) {
+    //             document.body.style.overflow = 'hidden';
+    //         } else {
+    //             document.body.style.overflow = '';
+    //         }
 
-//         // Cleanup just in case the component unmounts while the menu is open
-//         return () => {
-//             document.body.style.overflow = '';
-//         };
-//     }, [open]);
-//     // -----------------------
+    //         // Cleanup just in case the component unmounts while the menu is open
+    //         return () => {
+    //             document.body.style.overflow = '';
+    //         };
+    //     }, [open]);
+    //     // -----------------------
     return (
         <div
             className={`sm-scope z-40 ${isFixed ? 'fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none' : 'w-full h-full'}`}
@@ -438,7 +438,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                             alt="Logo"
                             className="sm-logo-img block scale-[300%] h-8 w-auto object-contain"
                             draggable={false}
-                        
+
                         />
                     </div>
 
@@ -594,9 +594,15 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 .sm-scope .sm-panel-item:hover { color: var(--sm-accent, #ff0000); }
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
 .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 3.2em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
-@media (max-width: 400px) {
+
+
+@media (max-width: 465px) {
     .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 2.4em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
     .sm-scope .sm-panel-item { position: relative; color: #000; font-weight: 600; font-size: 3rem; cursor: pointer; line-height: 1; letter-spacing: -2px; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; padding-right: 1.4em; }
+}
+@media (max-width: 365px) {
+    .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 2.1em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
+    .sm-scope .sm-panel-item { position: relative; color: #000; font-weight: 600; font-size: 2.6rem; cursor: pointer; line-height: 1; letter-spacing: -2px; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; padding-right: 1.4em; }
 }
 @media (max-width: 768px) { 
     .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } 

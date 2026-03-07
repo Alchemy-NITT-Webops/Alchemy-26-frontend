@@ -55,7 +55,7 @@ function Digit({ place, value, height, digitStyle }: DigitProps) {
   if (place === '.') {
     return (
       <span
-        className="relative inline-flex items-center justify-center"
+        className="relative inline-flex items-center bg-transparent justify-center"
         style={{ height, width: 'fit-content', ...digitStyle }}
       >
         .
@@ -91,12 +91,6 @@ interface CounterProps {
   value: number;
   fontSize?: number;
   padding?: number;
-  /**
-   * An array of place values that determines which digit positions
-   * should be displayed. For decimal places, use "." to represent
-   * the decimal point. Leave this prop empty to enable automatic
-   * detection based on the current value.
-   */
   places?: PlaceValue[];
   gap?: number;
   borderRadius?: number;
@@ -137,11 +131,6 @@ export default function Counter({
   containerStyle,
   counterStyle,
   digitStyle,
-  gradientHeight = 16,
-  gradientFrom = 'black',
-  gradientTo = 'transparent',
-  topGradientStyle,
-  bottomGradientStyle
 }: CounterProps) {
   const height = fontSize + padding;
 
@@ -172,16 +161,6 @@ export default function Counter({
     justifyContent: 'space-between'
   };
 
-  const defaultTopGradientStyle: React.CSSProperties = {
-    height: gradientHeight,
-    background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`
-  };
-
-  const defaultBottomGradientStyle: React.CSSProperties = {
-    height: gradientHeight,
-    background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`
-  };
-
   return (
     <span style={{ ...defaultContainerStyle, ...containerStyle }}>
       <span style={{ ...defaultCounterStyle, ...counterStyle }}>
@@ -190,8 +169,6 @@ export default function Counter({
         ))}
       </span>
       <span style={gradientContainerStyle}>
-        <span style={topGradientStyle ?? defaultTopGradientStyle} />
-        <span style={bottomGradientStyle ?? defaultBottomGradientStyle} />
       </span>
     </span>
   );

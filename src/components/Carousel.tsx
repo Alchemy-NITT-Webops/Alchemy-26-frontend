@@ -296,93 +296,78 @@ const EventCard = memo(
 
             const gradientStyle = useMemo(
                 () => ({
-                    background: isActive
-                        ? "linear-gradient(180deg, transparent 30%, #111 100%)"
-                        : "linear-gradient(180deg, transparent 10%, rgba(0,0,0,0.6) 60%, #111 100%)",
-                    transition: "background 0.4s ease",
+                    background: "linear-gradient(180deg, transparent 30%, #111 100%)",
                 }),
-                [isActive]
-            );
-
-            // FIX: max-height animates layout every frame — jank on mobile.
-            // Use transform + opacity instead (compositor-only, zero layout cost).
-            const cardBodyStyle = useMemo(
-                () => ({
-                    overflow: "hidden" as const,
-                    maxHeight: isActive ? 400 : 0,
-                    transform: isActive ? "translateY(0)" : "translateY(20px)",
-                    opacity: isActive ? 1 : 0,
-                    pointerEvents: isActive ? ("auto" as const) : ("none" as const),
-                    transition: "max-height 0.35s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease",
-                }),
-                [isActive]
-            );
-
-            const inactiveTitleStyle = useMemo(
-                () => ({
-                    opacity: isActive ? 0 : 1,
-                    transform: isActive ? "translateY(20px)" : "translateY(0)",
-                    transition: "opacity 0.2s ease, transform 0.2s ease",
-                    pointerEvents: "none" as const,
-                }),
-                [isActive]
+                []
             );
 
             return (
                 <div
                     ref={ref}
                     className="relative rounded-3xl overflow-hidden select-none h-[480px] sm:h-[520px] flex flex-col"
-                    style={boxShadowStyle}
+                    style={{ ...boxShadowStyle,
+                                cursor: isActive ? "default" : "pointer",   // ← add this
+
+                    }}
                 >
+                    {/* Animated Borders */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                        {/* Top-Right growing border (starts top-left, ends bottom-right) */}
+                        <rect
+                            x="0" y="0" width="100%" height="100%" rx="24"
+                            fill="none" stroke={accent} strokeWidth="4"
+                            pathLength="100"
+                            strokeDasharray={isActive ? "50 100" : "0 100"}
+                            strokeDashoffset="0"
+                            style={{ transition: "stroke-dasharray 0.7s cubic-bezier(0.4, 0, 0.2, 1)" }}
+                        />
+                        {/* Bottom-Left growing border (starts bottom-right, ends top-left) */}
+                        <rect
+                            x="0" y="0" width="100%" height="100%" rx="24"
+                            fill="none" stroke={accent} strokeWidth="4"
+                            pathLength="100"
+                            strokeDasharray={isActive ? "50 100" : "0 100"}
+                            strokeDashoffset="-50"
+                            style={{ transition: "stroke-dasharray 0.7s cubic-bezier(0.4, 0, 0.2, 1)" }}
+                        />
+                    </svg>
+
                     <div className="relative overflow-hidden flex-1 h-max min-h-0">
                         <img
                             src={event.image}
                             alt={event.title}
                             className="w-full h-full object-cover pointer-events-none"
                             draggable={false}
-                            loading={isActive ? "eager" : "lazy"}
+                            loading="lazy"
                         />
                         <div className="absolute inset-0" style={gradientStyle} />
 
                         <span
-                            className="ec-badge absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-widest px-3 py-[5px] rounded-full"
+                            className="absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-widest px-3 py-[5px] rounded-full"
                             style={{
                                 background: accent,
                                 color: "#000",
-                                opacity: isActive ? undefined : 0,
-                                pointerEvents: isActive ? undefined : "none",
                             }}
                         >
                             {event.category}
                         </span>
 
                         <span
-                            className="ec-counter absolute top-4 right-4 text-[11px] font-bold px-2.5 py-[5px] rounded-full"
+                            className="absolute top-4 right-4 text-[11px] font-bold px-2.5 py-[5px] rounded-full"
                             style={{
                                 background: "rgba(0,0,0,0.55)",
                                 backdropFilter: "blur(6px)",
                                 color: "#fff",
                                 border: "1px solid rgba(255,255,255,0.15)",
-                                opacity: isActive ? undefined : 0,
-                                pointerEvents: isActive ? undefined : "none",
                             }}
                         >
                             {index + 1} / {total}
                         </span>
-
-                        <div className="ec-inactive-title absolute bottom-0 left-0 right-0 p-5 flex items-end" style={inactiveTitleStyle}>
-                            <h3
-                                className="text-[26px] sm:text-[30px] font-black text-white leading-[1.1] text-center w-full"
-                                style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.03em", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
-                            >
-                                {event.title}
-                            </h3>
-                        </div>
                     </div>
 
-                    <div className="ec-card-body" style={cardBodyStyle}>
+                    <div className="shrink-0">
                         <div className="p-5 pb-6">
-                            <div className="ec-title mb-2">
+                            <div className="mb-2">
                                 <div
                                     className="text-[28px] sm:text-[32px] font-black text-white leading-[1.1]"
                                 >
@@ -390,12 +375,12 @@ const EventCard = memo(
 
                                 </div>
                             </div>
-                            <p className="ec-desc text-[13px] font-light leading-relaxed mb-4" style={{ color: "#888" }}>
+                            <p className="text-[13px] font-light leading-relaxed mb-4" style={{ color: "#888" }}>
                                 {event.shortDescription}
                             </p>
                             <div className="flex flex-wrap gap-2 mb-5">
                                 <div
-                                    className="ec-chip flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full text-[#ccc]"
+                                    className="flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full text-[#ccc]"
                                     style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
                                 >
                                     <Calendar size={11} style={{ color: accent }} />
@@ -405,14 +390,14 @@ const EventCard = memo(
                                     {event.time}
                                 </div>
                                 <div
-                                    className="ec-chip flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full overflow-hidden max-w-full text-[#ccc]"
+                                    className="flex items-center gap-1.5 text-[11px] font-medium px-3 py-[6px] rounded-full overflow-hidden max-w-full text-[#ccc]"
                                     style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
                                 >
                                     <MapPin size={11} style={{ color: accent }} />
                                     <span className="truncate">{event.location}</span>
                                 </div>
                             </div>
-                            <div className="ec-btns flex gap-3">
+                            <div className="flex gap-3">
                                 <button
                                     onClick={(e) => { e.stopPropagation(); onDetails(); }}
                                     className="flex-1 py-[13px] rounded-xl text-[13px] font-semibold transition-all hover:bg-white/5 active:scale-[0.97] text-[#ddd]"
@@ -445,98 +430,13 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
     const [dialogEvent, setDialogEvent] = useState<EventItem | null>(null);
 
     const swiperRef = useRef<SwiperType | null>(null);
-    const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
-    const lastIndexRef = useRef(0);
-    const animRafRef = useRef<number | null>(null);
 
     const headingRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null);
 
-    const activeEvent = useMemo(() => events[activeIndex], [events, activeIndex]);
-    const accent = activeEvent.accent;
+    const activeEvent = useMemo(() => events[activeIndex] || events[0], [events, activeIndex]);
+    const accent = activeEvent?.accent || "#ffffff";
     const total = events.length;
-
-
-
-    const animateCardIn = useCallback((idx: number) => {
-        // Cancel any rAF queued for a previous slide during fast swipe
-        if (animRafRef.current !== null) {
-            cancelAnimationFrame(animRafRef.current);
-            animRafRef.current = null;
-        }
-
-        // Defer into next rAF — lets Swiper finish its transform math first,
-        // preventing GSAP from fighting the browser compositor mid-gesture
-        animRafRef.current = requestAnimationFrame(() => {
-            animRafRef.current = null;
-            const card = cardRefs.current.get(idx);
-            if (!card) return;
-
-            const words = Array.from(card.querySelectorAll<HTMLElement>(".ec-word"));
-            const desc = card.querySelector<HTMLElement>(".ec-desc");
-            const chips = Array.from(card.querySelectorAll<HTMLElement>(".ec-chip"));
-            const badge = card.querySelector<HTMLElement>(".ec-badge");
-            const counter = card.querySelector<HTMLElement>(".ec-counter");
-            const btnsContainer = card.querySelector<HTMLElement>(".ec-btns");
-            const btns = btnsContainer ? Array.from(btnsContainer.children as HTMLCollectionOf<HTMLElement>) : [];
-            const inactiveTitle = card.querySelector<HTMLElement>(".ec-inactive-title");
-
-            gsap.killTweensOf([...words, desc, ...chips, badge, counter, ...btns, inactiveTitle]);
-
-    
-            gsap.set(words, { y: 26, opacity: 0, rotateZ: 2.5 });
-            if (desc) gsap.set(desc, { y: 14, opacity: 0, filter: "blur(4px)" });
-            gsap.set(chips, { x: -16, opacity: 0 });
-            if (badge) gsap.set(badge, { scale: 0, opacity: 0 });
-            if (counter) gsap.set(counter, { scale: 0, opacity: 0 });
-            gsap.set(btns, { scale: 0.72, opacity: 0, y: 8 });
-            if (inactiveTitle) gsap.to(inactiveTitle, { opacity: 0, y: 10, duration: 0.1, ease: "power2.in" });
-
-            gsap
-                .timeline({ delay: 0.07 })
-                .to(badge, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" })
-                .to(counter, { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(2.5)" }, "-=0.12")
-                .to(words, { y: 0, opacity: 1, rotateZ: 0, duration: 0.26, stagger: 0.038, ease: "back.out(1.5)" }, "-=0.1")
-                .to(desc, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power2.out" }, "-=0.18")
-                .to(chips, { x: 0, opacity: 1, stagger: 0.07, duration: 0.22, ease: "power2.out" }, "-=0.16")
-                .to(btns, { scale: 1, opacity: 1, y: 0, stagger: 0.06, duration: 0.24, ease: "back.out(1.8)" }, "-=0.14");
-        });
-    }, []);
-
-    const killCardAnims = useCallback((idx: number) => {
-        const card = cardRefs.current.get(idx);
-        if (!card) return;
-        gsap.killTweensOf(card.querySelectorAll(".ec-word, .ec-desc, .ec-chip, .ec-badge, .ec-counter, .ec-btns > *, .ec-inactive-title"));
-    }, []);
-
-    // ── Swiper event handlers
-    const onSwiper = useCallback(
-        (sw: SwiperType) => {
-            swiperRef.current = sw;
-            requestAnimationFrame(() => animateCardIn(0));
-        },
-        [animateCardIn]
-    );
-
-    const onSlideChange = useCallback(
-        (sw: SwiperType) => {
-            killCardAnims(sw.previousIndex);
-        },
-        [killCardAnims]
-    );
-
-    const onTransitionEnd = useCallback(
-        (sw: SwiperType) => {
-            const newIndex = sw.activeIndex;
-            // Only animate if the index actually changed (skip snap-back)
-            if (newIndex !== lastIndexRef.current) {
-                lastIndexRef.current = newIndex;
-                setActiveIndex(newIndex);
-                animateCardIn(newIndex);
-            }
-        },
-        [animateCardIn]
-    );
 
     useEffect(() => {
         const ctrl = new AbortController();
@@ -555,12 +455,27 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
         return () => ctx.revert();
     }, []);
 
-    useEffect(() => {
-        return () => {
-            if (animRafRef.current !== null) cancelAnimationFrame(animRafRef.current);
-        };
-    }, []);
+    const handleSwiperAreaClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
 
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+
+    swiper.slides.forEach((slide, i) => {
+        const rect = slide.getBoundingClientRect();
+        if (
+            clickX >= rect.left &&
+            clickX <= rect.right &&
+            clickY >= rect.top &&
+            clickY <= rect.bottom
+        ) {
+            if (i !== swiper.activeIndex) {
+                swiper.slideTo(i);
+            }
+        }
+    });
+}, []);
 
     return (
         <>
@@ -596,7 +511,7 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
                     </h1>
                 </div>
 
-                <div className="relative z-10 w-full overflow-hidden">
+                <div className="relative z-10 w-full overflow-hidden" onClick={handleSwiperAreaClick}>
                     <Swiper
                         className="ec-swiper"
                         modules={[EffectCoverflow, Pagination, Navigation]}
@@ -618,18 +533,25 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
                         slidesPerView="auto"
                         speed={320}
                         coverflowEffect={{ rotate: 20, stretch: -20, depth: 200, modifier: 1, slideShadows: true }}
-                        onSwiper={onSwiper}
-                        onSlideChange={onSlideChange}
-                        onTransitionEnd={onTransitionEnd}
-                        // onSlideChangeTransitionEnd={onSlideChangeTransitionEnd}
+                        onSwiper={(sw) => {
+                            swiperRef.current = sw;
+                            setActiveIndex(sw.activeIndex);
+                        }}
+                        onSlideChange={(sw) => {
+                            setActiveIndex(sw.activeIndex);
+                        }}
                     >
                         {events.map((ev, i) => (
-                            <SwiperSlide key={ev.id} style={{ width: 380, maxWidth: "calc(100vw - 64px)" }}>
+                            <SwiperSlide
+                                key={ev.id}
+                                style={{ width: 380, maxWidth: "calc(100vw - 64px)" }}
+                                onClick={() => {
+                                    if (i !== activeIndex) {
+                                        swiperRef.current?.slideTo(i);
+                                    }
+                                }}
+                            >
                                 <EventCard
-                                    ref={(el: HTMLDivElement | null) => {
-                                        if (el) cardRefs.current.set(i, el);
-                                        else cardRefs.current.delete(i);
-                                    }}
                                     event={ev}
                                     index={i}
                                     total={total}

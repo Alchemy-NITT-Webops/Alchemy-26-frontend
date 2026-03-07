@@ -1,0 +1,78 @@
+import type { EventItem } from './events';
+
+const WORKSHOPS_DATA: EventItem[] = [
+    {
+        id: 1,
+        title: "React Masterclass",
+        shortDescription: "Deep dive into React 19, Server Components, and advanced hooks.",
+        date: "May 15, 2025",
+        time: "10:00 AM",
+        location: "Virtual (Zoom)",
+        category: "Frontend",
+        image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
+        accent: "#61dafb",
+        details: {
+            fullDescription: `<p>Join us for an intensive 4-hour workshop covering the latest in the React ecosystem.</p><p>We will build a full-stack application from scratch using Next.js 15 and explore <em>React Server Components, Actions, and the new useHook</em>.</p><ul><li>Hands-on coding exercises</li><li>Live Q&A with React core team members</li><li>Project code repository included</li></ul><p>Basic knowledge of React is required.</p>`,
+            price: "$99",
+            capacity: "50 participants",
+            organizer: "Frontend Masters",
+            tags: ["React", "Next.js", "Web Dev"],
+        },
+    },
+    {
+        id: 2,
+        title: "UI/UX Foundations",
+        shortDescription: "Fundamentals of visual design, user research, and prototyping.",
+        date: "June 2, 2025",
+        time: "1:00 PM",
+        location: "Design Hub, San Francisco",
+        category: "Design",
+        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
+        accent: "#ff007f",
+        details: {
+            fullDescription: `<p>A comprehensive introduction to crafting engaging user experiences.</p><p>You will learn the core principles of typography, color theory, and layout, moving quickly into creating high-fidelity prototypes in Figma.</p><ul><li>User persona development</li><li>Wireframing techniques</li><li>Interactive prototyping in Figma</li></ul><p>Laptops required. Figma account (free tier) is sufficient.</p>`,
+            price: "$149",
+            capacity: "30 participants",
+            organizer: "Design Collective",
+            tags: ["Design", "Figma", "UI/UX"],
+        },
+    },
+    {
+        id: 3,
+        title: "Web3 Smart Contracts",
+        shortDescription: "Learn to write, test, and deploy secure Solidity contracts.",
+        date: "July 20, 2025",
+        time: "9:00 AM",
+        location: "Blockchain Center, Miami",
+        category: "Blockchain",
+        image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=800&q=80",
+        accent: "#f3ba2f",
+        details: {
+            fullDescription: `<p>Step into the world of decentralized applications. In this day-long workshop, you will learn the fundamentals of the EVM and Ethereum.</p><p>We will cover writing robust smart contracts using Solidity, testing them with Hardhat, and deploying to a testnet.</p><ul><li>Solidity syntax and design patterns</li><li>Security best practices (reentrancy, overflows)</li><li>Interacting with contracts via ethers.js</li></ul><p>Prior programming experience (JavaScript/TypeScript) recommended.</p>`,
+            price: "$299",
+            capacity: "40 participants",
+            organizer: "Crypto Builders",
+            tags: ["Web3", "Solidity", "Ethereum"],
+        },
+    },
+    {
+        id: 4,
+        title: "AI Integrations for Devs",
+        shortDescription: "Adding LLMs and generative AI features to your apps.",
+        date: "August 10, 2025",
+        time: "2:00 PM",
+        location: "Virtual (Discord)",
+        category: "AI",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+        accent: "#00a67e",
+        details: {
+            fullDescription: `<p>Practical guide to seamlessly integrating AI into existing software.</p><p>Learn how to use APIs from OpenAI and Anthropic, implement RAG (Retrieval-Augmented Generation), and handle streaming responses.</p><ul><li>Prompt engineering for developers</li><li>Vector databases overview</li><li>Building custom AI agents</li></ul><p>Recordings will be provided to all registered attendees.</p>`,
+            price: "$49",
+            capacity: "100+ participants",
+            organizer: "AI Devs Network",
+            tags: ["AI", "LLM", "API"],
+        },
+    },
+];
+
+export default WORKSHOPS_DATA;

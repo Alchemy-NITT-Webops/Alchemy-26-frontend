@@ -173,6 +173,7 @@ export default function About() {
 
     return (
         <section
+            id="about"
             ref={sectionRef}
             className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black py-24 md:py-32 selection:bg-white/20 selection:text-white"
         >
