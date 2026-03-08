@@ -134,7 +134,7 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             className="select-none z-50 fixed top-0 w-full h-28 pointer-events-none"
         >
             <div className="absolute left-6 top-6 flex items-center pointer-events-auto">
-                <img alt="logo" src="/logo.png" className="h-10 w-auto" />
+                <img alt="logo" src="/logo.png" className="h-10 w-auto" onClick={() => lenis?.scrollTo(0)} />
             </div>
             <div className="w-full h-full pointer-events-auto">
                 <Dock items={dockItems} dockHeight={80} panelHeight={64} baseItemSize={50} magnification={70} />

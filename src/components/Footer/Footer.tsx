@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Linkedin, Instagram, PenTool } from 'lucide-react';
+import { contactDetails, socials } from '../../data/footer';
 
 const Footer: React.FC = () => {
   // Animation Variants
@@ -55,26 +56,36 @@ const Footer: React.FC = () => {
           {/* Contact Section */}
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">
             <h3 className="text-xl font-semibold text-white mb-2">Contact Us</h3>
-            <a href="mailto:chea.nitt.dev@gmail.com" className="flex items-center gap-3 group">
+            <a href={`mailto:${contactDetails.email}`} className="flex items-center gap-3 group">
               <Mail className="w-5 h-5 text-pink-400 group-hover:text-pink-300 transition-colors" />
               <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
-                chea.nitt.dev@gmail.com
+                {contactDetails.email}
               </motion.span>
             </a>
-            <a href="tel:+918807271377" className="flex items-center gap-3 group">
-              <Phone className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors" />
-              <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
-                +91 8807271377
+            {contactDetails.contacts.map((contact) => (
+              <a key={contact.name} href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="flex items-center gap-3 group">
+                <Phone className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors" />
+                <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
+                  {contact.name}: {contact.phone}
+                </motion.span>
+              </a>
+            ))}
+            <a
+              href="https://maps.app.goo.gl/maBbeMMk6hipKCZG9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 group pt-2"
+            >
+              <MapPin className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0 group-hover:text-purple-300 transition-colors" />
+              <motion.span variants={textHover} whileHover="hover" className="text-neutral-400 leading-relaxed">
+                {contactDetails.address.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < contactDetails.address.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </motion.span>
             </a>
-            <div className="flex items-start gap-3 pt-2">
-              <MapPin className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0" />
-              <p className="text-neutral-400 leading-relaxed">
-                Department of Chemical Engineering,<br />
-                NIT Trichy, Thanjavur Road,<br />
-                Trichy - 620015.
-              </p>
-            </div>
           </motion.div>
 
           {/* Compliance Section */}
@@ -97,25 +108,43 @@ const Footer: React.FC = () => {
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">
             <h3 className="text-xl font-semibold text-white mb-2">Socials</h3>
             <div className="flex flex-col space-y-4">
-              <a href="#" className="flex items-center gap-3 group w-fit">
-                <Linkedin className="w-5 h-5 text-neutral-400 group-hover:text-blue-400 transition-colors" />
-                <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">LinkedIn</motion.span>
-              </a>
-              <a href="#" className="flex items-center gap-3 group w-fit">
-                <Instagram className="w-5 h-5 text-neutral-400 group-hover:text-pink-500 transition-colors" />
-                <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">Instagram</motion.span>
-              </a>
-              <a href="#" className="flex items-center gap-3 group w-fit">
-                <PenTool className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
-                <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">Medium</motion.span>
-              </a>
+              {socials.map((social) => (
+                <a key={social.label} href={social.url} target="_blank" className="flex items-center gap-3 group w-fit">
+                  {social.icon === 'Linkedin' && <Linkedin className="w-5 h-5 text-neutral-400 group-hover:text-blue-400 transition-colors" />}
+                  {social.icon === 'Instagram' && <Instagram className="w-5 h-5 text-neutral-400 group-hover:text-pink-500 transition-colors" />}
+                  {social.icon === 'PenTool' && <PenTool className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />}
+                  <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">{social.label}</motion.span>
+                </a>
+              ))}
             </div>
           </motion.div>
 
           {/* Credits Section */}
           <motion.div variants={itemVariants} className="flex flex-col justify-end space-y-2 lg:text-right lg:items-end">
             <p className="text-sm text-neutral-500">Made with 💜 by</p>
-            <p className="text-lg font-medium text-white">Khadeer & Antigravity</p>
+            <div className="text-lg font-medium flex gap-2">
+              <motion.a
+                href="https://www.linkedin.com/in/khadeer-ahmed"
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={textHover}
+                whileHover="hover"
+                className="text-white relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-pink-400 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+              >
+                Khadeer
+              </motion.a>
+              <span className="text-neutral-500">&</span>
+              <motion.a
+                href="https://antigravity.google/"
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={textHover}
+                whileHover="hover"
+                className="text-white relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-pink-400 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+              >
+                Antigravity
+              </motion.a>
+            </div>
           </motion.div>
         </div>
 

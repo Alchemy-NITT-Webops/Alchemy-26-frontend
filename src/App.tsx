@@ -16,56 +16,12 @@ import AlchemyFAQ from './components/FAQ/Faq';
 import Footer from './components/Footer/Footer';
 import GuestLecture from './components/GuestLecture/GuestLecture';
 import { GUEST_LECTURES_DATA } from './data/guestLectures';
+import Schedule from './components/Schedule/Schedule';
 
 gsap.registerPlugin(ScrollToPlugin);
 
 
-/* ───── Placeholder section component ───── */
-function PlaceholderSection({
-  id,
-  title,
-  description,
-  gradient,
-}: {
-  id: string;
-  title: string;
-  description: string;
-  gradient: string;
-}) {
-  return (
-    <section
-      id={id}
-      className="relative min-h-screen flex items-center justify-center px-6 py-24"
-    >
-      {/* subtle top-glow */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background: `radial-gradient(ellipse 60% 40% at 50% 0%, ${gradient}, transparent)`,
-        }}
-      />
 
-
-
-      <div className="relative text-center max-w-3xl mx-auto">
-        <h2
-          className="text-5xl sm:text-7xl font-black tracking-tight mb-6"
-          style={{
-            background: `linear-gradient(135deg, ${gradient}, #fff)`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-
-          {title}
-        </h2>
-        <p className="text-lg sm:text-xl text-[#888] leading-relaxed">
-          {description}
-        </p>
-      </div>
-    </section>
-  );
-}
 
 /* ───── App ───── */
 function App() {
@@ -115,20 +71,25 @@ function App() {
         {/* ─── Hero Section ─── */}
         <HeroSection ready={complete} />
 
-        {/* ─── About Us ─── */}
-        <About />
 
         {/* ─── Highlights (Zoom Parallax) ─── */}
         <ZoomParallax />
 
+        {/* ─── About Us ─── */}
+        <About />
+
+        <section id="schedule" className="relative min-h-screen">
+          <Schedule />
+        </section>
+
         {/* ─── Events ─── */}
         <section id="events" className="relative min-h-screen py-12">
-          <EventCarousel events={EVENTS_DATA} />
+          <EventCarousel events={EVENTS_DATA} title="Events" />
         </section>
 
         {/* ─── Workshops ─── */}
         <section id="workshops" className="relative min-h-screen py-12">
-          <EventCarousel events={WORKSHOPS_DATA} />
+          <EventCarousel events={WORKSHOPS_DATA} title="Workshops" />
         </section>
 
         {/* ─── Guest Lectures ─── */}
@@ -146,13 +107,6 @@ function App() {
         <section id="faq" className="relative min-h-screen py-12">
           <AlchemyFAQ />
         </section>
-
-        <PlaceholderSection
-          id="schedule"
-          title="Schedule"
-          description="Stay tuned — a full day-by-day breakdown of talks, workshops, and competitions will appear here."
-          gradient="#FF6B6B"
-        />
 
         <Footer />
         {

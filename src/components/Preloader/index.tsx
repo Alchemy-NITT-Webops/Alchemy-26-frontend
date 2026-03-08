@@ -2,12 +2,14 @@ import './Preloader.css';
 import { type Dispatch, type SetStateAction, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
+import { PRELOADER_WORD } from '../../data/preloader';
+
 const Preloader = ({
     setComplete,
 }: {
     setComplete: Dispatch<SetStateAction<boolean>>;
 }) => {
-    const word = ['A', 'l', 'c', 'h', 'e', 'm', 'y'];
+    const word = PRELOADER_WORD;
 
     const spans = useRef<(HTMLDivElement | null)[]>([]);
     const imageRef = useRef<HTMLImageElement>(null);

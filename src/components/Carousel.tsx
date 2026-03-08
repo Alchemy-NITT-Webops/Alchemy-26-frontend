@@ -158,7 +158,7 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                 className="relative w-full sm:max-w-2xl max-h-[92vh] overflow-hidden rounded-t-3xl sm:rounded-2xl flex flex-col"
                 style={{ background: "#111", border: "1px solid rgba(255,255,255,0.08)" }}
             >
-                <div className="relative h-44 sm:h-56 overflow-hidden">
+                <div className="relative h-44 sm:h-56 overflow-hidden shrink-0">
                     <img src={event.image} alt={event.title} className="w-full h-full object-cover" loading="eager" />
                     <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #111 0%, rgba(0,0,0,0.25) 60%, transparent 100%)" }} />
                     <button
@@ -177,7 +177,11 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                     </span>
                 </div>
 
-                <div className="overflow-y-auto flex-1 p-5 sm:p-7 [scrollbar-width:none]">
+                <div
+                    className="overflow-y-auto flex-1 p-5 sm:p-7 min-h-0 ec-dialog-scroll"
+                    style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255,255,255,0.2) transparent" }}
+                    data-lenis-prevent
+                >
                     <div ref={contentRef} className="flex flex-col gap-0">
                         <h2
                             className="text-2xl sm:text-[32px] font-black leading-tight text-white mb-3"
@@ -305,8 +309,9 @@ const EventCard = memo(
                 <div
                     ref={ref}
                     className="relative rounded-3xl overflow-hidden select-none h-[480px] sm:h-[520px] flex flex-col"
-                    style={{ ...boxShadowStyle,
-                                cursor: isActive ? "default" : "pointer",   // ← add this
+                    style={{
+                        ...boxShadowStyle,
+                        cursor: isActive ? "default" : "pointer",   // ← add this
 
                     }}
                 >
@@ -423,9 +428,10 @@ EventCard.displayName = "EventCard";
 
 interface EventCarouselProps {
     events?: EventItem[];
+    title?: string;
 }
 
-const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
+const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Events" }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [dialogEvent, setDialogEvent] = useState<EventItem | null>(null);
 
@@ -456,26 +462,26 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
     }, []);
 
     const handleSwiperAreaClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const swiper = swiperRef.current;
-    if (!swiper) return;
+        const swiper = swiperRef.current;
+        if (!swiper) return;
 
-    const clickX = e.clientX;
-    const clickY = e.clientY;
+        const clickX = e.clientX;
+        const clickY = e.clientY;
 
-    swiper.slides.forEach((slide, i) => {
-        const rect = slide.getBoundingClientRect();
-        if (
-            clickX >= rect.left &&
-            clickX <= rect.right &&
-            clickY >= rect.top &&
-            clickY <= rect.bottom
-        ) {
-            if (i !== swiper.activeIndex) {
-                swiper.slideTo(i);
+        swiper.slides.forEach((slide, i) => {
+            const rect = slide.getBoundingClientRect();
+            if (
+                clickX >= rect.left &&
+                clickX <= rect.right &&
+                clickY >= rect.top &&
+                clickY <= rect.bottom
+            ) {
+                if (i !== swiper.activeIndex) {
+                    swiper.slideTo(i);
+                }
             }
-        }
-    });
-}, []);
+        });
+    }, []);
 
     return (
         <>
@@ -501,13 +507,19 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [] }) => {
                         className="block text-[11px] font-bold uppercase tracking-[0.28em] mb-2"
                         style={{ color: accent, transition: "color 0.5s ease" }}
                     >
-                        Upcoming Events
+                        Upcoming {title}
                     </span>
                     <h1
-                        className="text-5xl sm:text-6xl md:text-7xl font-black text-white leading-none"
-                        style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}
+                        className="text-5xl sm:text-6xl md:text-7xl font-black leading-none"
+                        style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            letterSpacing: "0.04em",
+                            background: 'linear-gradient(135deg, #FF6B6B, #EC4899)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
                     >
-                        Don&apos;t Miss Out
+                        {title}
                     </h1>
                 </div>
 
