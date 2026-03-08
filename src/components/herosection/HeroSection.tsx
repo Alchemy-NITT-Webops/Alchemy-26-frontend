@@ -1,13 +1,14 @@
 import './HeroSection.css';
-import GetStartedButton from '../common/GetStartedButton';
-import MaskText from '../common/MaskText/index';
+import GetStartedButton from './GetStartedButton';
+import MaskText from './MaskText/index';
 import {
   paragraphPhrases,
   phrases,
 } from '../../data/hero';
 import CountdownTimer from '../CountdownTimer';
+import Lenis from 'lenis';
 
-const HeroSection = ({ ready = true }: { ready?: boolean }) => {
+const HeroSection = ({ ready = true, lenis }: { ready?: boolean; lenis?: Lenis | null }) => {
   return (
     <section className="hero-wrapper" id="home">
       <div className="hero-inner">
@@ -30,7 +31,7 @@ const HeroSection = ({ ready = true }: { ready?: boolean }) => {
         </div>
 
         <div className="hero-btn-wrapper">
-          <GetStartedButton padding="1rem 2.5rem" />
+          <GetStartedButton padding="1rem 2.5rem" lenis={lenis} />
         </div>
       </div>
     </section>

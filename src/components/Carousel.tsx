@@ -20,7 +20,7 @@ import React, {
     memo,
 } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { gsap } from "gsap";
 import {
@@ -184,8 +184,7 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                 >
                     <div ref={contentRef} className="flex flex-col gap-0">
                         <h2
-                            className="text-2xl sm:text-[32px] font-black leading-tight text-white mb-3"
-                            style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.02em" }}
+                            className="text-2xl sm:text-[32px] font-black leading-tight text-white mb-3 tracking-wide"
                         >
                             {event.title}
                         </h2>
@@ -440,8 +439,6 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
     const headingRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null);
 
-    const activeEvent = useMemo(() => events[activeIndex] || events[0], [events, activeIndex]);
-    const accent = activeEvent?.accent || "#ffffff";
     const total = events.length;
 
     useEffect(() => {
@@ -503,20 +500,9 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
                 />
 
                 <div ref={headingRef} className="relative z-10 mb-8 text-center px-4">
-                    <span
-                        className="block text-[11px] font-bold uppercase tracking-[0.28em] mb-2"
-                        style={{ color: accent, transition: "color 0.5s ease" }}
-                    >
-                        Upcoming {title}
-                    </span>
                     <h1
-                        className="text-5xl sm:text-6xl md:text-7xl font-black leading-none"
+                        className="text-5xl sm:text-6xl md:text-7xl font-bold leading-none text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 tracking-wide"
                         style={{
-                            fontFamily: "'Bebas Neue', sans-serif",
-                            letterSpacing: "0.04em",
-                            background: 'linear-gradient(135deg, #FF6B6B, #EC4899)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
                         }}
                     >
                         {title}
@@ -526,20 +512,7 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
                 <div className="relative z-10 w-full overflow-hidden" onClick={handleSwiperAreaClick}>
                     <Swiper
                         className="ec-swiper"
-                        modules={[EffectCoverflow, Pagination, Navigation]}
-                        navigation={{
-                            nextEl: '.custom-next-el',
-                            prevEl: '.custom-prev-el'
-                        }}
-                        // pagination={{
-                        //     el: '.custom-pagination-container', // Updated class name
-                        //     clickable: true,
-                        //     renderBullet: function (index, className) {
-                        //         const eventAccent = events[index]?.accent || '#ffffff';
-                        //         // Pass the accent color via a CSS variable
-                        //         return `<button class="${className}" style="--bullet-accent: ${eventAccent};" aria-label="Go to event ${index + 1}"></button>`;
-                        //     },
-                        // }}
+                        modules={[EffectCoverflow, Pagination]}
                         effect="coverflow"
                         centeredSlides
                         slidesPerView="auto"
@@ -555,7 +528,7 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
                     >
                         {events.map((ev, i) => (
                             <SwiperSlide
-                                key={ev.id}
+                                key={`${ev.id}-${i}`}
                                 style={{ width: 380, maxWidth: "calc(100vw - 64px)" }}
                                 onClick={() => {
                                     if (i !== activeIndex) {
@@ -573,41 +546,37 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
                             </SwiperSlide>
                         ))}
                     </Swiper>
-
-                    {/* Inject pure CSS to handle the active state transitions natively */}
-                    {/* <style>
-                        {`
-                            .custom-pagination-container .swiper-pagination-bullet {
-                                width: 8px;
-                                height: 8px;
-                                border-radius: 9999px;
-                                background: rgba(255, 255, 255, 0.22);
-                                transition: all 0.3s ease;
-                                opacity: 1; 
-                                cursor: pointer;
-                                display: block;
-                            }
-                            .custom-pagination-container .swiper-pagination-bullet-active {
-                                width: 26px;
-                                background: var(--bullet-accent) !important;
-                            }
-                        `}
-                    </style> */}
                     <div ref={navRef} className="z-10 flex items-center justify-center gap-5 mt-7">
                         <MagneticButton
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeIndex > 0) swiperRef.current?.slidePrev();
+                            }}
                             aria-label="Previous event"
-                            className="custom-prev-el w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors hover:bg-white/10 hover:border-white/40"
-                            style={{ border: "1.5px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.04)" }}
+                            className={`custom-prev-el w-12 h-12 rounded-full flex items-center justify-center transition-colors ${activeIndex === 0 ? '' : 'hover:bg-white/10 hover:border-white/40'}`}
+                            style={{
+                                border: "1.5px solid rgba(255,255,255,0.15)",
+                                background: "rgba(255,255,255,0.04)",
+                                color: activeIndex === 0 ? "rgba(255,255,255,0.3)" : "white",
+                                cursor: activeIndex === 0 ? "not-allowed" : "pointer"
+                            }}
                         >
                             <ChevronLeft size={20} />
                         </MagneticButton>
 
-                        {/* <div className="custom-page-el flex items-center gap-2">{dots}</div> */}
-                        {/* <div style={{width: 'min-content'}} className="custom-pagination-container flex justify-evenly w-min items-center" /> */}
                         <MagneticButton
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeIndex < total - 1) swiperRef.current?.slideNext();
+                            }}
                             aria-label="Next event"
-                            className="custom-next-el w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors hover:bg-white/10 hover:border-white/40"
-                            style={{ border: "1.5px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.04)" }}
+                            className={`custom-next-el w-12 h-12 rounded-full flex items-center justify-center transition-colors ${activeIndex === total - 1 ? '' : 'hover:bg-white/10 hover:border-white/40'}`}
+                            style={{
+                                border: "1.5px solid rgba(255,255,255,0.15)",
+                                background: "rgba(255,255,255,0.04)",
+                                color: activeIndex === total - 1 ? "rgba(255,255,255,0.3)" : "white",
+                                cursor: activeIndex === total - 1 ? "not-allowed" : "pointer"
+                            }}
                         >
                             <ChevronRight size={20} />
                         </MagneticButton>

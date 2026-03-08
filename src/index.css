@@ -5,7 +5,7 @@ html {
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Outfit', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -22,4 +22,37 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
+}
+
+/* Hide lenis scrollbar and window scrollbars but preserve component scrollbars */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar,
+html.lenis::-webkit-scrollbar,
+html.lenis body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html,
+body,
+#root,
+html.lenis,
+html.lenis body {
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
+}
+
+::selection {
+  background-color: rgba(168, 85, 247, 0.4);
+  /* Theme purple with opacity */
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(168, 85, 247, 0.4);
+  color: #ffffff;
 }

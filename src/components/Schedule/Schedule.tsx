@@ -18,16 +18,9 @@ export default function Schedule() {
         <div className="w-full h-screen flex flex-col pt-24 pb-8 px-2 md:px-8 relative z-10 overflow-hidden">
             {/* Header */}
             <div className="text-center shrink-0 mb-6">
-                <h2 className="text-4xl md:text-6xl font-black mb-2 tracking-tight" style={{
-                    background: 'linear-gradient(135deg, #FF6B6B, #EC4899)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                }}>
+                <h2 className="text-4xl md:text-6xl font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
                     Schedule
                 </h2>
-                <p className="text-[#888] text-sm md:text-base max-w-2xl mx-auto px-4">
-                    A full breakdown of events, workshops, and guest lectures across the festival days.
-                </p>
             </div>
 
             {/* Main Content Area */}
@@ -43,7 +36,7 @@ export default function Schedule() {
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeDayIndicator"
-                                        className="absolute -left-2 md:-left-4 w-1 h-full bg-[#EC4899] rounded-full shadow-[0_0_10px_#EC4899]"
+                                        className="absolute -left-2 md:-left-4 w-1 h-full bg-fuchsia-500 rounded-full shadow-[0_0_10px_#d946ef]"
                                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                     />
                                 )}
@@ -55,7 +48,7 @@ export default function Schedule() {
                                         <div className="text-[10px] md:text-sm  opacity-80">D</div>
                                         <div className="text-[10px] md:text-sm  opacity-80 ">A</div>
                                         <div className="text-[10px] md:text-sm  opacity-80 ">Y</div>
-                                        <div className={`text-lg md:text-2xl font-black ${isActive ? 'text-[#EC4899] drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]' : ''}`}>{day.day}</div>
+                                        <div className={`text-lg md:text-2xl font-black ${isActive ? 'text-fuchsia-400 drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]' : ''}`}>{day.day}</div>
                                     </div>
                                 </button>
                             </div>
@@ -69,7 +62,7 @@ export default function Schedule() {
                     {/* Inner Scrollable Area */}
                     <div
                         className="flex-1 overflow-y-auto w-full p-4 md:p-6 custom-scrollbar relative"
-                        // data-lenis-prevent="true"
+                    // data-lenis-prevent="true"
                     >
                         <AnimatePresence mode="wait">
                             <motion.div
@@ -86,10 +79,10 @@ export default function Schedule() {
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.4, delay: i * 0.05 }}
-                                        className="group relative bg-[#0f0f0f] border border-white/10 rounded-xl p-4 md:p-5 overflow-hidden transition-all duration-300 hover:border-[#EC4899]/50 hover:bg-[#1a1a1a] shadow-xl flex flex-col justify-between"
+                                        className="group relative bg-[#0f0f0f] border border-white/10 rounded-xl p-4 md:p-5 overflow-hidden transition-all duration-300 hover:border-fuchsia-500/50 hover:bg-[#1a1a1a] shadow-xl flex flex-col justify-between"
                                     >
                                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                                            style={{ background: 'radial-gradient(circle at top right, rgba(236, 72, 153, 0.1) 0%, transparent 70%)' }}
+                                            style={{ background: 'radial-gradient(circle at top right, rgba(217, 70, 239, 0.1) 0%, transparent 70%)' }}
                                         />
 
                                         <div className="relative z-10 flex flex-col h-full gap-3">
@@ -101,18 +94,18 @@ export default function Schedule() {
                                             </div>
 
                                             <div className="flex-1 my-1">
-                                                <h3 className="text-base sm:text-lg font-bold text-white leading-tight group-hover:text-[#EC4899] transition-colors duration-300">
+                                                <h3 className="text-base sm:text-lg font-bold text-white leading-tight group-hover:text-fuchsia-400 transition-colors duration-300">
                                                     {event.title}
                                                 </h3>
                                             </div>
 
                                             <div className="flex flex-col gap-1 text-xs text-gray-400 font-medium tracking-wide border-t border-white/10 pt-3 mt-1">
                                                 <div className="flex items-center gap-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#EC4899] shrink-0"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-400 shrink-0"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                     <span className="truncate">{event.time}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#EC4899] shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-400 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                                                     <span className="truncate">{event.venue}</span>
                                                 </div>
                                             </div>

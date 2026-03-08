@@ -86,7 +86,10 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             const targetId = url.substring(2);
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
-                lenis?.scrollTo(targetElement);
+                lenis?.scrollTo(targetElement, {
+                    duration: 3.5,
+                    easing: (t) => 1 - Math.pow(1 - t, 5)
+                });
             }
         } else {
             window.location.href = url;
@@ -156,11 +159,15 @@ const MobileNav = ({ lenis }: { lenis: Lenis | null }) => {
         if (isHash) {
             const targetId = url.startsWith('/#') ? url.substring(2) : url.substring(1);
             const targetElement = document.getElementById(targetId);
+            const options = {
+                duration: 3.5,
+                easing: (t: number) => 1 - Math.pow(1 - t, 5)
+            };
             if (targetElement) {
-                lenis?.scrollTo(targetElement);
+                lenis?.scrollTo(targetElement, options);
             } else if (targetId === 'home') {
                 // Fallback for home if no specific element is found, just scroll to top
-                lenis?.scrollTo(0);
+                lenis?.scrollTo(0, options);
             }
         } else {
             window.location.href = url;

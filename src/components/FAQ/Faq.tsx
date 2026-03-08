@@ -74,14 +74,6 @@ export default function AlchemyFAQ() {
 
         {/* Header Section */}
         <div className="mb-12 md:mb-20 text-center md:text-left">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-pink-500 font-semibold tracking-widest uppercase text-sm mb-3"
-          >
-            Clear the air
-          </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

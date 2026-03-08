@@ -69,7 +69,7 @@ function App() {
         {/* Fixed SideNav overlay */}
 
         {/* ─── Hero Section ─── */}
-        <HeroSection ready={complete} />
+        <HeroSection ready={complete} lenis={lenisInstance} />
 
 
         {/* ─── Highlights (Zoom Parallax) ─── */}
@@ -78,22 +78,22 @@ function App() {
         {/* ─── About Us ─── */}
         <About />
 
-        <section id="schedule" className="relative min-h-screen">
+        <section id="schedule">
           <Schedule />
         </section>
 
         {/* ─── Events ─── */}
-        <section id="events" className="relative min-h-screen py-12">
+        <section id="events">
           <EventCarousel events={EVENTS_DATA} title="Events" />
         </section>
 
         {/* ─── Workshops ─── */}
-        <section id="workshops" className="relative min-h-screen py-12">
+        <section id="workshops">
           <EventCarousel events={WORKSHOPS_DATA} title="Workshops" />
         </section>
 
         {/* ─── Guest Lectures ─── */}
-        <section id="guest-lectures" className="relative min-h-screen py-12 flex flex-col items-center justify-center">
+        <section id="guest-lectures" className="relative py-20 flex flex-col items-center justify-center">
           <h2 className="text-4xl sm:text-5xl font-bold mb-12 text-center text-white" style={{
             background: 'linear-gradient(135deg, #A855F7, #EC4899)',
             WebkitBackgroundClip: 'text',
@@ -104,9 +104,9 @@ function App() {
           <GuestLecture items={GUEST_LECTURES_DATA} />
         </section>
 
-        <section id="faq" className="relative min-h-screen py-12">
+        <div id="faq">
           <AlchemyFAQ />
-        </section>
+        </div>
 
         <Footer />
         {
