@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
   return (
     <footer id="contact" className="relative w-full overflow-hidden bg-neutral-950 text-neutral-300 pt-20 pb-10">
       {/* Background Glow Effect */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-r from-purple-600 via-violet-600 to-pink-600 rounded-full blur-[150px] opacity-20 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-linear-to-r from-purple-600 via-violet-600 to-pink-600 rounded-full blur-[150px] opacity-20 pointer-events-none" />
 
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-6 md:px-12"
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
       >
         {/* Top Section / Header */}
         <motion.div variants={itemVariants} className="mb-16 md:mb-24">
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-pink-400 mb-4 leading-normal">
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-violet-400 to-pink-400 mb-4 leading-normal">
             Alchemy 2026
           </h2>
           <p className="text-lg md:text-xl text-neutral-400 max-w-md">
@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
               rel="noopener noreferrer"
               className="flex items-start gap-3 group pt-2"
             >
-              <MapPin className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0 group-hover:text-purple-300 transition-colors" />
+              <MapPin className="w-5 h-5 text-purple-400 mt-1 shrink-0 group-hover:text-purple-300 transition-colors" />
               <motion.span variants={textHover} whileHover="hover" className="text-neutral-400 leading-relaxed">
                 {contactDetails.address.map((line, i) => (
                   <React.Fragment key={i}>
@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
           {/* Credits Section */}
           <motion.div variants={itemVariants} className="flex flex-col justify-end space-y-2 lg:text-right lg:items-end">
             <p className="text-sm text-neutral-500">Made with 💜 by</p>
-            <div className="text-lg font-medium flex gap-2">
+            <div className="text-lg font-medium">
               <motion.a
                 href="https://www.linkedin.com/in/khadeer-ahmed"
                 target="_blank"
@@ -133,23 +133,12 @@ const Footer: React.FC = () => {
               >
                 Khadeer
               </motion.a>
-              <span className="text-neutral-500">&</span>
-              <motion.a
-                href="https://antigravity.google/"
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={textHover}
-                whileHover="hover"
-                className="text-white relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:bottom-0 after:left-0 after:bg-pink-400 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-              >
-                Antigravity
-              </motion.a>
             </div>
           </motion.div>
         </div>
 
         {/* Divider */}
-        <motion.div variants={itemVariants} className="w-full h-[1px] bg-neutral-800 mb-8" />
+        <motion.div variants={itemVariants} className="w-full h-px bg-neutral-800 mb-8" />
 
         {/* Bottom Copyright & Massive Text */}
         <motion.div variants={itemVariants} className="flex flex-col items-center justify-center space-y-8">
@@ -159,7 +148,7 @@ const Footer: React.FC = () => {
 
           {/* Giant Background-like Text for Awwwards Feel */}
           <h1 className="text-[12vw] md:text-[8vw] lg:text-[140px] leading-none font-black tracking-tighter text-transparent overflow-hidden w-full text-center">
-            <span className="bg-clip-text bg-gradient-to-b from-neutral-700 to-neutral-950 select-none">
+            <span className="bg-clip-text bg-linear-to-b from-neutral-700 to-neutral-950 select-none">
               ALCHEMY 2026
             </span>
           </h1>

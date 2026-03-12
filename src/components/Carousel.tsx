@@ -501,7 +501,7 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
 
                 <div ref={headingRef} className="relative z-10 mb-8 text-center px-4">
                     <h1
-                        className="text-5xl sm:text-6xl md:text-7xl font-bold leading-none text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 tracking-wide"
+                        className="text-5xl sm:text-6xl md:text-7xl font-bold leading-none text-transparent bg-clip-text bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500 tracking-wide"
                         style={{
                         }}
                     >

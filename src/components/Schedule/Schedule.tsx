@@ -18,7 +18,7 @@ export default function Schedule() {
         <div className="w-full h-screen flex flex-col pt-24 pb-8 px-2 md:px-8 relative z-10 overflow-hidden">
             {/* Header */}
             <div className="text-center shrink-0 mb-6">
-                <h2 className="text-4xl md:text-6xl font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
+                <h2 className="text-4xl md:text-6xl font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500">
                     Schedule
                 </h2>
             </div>

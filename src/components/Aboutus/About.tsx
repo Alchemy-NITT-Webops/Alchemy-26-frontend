@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-import { INTRO_LINE, PARAGRAPH_TEXT, FEATURES } from '../../data/about';
+import { INTRO_LINE, PARAGRAPH_TEXT } from '../../data/about';
 
 /* ──────────────────────────── Component ──────────────────────────── */
 
@@ -16,7 +16,7 @@ export default function About() {
     const introLineRef = useRef<HTMLDivElement>(null);
     const paragraphRef = useRef<HTMLParagraphElement>(null);
     const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
-    const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
+    // const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
     const dividerRef = useRef<HTMLDivElement>(null);
     const blob1Ref = useRef<HTMLDivElement>(null);
     const blob2Ref = useRef<HTMLDivElement>(null);
@@ -117,27 +117,7 @@ export default function About() {
                 }
             );
 
-            /* ─────────── Feature cards stagger ─────────── */
-            const validFeatures = featureRefs.current.filter(Boolean) as HTMLDivElement[];
-
-            gsap.fromTo(
-                validFeatures,
-                { opacity: 0, y: 60, scale: 0.95 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.9,
-                    stagger: 0.15,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: validFeatures[0],
-                        start: "top 85%",
-                        toggleActions: "play none none reverse",
-                    },
-                }
-            );
-
+        
             /* ─────────── Parallax blobs on scroll ─────────── */
             gsap.to(blob1Ref.current, {
                 yPercent: -40,
@@ -203,7 +183,7 @@ export default function About() {
                     </span>
                     <div
                         ref={introLineRef}
-                        className="flex-1 h-px bg-gradient-to-r from-purple-500/60 to-transparent origin-left"
+                        className="flex-1 h-px bg-linear-to-r from-purple-500/60 to-transparent origin-left"
                     />
                 </div>
 
@@ -211,7 +191,7 @@ export default function About() {
                 <div ref={titleWrapRef} className="overflow-hidden mb-12 md:mb-16">
                     <h2
                         ref={titleRef}
-                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
+                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
                         style={{ clipPath: "inset(0 100% 0 0)" }}
                     >
                         About Us
@@ -237,30 +217,10 @@ export default function About() {
                 {/* Divider */}
                 <div
                     ref={dividerRef}
-                    className="my-16 md:my-24 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent origin-center"
+                    className="my-16 md:my-24 h-px w-full bg-linear-to-r from-transparent via-white/20 to-transparent origin-center"
                     style={{ transform: "scaleX(0)" }}
                 />
 
-                {/* Feature cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    {FEATURES.map((feat, i) => (
-                        <div
-                            key={feat.number}
-                            ref={(el) => { featureRefs.current[i] = el; }}
-                            className="group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-8 md:p-10 transition-colors duration-500 hover:border-purple-500/30 hover:bg-white/[0.04] will-change-transform"
-                        >
-                            <span className="block text-5xl md:text-6xl font-black text-white/[0.06] mb-4 transition-colors duration-500 group-hover:text-purple-500/20">
-                                {feat.number}
-                            </span>
-                            <h3 className="text-lg md:text-xl font-semibold text-white mb-2 tracking-tight">
-                                {feat.title}
-                            </h3>
-                            <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed">
-                                {feat.desc}
-                            </p>
-                        </div>
-                    ))}
-                </div>
             </div>
         </section>
     );

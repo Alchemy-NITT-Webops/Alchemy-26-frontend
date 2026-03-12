@@ -1,4 +1,5 @@
 import event1 from '../assets/events/event1.jpeg'
+import event2 from '../assets/events/event2.png'
 import event3 from '../assets/events/event3.jpeg'
 
 export interface EventItem {
@@ -49,7 +50,7 @@ const EVENTS_DATA: EventItem[] = [
         time: "TBA",
         location: "Chemical Engineering Department",
         category: "ACADEMIC",
-        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
+        image: event2,
 
         accent: "#92400e", // Brownish
         details: {
