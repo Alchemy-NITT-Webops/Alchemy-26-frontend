@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
 
@@ -63,10 +63,20 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick, in
   );
 };
 
-import { faqs } from "../../data/faq";
+import { fetchFAQs } from "../../services/api";
+import type { FaqItem as ApiFaqItem } from "../../services/api";
 
 export default function AlchemyFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [faqs, setFaqs] = useState<ApiFaqItem[]>([]);
+
+  useEffect(() => {
+    async function loadFaqs() {
+      const data = await fetchFAQs();
+      setFaqs(data);
+    }
+    loadFaqs();
+  }, []);
 
   return (
     <section className="min-h-screen bg-slate-950 px-4 py-20 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans selection:bg-pink-500/30">

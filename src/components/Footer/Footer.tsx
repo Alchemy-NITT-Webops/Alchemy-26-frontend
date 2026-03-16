@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Linkedin, Instagram, PenTool } from 'lucide-react';
-import { contactDetails, socials } from '../../data/footer';
+import { socials } from '../../data/footer';
+import { fetchContactDetails } from '../../services/api';
+import type { ContactDetails } from '../../services/api';
 
 const Footer: React.FC = () => {
+  const [contactDetails, setContactDetails] = useState<ContactDetails | null>(null);
+
+  useEffect(() => {
+    async function loadContacts() {
+      const data = await fetchContactDetails();
+      if (data) {
+        // Address from API comes as a single string, we need to split it by comma to match the old format
+        // Or if it's already an array... Let's safely convert it
+        let addressLines: string[] = [];
+        if (typeof data.address === 'string') {
+            addressLines = data.address.split(',').map(s => s.trim());
+        } else if (Array.isArray(data.address)) {
+            addressLines = data.address;
+        }
+        setContactDetails({ ...data, address: addressLines as any });
+      }
+    }
+    loadContacts();
+  }, []);
   // Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,36 +77,42 @@ const Footer: React.FC = () => {
           {/* Contact Section */}
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">
             <h3 className="text-xl font-semibold text-white mb-2">Contact Us</h3>
-            <a href={`mailto:${contactDetails.email}`} className="flex items-center gap-3 group">
-              <Mail className="w-5 h-5 text-pink-400 group-hover:text-pink-300 transition-colors" />
-              <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
-                {contactDetails.email}
-              </motion.span>
-            </a>
-            {contactDetails.contacts.map((contact) => (
-              <a key={contact.name} href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="flex items-center gap-3 group">
-                <Phone className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors" />
-                <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
-                  {contact.name}: {contact.phone}
-                </motion.span>
-              </a>
-            ))}
-            <a
-              href="https://maps.app.goo.gl/maBbeMMk6hipKCZG9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-start gap-3 group pt-2"
-            >
-              <MapPin className="w-5 h-5 text-purple-400 mt-1 shrink-0 group-hover:text-purple-300 transition-colors" />
-              <motion.span variants={textHover} whileHover="hover" className="text-neutral-400 leading-relaxed">
-                {contactDetails.address.map((line, i) => (
-                  <React.Fragment key={i}>
-                    {line}
-                    {i < contactDetails.address.length - 1 && <br />}
-                  </React.Fragment>
+            {contactDetails ? (
+              <>
+                <a href={`mailto:${contactDetails.email}`} className="flex items-center gap-3 group">
+                  <Mail className="w-5 h-5 text-pink-400 group-hover:text-pink-300 transition-colors" />
+                  <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
+                    {contactDetails.email}
+                  </motion.span>
+                </a>
+                {contactDetails.contacts.map((contact) => (
+                  <a key={contact.name} href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="flex items-center gap-3 group">
+                    <Phone className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors" />
+                    <motion.span variants={textHover} whileHover="hover" className="text-neutral-400">
+                      {contact.name}: {contact.phone}
+                    </motion.span>
+                  </a>
                 ))}
-              </motion.span>
-            </a>
+                <a
+                  href="https://maps.app.goo.gl/maBbeMMk6hipKCZG9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 group pt-2"
+                >
+                  <MapPin className="w-5 h-5 text-purple-400 mt-1 shrink-0 group-hover:text-purple-300 transition-colors" />
+                  <motion.span variants={textHover} whileHover="hover" className="text-neutral-400 leading-relaxed">
+                    {Array.isArray(contactDetails.address) ? contactDetails.address.map((line: string, i: number) => (
+                      <React.Fragment key={i}>
+                        {line}
+                        {i < contactDetails.address.length - 1 && <br />}
+                      </React.Fragment>
+                    )) : contactDetails.address}
+                  </motion.span>
+                </a>
+              </>
+            ) : (
+                <div className="text-neutral-400 animate-pulse">Loading contacts...</div>
+            )}
           </motion.div>
 
           {/* Compliance Section */}

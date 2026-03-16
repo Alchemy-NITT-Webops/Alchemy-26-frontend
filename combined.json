@@ -1,0 +1,354 @@
+{
+  "cd": {
+    "id": 1,
+    "documentId": "k63cfz239mj20fo30i1pcadr",
+    "email": "alchemy.nitt.chemical@gmail.com",
+    "address": "Department of Chemical Engineering, NIT Trichy, Thanjavur Road, Trichy - 620015.",
+    "createdAt": "2026-03-16T19:23:19.772Z",
+    "updatedAt": "2026-03-16T19:23:19.772Z",
+    "publishedAt": "2026-03-16T19:23:19.764Z",
+    "contacts": [
+      {
+        "id": 1,
+        "name": "Steve",
+        "phone": "+919499920831"
+      },
+      {
+        "id": 2,
+        "name": "Madhumitha",
+        "phone": "+918015028585"
+      }
+    ]
+  },
+  "ev": {
+    "id": 1,
+    "documentId": "walyt52a313f4bmxj65pzblu",
+    "title": "Bidathon",
+    "shortDescription": "A high-intensity, strategy-driven technical competition combining chemical engineering with competitive bidding.",
+    "date": "2026-04-11",
+    "time": "17:00:00.000",
+    "location": "Chemical Engineering Department",
+    "category": "Competition",
+    "accent": "#3b82f6",
+    "createdAt": "2026-03-16T19:27:50.334Z",
+    "updatedAt": "2026-03-16T19:27:50.334Z",
+    "publishedAt": "2026-03-16T19:27:50.325Z",
+    "image": [
+      {
+        "id": 12,
+        "documentId": "n5azr1cwb3x2ajej70jd15u4",
+        "name": "event1.jpeg",
+        "alternativeText": "Five students work on laptops and tablets in a chemical engineering challenge.",
+        "caption": "Students are engaged in the Bidathon, an ultimate strategy-driven chemical engineering challenge. They use technology to solve complex problems.",
+        "focalPoint": null,
+        "width": 797,
+        "height": 867,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_event1.jpeg",
+            "hash": "thumbnail_event1_98413af874",
+            "ext": ".jpeg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 144,
+            "height": 156,
+            "size": 7.93,
+            "sizeInBytes": 7926,
+            "url": "/uploads/thumbnail_event1_98413af874.jpeg"
+          },
+          "medium": {
+            "name": "medium_event1.jpeg",
+            "hash": "medium_event1_98413af874",
+            "ext": ".jpeg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 689,
+            "height": 750,
+            "size": 114.27,
+            "sizeInBytes": 114271,
+            "url": "/uploads/medium_event1_98413af874.jpeg"
+          },
+          "small": {
+            "name": "small_event1.jpeg",
+            "hash": "small_event1_98413af874",
+            "ext": ".jpeg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 460,
+            "height": 500,
+            "size": 60.57,
+            "sizeInBytes": 60570,
+            "url": "/uploads/small_event1_98413af874.jpeg"
+          }
+        },
+        "hash": "event1_98413af874",
+        "ext": ".jpeg",
+        "mime": "image/jpeg",
+        "size": 135.31,
+        "url": "/uploads/event1_98413af874.jpeg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T19:25:17.870Z",
+        "updatedAt": "2026-03-16T19:25:31.561Z",
+        "publishedAt": "2026-03-16T19:25:17.870Z"
+      }
+    ],
+    "details": {
+      "id": 1,
+      "fullDescription": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "<p>Bidathon is a high-intensity, strategy-driven technical competition designed to test participantsΓÇÖ conceptual clarity, analytical skills, and confidence under time pressure. Unlike conventional quiz formats, Bidathon integrates a competitive bidding mechanism into chemical engineering problem-solving.</p><p>For each question presented, teams must bid the minimum time (in seconds) in which they believe they can correctly answer the question. The team quoting the lowest time earns the exclusive right to answer. Correct responses earn points, while incorrect responses result in negative marking, making strategic bidding equally important. The event aims to promote quick thinking, decision-making under constraints, and mastery of core concepts.</p>"
+            }
+          ]
+        }
+      ],
+      "price": "Free",
+      "capacity": 3,
+      "organizer": "TBA",
+      "website": "https://alchemy2025.vercel.app"
+    }
+  },
+  "faq": {
+    "id": 2,
+    "documentId": "o4r3z43jzm6j8c46z3sopvq1",
+    "question": "What are the necessary documents to be brought?",
+    "answer": "It is mandatory to bring your college ID card. For accommodation, a payment screenshot should be in hand.",
+    "createdAt": "2026-03-16T19:29:35.865Z",
+    "updatedAt": "2026-03-16T19:29:35.865Z",
+    "publishedAt": "2026-03-16T19:29:35.874Z"
+  },
+  "gl": {
+    "id": 1,
+    "documentId": "u25n1jkjrtevj7q3t9wzju89",
+    "title": "Rama Satya Kamesh P",
+    "subtitle": "Associate Director(Sustainability and ESG) at Deloitte",
+    "topic": "Sustainability and ESG",
+    "date": "12th April, 2026",
+    "borderColor": "#8B5CF6",
+    "gradient": "linear-gradient(145deg,#8B5CF6,#000)",
+    "url": "https://www.linkedin.com/in/rama-satya-kamesh-p-90850428",
+    "createdAt": "2026-03-16T19:33:41.941Z",
+    "updatedAt": "2026-03-16T19:33:41.941Z",
+    "publishedAt": "2026-03-16T19:33:41.939Z",
+    "image": {
+      "id": 13,
+      "documentId": "jl6wsqzqdg0qwuncfh5vj45y",
+      "name": "gl1.png",
+      "alternativeText": "A man with a beard wearing a dark suit and blue tie looks at the camera.",
+      "caption": "A professional headshot of a man with a beard, wearing a suit and blue tie, against a blurred office background. He appears confident.",
+      "focalPoint": null,
+      "width": 1294,
+      "height": 1242,
+      "formats": {
+        "thumbnail": {
+          "name": "thumbnail_gl1.png",
+          "hash": "thumbnail_gl1_6f93e9f82c",
+          "ext": ".png",
+          "mime": "image/png",
+          "path": null,
+          "width": 163,
+          "height": 156,
+          "size": 39.97,
+          "sizeInBytes": 39974,
+          "url": "/uploads/thumbnail_gl1_6f93e9f82c.png"
+        },
+        "small": {
+          "name": "small_gl1.png",
+          "hash": "small_gl1_6f93e9f82c",
+          "ext": ".png",
+          "mime": "image/png",
+          "path": null,
+          "width": 500,
+          "height": 480,
+          "size": 293.42,
+          "sizeInBytes": 293416,
+          "url": "/uploads/small_gl1_6f93e9f82c.png"
+        },
+        "medium": {
+          "name": "medium_gl1.png",
+          "hash": "medium_gl1_6f93e9f82c",
+          "ext": ".png",
+          "mime": "image/png",
+          "path": null,
+          "width": 750,
+          "height": 720,
+          "size": 609.13,
+          "sizeInBytes": 609125,
+          "url": "/uploads/medium_gl1_6f93e9f82c.png"
+        },
+        "large": {
+          "name": "large_gl1.png",
+          "hash": "large_gl1_6f93e9f82c",
+          "ext": ".png",
+          "mime": "image/png",
+          "path": null,
+          "width": 1000,
+          "height": 960,
+          "size": 1025.14,
+          "sizeInBytes": 1025140,
+          "url": "/uploads/large_gl1_6f93e9f82c.png"
+        }
+      },
+      "hash": "gl1_6f93e9f82c",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 344.77,
+      "url": "/uploads/gl1_6f93e9f82c.png",
+      "previewUrl": null,
+      "provider": "local",
+      "provider_metadata": null,
+      "createdAt": "2026-03-16T19:33:25.756Z",
+      "updatedAt": "2026-03-16T19:33:37.278Z",
+      "publishedAt": "2026-03-16T19:33:25.756Z"
+    }
+  },
+  "sch": {
+    "id": 1,
+    "documentId": "rj54ue6io70xhkcexv9ku0i3",
+    "day": 1,
+    "date": "2026-03-10",
+    "createdAt": "2026-03-16T19:38:07.785Z",
+    "updatedAt": "2026-03-16T19:38:46.772Z",
+    "publishedAt": "2026-03-16T19:38:46.761Z",
+    "events": [
+      {
+        "id": 1,
+        "type": "Event",
+        "time": "09:30:00.000",
+        "venue": "EEE Auditorium ",
+        "title": "Inauguration Ceremony"
+      },
+      {
+        "id": 2,
+        "type": "Workshop",
+        "time": "11:30:00.000",
+        "venue": "Chem Dept Simulation Lab",
+        "title": "Workshop 1"
+      },
+      {
+        "id": 3,
+        "type": "Guest Lecture",
+        "time": "14:00:00.000",
+        "venue": "EEE Audi",
+        "title": "Guest lecture 1"
+      },
+      {
+        "id": 4,
+        "type": "Event",
+        "time": "15:00:00.000",
+        "venue": "Chem Dept Seminar Hall",
+        "title": "Paper Presentation"
+      }
+    ]
+  },
+  "ws": {
+    "id": 1,
+    "documentId": "ixnujkcamb6a63fs08r1fplm",
+    "title": "Process Modelling And Optimisation in MATLAB",
+    "shortDescription": "Learn to develop mathematical models and improve chemical process performance using MATLAB.",
+    "date": "2026-04-10",
+    "time": "14:00:00.000",
+    "location": "Chemical Engineering Department (simulation lab)",
+    "category": "Workshop",
+    "accent": "#0076ad",
+    "createdAt": "2026-03-16T19:45:42.679Z",
+    "updatedAt": "2026-03-16T19:45:42.679Z",
+    "publishedAt": "2026-03-16T19:45:42.672Z",
+    "image": [
+      {
+        "id": 15,
+        "documentId": "szsj1hs8vjaip5syn86e48bv",
+        "name": "workshop1.png",
+        "alternativeText": "Three computer monitors on a lab desk displaying scientific diagrams and research graphs.",
+        "caption": "An advanced workstation with three monitors displays complex scientific data and engineering schematics in a modern research laboratory environment.",
+        "focalPoint": null,
+        "width": 1600,
+        "height": 872,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_workshop1.png",
+            "hash": "thumbnail_workshop1_2ad60ae180",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 245,
+            "height": 134,
+            "size": 81.3,
+            "sizeInBytes": 81300,
+            "url": "/uploads/thumbnail_workshop1_2ad60ae180.png"
+          },
+          "small": {
+            "name": "small_workshop1.png",
+            "hash": "small_workshop1_2ad60ae180",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 500,
+            "height": 273,
+            "size": 294.08,
+            "sizeInBytes": 294078,
+            "url": "/uploads/small_workshop1_2ad60ae180.png"
+          },
+          "medium": {
+            "name": "medium_workshop1.png",
+            "hash": "medium_workshop1_2ad60ae180",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 750,
+            "height": 409,
+            "size": 626.81,
+            "sizeInBytes": 626809,
+            "url": "/uploads/medium_workshop1_2ad60ae180.png"
+          },
+          "large": {
+            "name": "large_workshop1.png",
+            "hash": "large_workshop1_2ad60ae180",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 1000,
+            "height": 545,
+            "size": 1078.21,
+            "sizeInBytes": 1078207,
+            "url": "/uploads/large_workshop1_2ad60ae180.png"
+          }
+        },
+        "hash": "workshop1_2ad60ae180",
+        "ext": ".png",
+        "mime": "image/png",
+        "size": 606.61,
+        "url": "/uploads/workshop1_2ad60ae180.png",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T19:42:48.088Z",
+        "updatedAt": "2026-03-16T19:42:56.959Z",
+        "publishedAt": "2026-03-16T19:42:48.088Z"
+      }
+    ],
+    "details": {
+      "id": 2,
+      "fullDescription": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "<p>Process Modelling and Optimisation in MATLAB provides a systematic, application-oriented introduction to developing mathematical models of chemical and engineering processes and improving their performance through optimisation techniques.</p><p>The workshop focuses on translating real-world process systems into equations based on mass and energy balances, kinetics, and transport phenomena.</p><ul><li>Hands-on exercises in MATLAB for steady-state and dynamic analysis</li><li>Formulating objective functions for process improvement</li><li>Simulating behavior under varying operating conditions</li></ul><p>The session is led by <strong>Dr Virivinti Nagajyothi</strong>, specializing in stochastic optimisation and process control.</p>"
+            }
+          ]
+        }
+      ],
+      "price": "Rs. 200/-",
+      "capacity": 1,
+      "organizer": "Dr. Virivinti Nagajyothi (NIT Tiruchirappalli)",
+      "website": null
+    }
+  }
+}

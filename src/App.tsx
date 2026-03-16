@@ -7,16 +7,15 @@ import HeroSection from './components/herosection/HeroSection';
 import Preloader from './components/Preloader';
 import ZoomParallax from './components/ZoomParalax/ZoomParallax';
 import About from './components/Aboutus/About';
-import EVENTS_DATA from './data/events';
 import SplashCursor from './components/SplashCursor';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar/Navbar';
-import WORKSHOPS_DATA from './data/workshops';
 import AlchemyFAQ from './components/FAQ/Faq';
-import Footer from './components/Footer/Footer';
 import GuestLecture from './components/GuestLecture/GuestLecture';
-import { GUEST_LECTURES_DATA } from './data/guestLectures';
+import Footer from './components/Footer/Footer';
 import Schedule from './components/Schedule/Schedule';
+import { fetchEvents, fetchWorkshops, fetchGuestLectures } from './services/api';
+import type { EventItem, ChromaItem } from './services/api';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -26,8 +25,25 @@ gsap.registerPlugin(ScrollToPlugin);
 /* ───── App ───── */
 function App() {
   const [complete, setComplete] = useState(false);
-
   const [isMobile, setIsMobile] = useState(true);
+  
+  const [eventsData, setEventsData] = useState<EventItem[]>([]);
+  const [workshopsData, setWorkshopsData] = useState<EventItem[]>([]);
+  const [guestLecturesData, setGuestLecturesData] = useState<ChromaItem[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const [events, workshops, guestLectures] = await Promise.all([
+        fetchEvents(),
+        fetchWorkshops(),
+        fetchGuestLectures()
+      ]);
+      setEventsData(events);
+      setWorkshopsData(workshops);
+      setGuestLecturesData(guestLectures);
+    }
+    loadData();
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -84,12 +100,12 @@ function App() {
 
         {/* ─── Events ─── */}
         <section id="events">
-          <EventCarousel events={EVENTS_DATA} title="Events" />
+          <EventCarousel events={eventsData} title="Events" />
         </section>
 
         {/* ─── Workshops ─── */}
         <section id="workshops">
-          <EventCarousel events={WORKSHOPS_DATA} title="Workshops" />
+          <EventCarousel events={workshopsData} title="Workshops" />
         </section>
 
         {/* ─── Guest Lectures ─── */}
@@ -101,7 +117,7 @@ function App() {
           }}>
             Guest Lectures
           </h2>
-          <GuestLecture items={GUEST_LECTURES_DATA} />
+          <GuestLecture items={guestLecturesData} />
         </section>
 
         <div id="faq">

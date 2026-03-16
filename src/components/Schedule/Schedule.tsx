@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SCHEDULE_DATA } from '../../data/schedule';
+import { fetchSchedules } from '../../services/api';
+import type { ScheduleDay } from '../../services/api';
 
 export default function Schedule() {
     const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-    const selectedDay = SCHEDULE_DATA[selectedDayIndex];
+    const [scheduleData, setScheduleData] = useState<ScheduleDay[]>([]);
+
+    useEffect(() => {
+        async function loadSchedules() {
+            const data = await fetchSchedules();
+            if (data && data.length > 0) {
+                setScheduleData(data.sort((a, b) => a.day - b.day)); // Assuming ascending order by day
+            }
+        }
+        loadSchedules();
+    }, []);
+
+    const selectedDay = scheduleData[selectedDayIndex];
 
     const getBadgeColor = (type: string) => {
         switch (type) {
@@ -27,8 +40,9 @@ export default function Schedule() {
             <div className="flex-1 flex justify-center items-stretch gap-4 md:gap-8 min-h-0 w-full max-w-6xl mx-auto p-5">
 
                 {/* Days Column */}
+                {scheduleData.length > 0 && (
                 <div className="flex flex-col justify-around gap-3 md:gap-6 items-center shrink-0 w-8 md:w-16">
-                    {SCHEDULE_DATA.map((day, index) => {
+                    {scheduleData.map((day, index) => {
                         const isActive = selectedDayIndex === index;
                         return (
                             <div key={`day-wrapper-${day.day}`} className="relative flex items-center justify-center w-full group">
@@ -55,6 +69,7 @@ export default function Schedule() {
                         );
                     })}
                 </div>
+                )}
 
                 {/* Schedule Box Container */}
                 <div className="flex-1 flex flex-col min-w-0 h-full border-2 border-white/20 rounded-xl md:rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md relative">
@@ -73,9 +88,9 @@ export default function Schedule() {
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4"
                             >
-                                {selectedDay.events.map((event, i) => (
+                                {selectedDay?.events?.map((event, i) => (
                                     <motion.div
-                                        key={event.id}
+                                        key={event.title + i}
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.4, delay: i * 0.05 }}
