@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Lenis from "lenis";
-import { VscHome, VscInfo, VscCalendar, VscMegaphone, VscBriefcase, VscQuestion, VscTools } from "react-icons/vsc";
+import { VscHome, VscInfo, VscCalendar, VscMegaphone, VscQuestion, VscTools, VscSymbolEvent, VscPerson } from "react-icons/vsc";
 import Dock, { type DockItemData } from "../Dock";
 import StaggeredMenu from "../SideNav";
 import { menuItems } from "../../data/sidenavbar";
@@ -16,10 +16,11 @@ function getIconForId(id: string) {
     switch (id) {
         case 'home': return <VscHome size={22} />;
         case 'about': return <VscInfo size={22} />;
-        case 'events': return <VscCalendar size={22} />;
+        case 'events': return <VscSymbolEvent size={22} />;
         case 'workshops': return <VscTools size={22} />;
-        case 'schedule': return <VscBriefcase size={22} />;
+        case 'schedule': return <VscCalendar size={22} />;
         case 'contact': return <VscMegaphone size={22} />;
+        case 'guest-lectures': return <VscPerson size={22} />;
         default: return <VscQuestion size={22} />;
     }
 }

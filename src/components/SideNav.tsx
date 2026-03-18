@@ -468,16 +468,16 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
                         <span
                             ref={iconRef}
-                            className="sm-icon relative w-[14px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]"
+                            className="sm-icon relative w-[14px] h-[14px] shrink-0 inline-flex items-center justify-center will-change-transform"
                             aria-hidden="true"
                         >
                             <span
                                 ref={plusHRef}
-                                className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
+                                className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 will-change-transform"
                             />
                             <span
                                 ref={plusVRef}
-                                className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
+                                className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 will-change-transform"
                             />
                         </span>
                     </button>
@@ -511,7 +511,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                                                 }
                                             }}
                                         >
-                                            <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
+                                            <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
                                                 {it.label}
                                             </span>
                                         </a>
@@ -520,7 +520,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                             ) : (
                                 <li className="sm-panel-itemWrap relative overflow-hidden leading-none" aria-hidden="true">
                                     <span className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
-                                        <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
+                                        <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
                                             No items
                                         </span>
                                     </span>
@@ -530,7 +530,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
                         {displaySocials && socialItems && socialItems.length > 0 && (
                             <div className="sm-socials mt-auto pt-8 flex flex-col gap-3" aria-label="Social links">
-                                <h3 className="sm-socials-title m-0 text-base font-medium [color:var(--sm-accent,#ff0000)]">Socials</h3>
+                                <h3 className="sm-socials-title m-0 text-base font-medium text-(--sm-accent,#ff0000)">Socials</h3>
                                 <ul
                                     className="sm-socials-list list-none m-0 p-0 flex flex-row items-center gap-4 flex-wrap"
                                     role="list"
