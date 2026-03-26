@@ -5,6 +5,8 @@ export const menuItems = [
   { label: 'Events', ariaLabel: 'View events', link: '#events' },
   { label: 'Workshops', ariaLabel: 'View workshops', link: '#workshops' },
   { label: 'Guest Lectures', ariaLabel: 'View guest lectures', link: '#guest-lectures' },
+  { label: 'Summer Internship', ariaLabel: 'View summer internship', link: '#summer-internship' },
+  { label: 'PR & Hospitality', ariaLabel: 'View PR & Hospitality info', link: '#pr-hospitality' },
   { label: 'FAQ', ariaLabel: 'View FAQ', link: '#faq' },
   { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
 ];

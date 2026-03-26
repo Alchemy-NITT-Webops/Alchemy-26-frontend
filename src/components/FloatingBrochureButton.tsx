@@ -41,7 +41,7 @@ const FloatingBrochureButton: React.FC = () => {
     <div ref={containerRef} className="absolute top-1/2 right-0 -translate-y-1/2 z-100 flex items-center pointer-events-none">
       {/* Desktop Version */}
       <a
-        href="/brochure.pdf"
+        href="https://drive.google.com/file/d/1VVIA53YWAebV-_U9Y85ddetGhQHtkRPg/view?usp=sharing"
         target="_blank"
         rel="noopener noreferrer"
         className="hidden sm:flex group relative items-center justify-center gap-2 px-6 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 border-r-0 rounded-l-3xl shadow-[0_0_30px_rgba(168,85,247,0.2)] transition-all duration-300 hover:scale-105 pointer-events-auto"
@@ -69,9 +69,8 @@ const FloatingBrochureButton: React.FC = () => {
       </a>
 
       {/* Mobile Version Wrapper */}
-      <div className="sm:hidden pointer-events-auto flex items-center">
+      <div className="sm:hidden pointer-events-auto flex items-center relative">
         <motion.div
-          layout
           initial={{ width: 48, height: 48 }}
           animate={{
             width: isExpanded ? 180 : 48,

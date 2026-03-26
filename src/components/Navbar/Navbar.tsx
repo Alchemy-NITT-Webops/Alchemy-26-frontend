@@ -5,6 +5,7 @@ import { VscHome, VscInfo, VscCalendar, VscMegaphone, VscQuestion, VscTools, Vsc
 import Dock, { type DockItemData } from "../Dock";
 import StaggeredMenu from "../SideNav";
 import { menuItems } from "../../data/sidenavbar";
+import { MdWork } from "react-icons/md";
 
 const getNavItems = () => menuItems.map(item => ({
     id: item.link.replace('#', ''),
@@ -21,6 +22,8 @@ function getIconForId(id: string) {
         case 'schedule': return <VscCalendar size={22} />;
         case 'contact': return <VscMegaphone size={22} />;
         case 'guest-lectures': return <VscPerson size={22} />;
+        case 'summer-internship': return <MdWork size={22} />;
+        case 'pr-hospitality': return <VscInfo size={22} />;
         default: return <VscQuestion size={22} />;
     }
 }
@@ -138,10 +141,10 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             className="select-none z-50 fixed top-0 w-full h-28 pointer-events-none"
         >
             <div className="absolute left-6 top-6 flex items-center pointer-events-auto">
-                <img 
-                    alt="logo" 
-                    src="/logo.png" 
-                    className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer" 
+                <img
+                    alt="logo"
+                    src="/logo.png"
+                    className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer"
                     onClick={(e) => {
                         e.preventDefault();
                         handleClick('/#home');

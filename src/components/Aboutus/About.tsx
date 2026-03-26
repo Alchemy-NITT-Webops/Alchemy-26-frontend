@@ -18,18 +18,11 @@ export default function About() {
     const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
     // const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
     const dividerRef = useRef<HTMLDivElement>(null);
-    const blob1Ref = useRef<HTMLDivElement>(null);
-    const blob2Ref = useRef<HTMLDivElement>(null);
-    const blob3Ref = useRef<HTMLDivElement>(null);
 
     const words = PARAGRAPH_TEXT.split(" ");
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            /* ── ambient blob float ── */
-            gsap.to(blob1Ref.current, { rotation: 360, scale: 1.15, duration: 28, repeat: -1, yoyo: true, ease: "sine.inOut" });
-            gsap.to(blob2Ref.current, { rotation: -360, scale: 1.2, duration: 32, repeat: -1, yoyo: true, ease: "sine.inOut" });
-            gsap.to(blob3Ref.current, { rotation: 180, scale: 0.9, duration: 22, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
             /* ─────────── Intro label slide-in ─────────── */
             gsap.fromTo(
@@ -71,7 +64,6 @@ export default function About() {
                     clipPath: "inset(0 0% 0 0)",
                     opacity: 1,
                     duration: 1.4,
-                    ease: "power4.inOut",
                     scrollTrigger: {
                         trigger: titleWrapRef.current,
                         start: "top 75%",
@@ -117,21 +109,6 @@ export default function About() {
                 }
             );
 
-        
-            /* ─────────── Parallax blobs on scroll ─────────── */
-            gsap.to(blob1Ref.current, {
-                yPercent: -40,
-                scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: 1.5 },
-            });
-            gsap.to(blob2Ref.current, {
-                yPercent: 30,
-                scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: 1.5 },
-            });
-            gsap.to(blob3Ref.current, {
-                yPercent: -20,
-                xPercent: 10,
-                scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: 1.5 },
-            });
 
         }, sectionRef);
 
@@ -167,7 +144,7 @@ export default function About() {
                 <div ref={titleWrapRef} className="overflow-hidden mb-12 md:mb-16">
                     <h2
                         ref={titleRef}
-                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
+                        className="text-6xl md:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
                         style={{ clipPath: "inset(0 100% 0 0)" }}
                     >
                         About Us

@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="contact" className="relative w-full overflow-hidden text-neutral-300 pt-20 pb-10">
+    <footer id="contact" className="relative w-full bg-black overflow-hidden text-neutral-300 pt-20 ">
       {/* Background Glow Effect */}
 
       <motion.div
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
         viewport={{ once: true, margin: "-100px" }}
       >
         {/* Top Section / Header */}
-        <motion.div variants={itemVariants} className="mb-16 md:mb-24">
+        <motion.div variants={itemVariants} className="mb-16">
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-violet-400 to-pink-400 mb-4 leading-normal">
             Alchemy 2026
           </h2>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
         </motion.div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
 
           {/* Contact Section */}
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">
@@ -87,21 +87,6 @@ const Footer: React.FC = () => {
             </a>
           </motion.div>
 
-          {/* Compliance Section */}
-          <motion.div variants={itemVariants} className="flex flex-col space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-2">Compliance</h3>
-            {['Terms and Conditions', 'Privacy Policy', 'Refund Policy'].map((item) => (
-              <motion.a
-                key={item}
-                href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-                variants={textHover}
-                whileHover="hover"
-                className="text-neutral-400 cursor-pointer w-fit"
-              >
-                {item}
-              </motion.a>
-            ))}
-          </motion.div>
 
           {/* Socials Section */}
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">

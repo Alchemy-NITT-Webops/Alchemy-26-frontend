@@ -1,6 +1,6 @@
 import type { GuestLectureItem } from '../components/GuestLecture/GuestLecture';
-import gl1 from '../assets/gl/gl1.png'
-import gl2 from '../assets/gl/gl2.jpeg'
+import gl1 from '../assets/gl/gl1.webp'
+import gl2 from '../assets/gl/gl2.webp'
 
 export const GUEST_LECTURES_DATA: GuestLectureItem[] = [
     {

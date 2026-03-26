@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SCHEDULE_DATA } from '../../data/schedule';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Schedule() {
     const [selectedDayIndex, setSelectedDayIndex] = useState(0);
     const selectedDay = SCHEDULE_DATA[selectedDayIndex];
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const titleWrapRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
 
     const getBadgeColor = (type: string) => {
         switch (type) {
@@ -14,13 +21,40 @@ export default function Schedule() {
         }
     };
 
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                titleRef.current,
+                { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+                {
+                    clipPath: "inset(0 0% 0 0)",
+                    opacity: 1,
+                    duration: 1.4,
+                    scrollTrigger: {
+                        trigger: titleWrapRef.current,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse",
+                    },
+                }
+            );
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <div className="w-full h-screen flex flex-col pt-24 pb-8 px-2 md:px-8 relative z-10 overflow-hidden">
-            {/* Header */}
-            <div className="text-center shrink-0 mb-6">
-                <h2 className="text-4xl md:text-6xl font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500">
-                    Schedule
-                </h2>
+        <div ref={sectionRef} className="w-full h-screen flex  items-center justify-center flex-col pt-24 pb-8 px-2 md:px-8 relative z-10 overflow-hidden">
+            {/* Title */}
+            <div className="w-fit text-center px-4 md:px-8">
+                <div ref={titleWrapRef} className="overflow-hidden mb-12 md:mb-16">
+                    <h2
+                        ref={titleRef}
+                        className="text-6xl md:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
+                        style={{ clipPath: "inset(0 100% 0 0)" }}
+                    >
+                        Schedule
+                    </h2>
+                </div>
             </div>
 
             {/* Main Content Area */}

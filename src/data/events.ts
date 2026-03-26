@@ -1,6 +1,6 @@
-import event1 from '../assets/events/event1.jpeg'
-import event2 from '../assets/events/event2.png'
-import event3 from '../assets/events/event3.jpeg'
+import event1 from '../assets/events/event1.webp'
+import event2 from '../assets/events/event2.webp'
+import event3 from '../assets/events/event3.webp'
 
 export interface EventItem {
     id: number;

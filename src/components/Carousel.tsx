@@ -13,6 +13,7 @@
 
 import React, {
     useEffect,
+    useLayoutEffect,
     useRef,
     useState,
     useCallback,
@@ -23,6 +24,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { gsap } from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
     MapPin,
     Calendar,
@@ -33,7 +35,6 @@ import {
     Tag,
     Users,
     Ticket,
-    ExternalLink,
 } from "lucide-react";
 
 import "swiper/swiper-bundle.css";
@@ -252,18 +253,6 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                                 <Ticket size={15} />
                                 Register Now
                             </button>
-                            {event.details.website && (
-                                <a
-                                    href={event.details.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 no-underline transition-opacity hover:opacity-75"
-                                    style={{ border: "1.5px solid rgba(255,255,255,0.15)", color: "#ccc" }}
-                                >
-                                    <ExternalLink size={15} />
-                                    Visit Website
-                                </a>
-                            )}
                         </div>
                     </div>
                 </div>
@@ -429,13 +418,16 @@ interface EventCarouselProps {
     title?: string;
 }
 
+gsap.registerPlugin(ScrollTrigger);
+
 const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Events" }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [dialogEvent, setDialogEvent] = useState<EventItem | null>(null);
 
     const swiperRef = useRef<SwiperType | null>(null);
 
-    const headingRef = useRef<HTMLDivElement>(null);
+    const titleWrapRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
     const navRef = useRef<HTMLDivElement>(null);
 
     const total = events.length;
@@ -449,11 +441,24 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
         return () => ctrl.abort();
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.fromTo(headingRef.current, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "expo.out", delay: 0.1 });
+            gsap.fromTo(
+                titleRef.current,
+                { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+                {
+                    clipPath: "inset(0 0% 0 0)",
+                    opacity: 1,
+                    duration: 1.4,
+                    scrollTrigger: {
+                        trigger: titleWrapRef.current,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse",
+                    },
+                }
+            );
             gsap.fromTo(navRef.current, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", delay: 0.3 });
-        });
+        }, titleWrapRef);
         return () => ctx.revert();
     }, []);
 
@@ -491,14 +496,14 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events = [], title = "Eve
                     style={{ background: "transparent", transition: "background 0.7s ease" }}
                 />
 
-                <div ref={headingRef} className="relative z-10 mb-8 text-center px-4">
-                    <h1
-                        className="text-5xl sm:text-6xl md:text-7xl font-bold leading-none text-transparent bg-clip-text bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500 tracking-wide"
-                        style={{
-                        }}
+                <div ref={titleWrapRef} className="overflow-hidden mb-12 md:mb-16">
+                    <h2
+                        ref={titleRef}
+                        className="text-6xl md:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
+                        style={{ clipPath: "inset(0 100% 0 0)" }}
                     >
                         {title}
-                    </h1>
+                    </h2>
                 </div>
 
                 <div className="relative z-10 w-full overflow-hidden" onClick={handleSwiperAreaClick}>

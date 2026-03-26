@@ -1,6 +1,6 @@
 import type { EventItem } from './events';
-import workshop1 from '../assets/workshops/workshop1.png'
-import workshop2 from '../assets/workshops/workshop2.jpeg'
+import workshop1 from '../assets/workshops/workshop1.webp'
+import workshop2 from '../assets/workshops/workshop2.webp'
 
 const WORKSHOPS_DATA: EventItem[] = [
     {

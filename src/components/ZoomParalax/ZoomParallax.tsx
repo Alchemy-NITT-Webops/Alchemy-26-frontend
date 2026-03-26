@@ -1,10 +1,10 @@
 import './ZoomParallax.css';
-import Picture1 from '../../assets/highlights/highlight_6.png';
-import Picture2 from '../../assets/highlights/highlight_2.png';
-import Picture3 from '../../assets/highlights/highlight_3.png';
-import Picture4 from '../../assets/highlights/highlight_4.png';
-import Picture5 from '../../assets/highlights/highlight_5.png';
-import Picture6 from '../../assets/highlights/highlight_1.png';
+import Picture1 from '../../assets/highlights/highlight_6.webp';
+import Picture2 from '../../assets/highlights/highlight_2.webp';
+import Picture3 from '../../assets/highlights/highlight_3.webp';
+import Picture4 from '../../assets/highlights/highlight_4.webp';
+import Picture5 from '../../assets/highlights/highlight_5.webp';
+import Picture6 from '../../assets/highlights/highlight_1.webp';
 
 import { useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
