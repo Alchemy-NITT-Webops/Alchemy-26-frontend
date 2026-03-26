@@ -31,7 +31,7 @@ export default function Schedule() {
                     {SCHEDULE_DATA.map((day, index) => {
                         const isActive = selectedDayIndex === index;
                         return (
-                            <div key={`day-wrapper-${day.day}`} className="relative flex items-center justify-center w-full group">
+                            <div key={`day-wrapper-${day.day}`} className="relative flex items-center justify-center w-1/2 group">
                                 {/* The glowing indicator bar animating between days */}
                                 {isActive && (
                                     <motion.div

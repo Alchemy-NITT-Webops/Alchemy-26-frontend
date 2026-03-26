@@ -69,7 +69,7 @@ export default function AlchemyFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="min-h-screen bg-slate-950 px-4 py-20 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans selection:bg-pink-500/30">
+    <section className="min-h-screen px-4 py-20 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans selection:bg-pink-500/30">
       <div className="w-full max-w-4xl mx-auto">
 
         {/* Header Section */}

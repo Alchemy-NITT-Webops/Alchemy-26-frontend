@@ -15,10 +15,11 @@ const WORKSHOPS_DATA: EventItem[] = [
         accent: "#0076ad",
         details: {
             fullDescription: `<p>Process Modelling and Optimisation in MATLAB provides a systematic, application-oriented introduction to developing mathematical models of chemical and engineering processes and improving their performance through optimisation techniques.</p><p>The workshop focuses on translating real-world process systems into equations based on mass and energy balances, kinetics, and transport phenomena.</p><ul><li>Hands-on exercises in MATLAB for steady-state and dynamic analysis</li><li>Formulating objective functions for process improvement</li><li>Simulating behavior under varying operating conditions</li></ul><p>The session is led by <strong>Dr Virivinti Nagajyothi</strong>, specializing in stochastic optimisation and process control.</p>`,
-            price: "Rs. 200/-",
+            price: "Rs. 150/-",
             capacity: "Individual Participation",
             organizer: "Dr. Virivinti Nagajyothi (NIT Tiruchirappalli)",
             tags: ["MATLAB", "Process Modelling", "Optimisation", "Chemical Engineering"],
+            website: "https://forms.gle/2t5doHCPEkModgEc9"
         },
     },
     {
@@ -33,10 +34,11 @@ const WORKSHOPS_DATA: EventItem[] = [
         accent: "#6a1b9a",
         details: {
             fullDescription: `<p>This session provides a practical introduction to how atomic-scale interactions govern macroscopic engineering properties. Using real engineering examples and hands-on simulations with <strong>LAMMPS</strong>, participants will learn how molecular modelling accelerates material design.</p><ul><li>Translate atomic forces and structure into measurable quantities (strength, diffusion, etc.)</li><li>Optimise energy systems via simulation</li><li>Reduce the need for experimental trial-and-error</li></ul><p>The session is guided by <strong>Dr Nandlal Pingua</strong>, whose research focuses on molecular simulations of materials and energy-related systems.</p>`,
-            price: "Rs. 200/-",
+            price: "Rs. 150/-",
             capacity: "Individual Participation",
             organizer: "Dr. Nandlal Pingua (NIT Tiruchirappalli)",
             tags: ["Molecular Simulation", "LAMMPS", "Material Design", "Energy Systems"],
+            website: "https://forms.gle/sTERw29BPcqcZM3AA"
         },
     }
 ];

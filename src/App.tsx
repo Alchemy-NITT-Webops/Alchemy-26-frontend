@@ -17,6 +17,7 @@ import Footer from './components/Footer/Footer';
 import GuestLecture from './components/GuestLecture/GuestLecture';
 import { GUEST_LECTURES_DATA } from './data/guestLectures';
 import Schedule from './components/Schedule/Schedule';
+import GlobalBackground from './components/GlobalBackground';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -64,7 +65,8 @@ function App() {
   return (
     <>
       <Preloader setComplete={setComplete} />
-      <div className={`relative bg-[#0a0a0a] text-white min-h-screen ${complete ? 'complete' : 'not_complete'}`}>
+      <div className={`relative text-white min-h-screen ${complete ? 'complete' : 'not_complete'}`}>
+        <GlobalBackground />
         <Navbar isMobile={isMobile} lenis={lenisInstance} />
         {/* Fixed SideNav overlay */}
 

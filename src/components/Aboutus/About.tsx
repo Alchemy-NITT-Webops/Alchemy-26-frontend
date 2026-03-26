@@ -144,32 +144,8 @@ export default function About() {
         <section
             id="about"
             ref={sectionRef}
-            className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black py-24 md:py-32 selection:bg-white/20 selection:text-white"
+            className="relative w-full flex flex-col items-center justify-center overflow-hidden py-16 md:py-24 selection:bg-white/20 selection:text-white"
         >
-            {/* Noise overlay */}
-            <div
-                className="absolute inset-0 z-10 opacity-[0.03] mix-blend-overlay pointer-events-none"
-                style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                }}
-            />
-
-            {/* ── Gradient blobs ── */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div
-                    ref={blob1Ref}
-                    className="absolute -top-[10%] -left-[5%] w-[50vw] h-[50vw] min-w-[300px] min-h-[300px] bg-purple-700/20 rounded-full blur-[120px]"
-                />
-                <div
-                    ref={blob2Ref}
-                    className="absolute top-[30%] -right-[10%] w-[40vw] h-[40vw] min-w-[250px] min-h-[250px] bg-blue-600/20 rounded-full blur-[100px]"
-                />
-                <div
-                    ref={blob3Ref}
-                    className="absolute -bottom-[10%] left-[20%] w-[45vw] h-[45vw] min-w-[300px] min-h-[300px] bg-pink-500/10 rounded-full blur-[130px]"
-                />
-            </div>
-
             {/* ── Content ── */}
             <div className="relative z-20 w-full max-w-6xl px-6 md:px-12">
 
@@ -217,7 +193,7 @@ export default function About() {
                 {/* Divider */}
                 <div
                     ref={dividerRef}
-                    className="my-16 md:my-24 h-px w-full bg-linear-to-r from-transparent via-white/20 to-transparent origin-center"
+                    className="mt-16 mb-8 md:mt-24 md:mb-12 h-px w-full bg-linear-to-r from-transparent via-white/20 to-transparent origin-center"
                     style={{ transform: "scaleX(0)" }}
                 />
 

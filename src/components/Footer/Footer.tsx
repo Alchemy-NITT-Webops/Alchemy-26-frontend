@@ -27,9 +27,8 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="contact" className="relative w-full overflow-hidden bg-neutral-950 text-neutral-300 pt-20 pb-10">
+    <footer id="contact" className="relative w-full overflow-hidden text-neutral-300 pt-20 pb-10">
       {/* Background Glow Effect */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-linear-to-r from-purple-600 via-violet-600 to-pink-600 rounded-full blur-[150px] opacity-20 pointer-events-none" />
 
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-6 md:px-12"

@@ -6,11 +6,13 @@ import {
   phrases,
 } from '../../data/hero';
 import CountdownTimer from '../CountdownTimer';
+import FloatingBrochureButton from '../FloatingBrochureButton';
 import Lenis from 'lenis';
 
 const HeroSection = ({ ready = true, lenis }: { ready?: boolean; lenis?: Lenis | null }) => {
   return (
     <section className="hero-wrapper" id="home">
+      <FloatingBrochureButton />
       <div className="hero-inner">
 
         <div className="hero-text-container">

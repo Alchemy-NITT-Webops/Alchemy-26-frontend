@@ -36,7 +36,7 @@ const EVENTS_DATA: EventItem[] = [
         accent: "#3b82f6", // Bluish
         details: {
             fullDescription: `<p>Bidathon is a high-intensity, strategy-driven technical competition designed to test participants’ conceptual clarity, analytical skills, and confidence under time pressure. Unlike conventional quiz formats, Bidathon integrates a competitive bidding mechanism into chemical engineering problem-solving.</p><p>For each question presented, teams must bid the minimum time (in seconds) in which they believe they can correctly answer the question. The team quoting the lowest time earns the exclusive right to answer. Correct responses earn points, while incorrect responses result in negative marking, making strategic bidding equally important. The event aims to promote quick thinking, decision-making under constraints, and mastery of core concepts.</p>`,
-            price: "Free",
+            price: "Rs. 100/-",
             capacity: "Teams of 3–4 members",
             organizer: "TBA",
             tags: ["Strategy", "Chemical Engineering", "Time Pressure", "Bidding", "₹10k Prize"],
@@ -59,25 +59,27 @@ const EVENTS_DATA: EventItem[] = [
             capacity: "1–3 members per team",
             organizer: "TBA",
             tags: ["Research", "Innovation", "₹10k Prize", "Presentation"],
+            website: "https://forms.gle/WaTip2VAYHkf5Vn6A"
         },
     },
     {
         id: 3,
-        title: "BuildFromZero",
-        shortDescription: "A high-stakes strategic simulation testing resource management, negotiation, and rapid problem-solving.",
+        title: "BIS Case Study",
+        shortDescription: "Analyze real-world industrial challenges and apply Bureau of Indian Standards (BIS) guidelines to develop structured compliance solutions.",
         date: "April 12, 2026",
         time: "TBA",
         location: "Chemical Engineering Department",
-        category: "SIMULATION",
+        category: "CASE STUDY",
         image: event3,
 
         accent: "#16a34a", // Greenish
         details: {
-            fullDescription: `<p>The BuildFromZero Event is a high-stakes strategic simulation that tests resource management, negotiation skills, and rapid problem-solving. Teams must navigate a competitive market of assets, trading equipment, raw materials, and licenses to solve real-time Statements.</p><p>This event challenges participants to balance their Capital Points against their physical assets to build the most resilient industrial empire. Sharp instincts and quick decision-making will determine who rises to the top of the market.</p>`,
-            price: "Free",
-            capacity: "Teams of 3 members",
+            fullDescription: `<p>Participants in this event will be given a detailed, real-world industrial case study involving a specific operational, quality, or safety challenge. They will analyze the problem, explore the Bureau of Indian Standards (BIS) catalogue to identify relevant Indian Standards (IS), and apply these guidelines to develop a structured, practical solution.</p><p>The event will involve interpreting regulations, aligning them with industry practices, and presenting a clear, step-by-step approach that resolves the issue while ensuring full compliance with BIS standards. The event offers a total prize pool of ₹10,000 for the top-performing teams.</p>`,
+            price: "Rs. 50/-",
+            capacity: "TBA",
             organizer: "TBA",
-            tags: ["Resource Management", "Negotiation", "Trading", "Simulation", "₹10k Prize"],
+            tags: ["Case Study", "BIS Standards", "Compliance", "₹10k Prize", "Problem Solving"],
+            website: "https://forms.gle/U9cuFAVcMVxGoQDV8"
         },
     }
 ];
