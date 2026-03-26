@@ -1,17 +1,16 @@
 import TiltedCard from './GuestLectureCard';
 
-export interface ChromaItem {
+export interface GuestLectureItem {
     image: string;
-    title: string;
-    subtitle: string;
-    handle: string;
-    borderColor: string;
-    gradient: string;
+    name: string;
+    designation: string;
+    date: string;
+    topic: string;
     url: string;
 }
 
 interface GuestLectureProps {
-    items: ChromaItem[];
+    items: GuestLectureItem[];
 }
 
 export default function GuestLecture({ items }: GuestLectureProps) {
@@ -21,8 +20,8 @@ export default function GuestLecture({ items }: GuestLectureProps) {
                 <div key={index} className="flex justify-center flex-col items-center">
                     <TiltedCard
                         imageSrc={item.image}
-                        altText={item.title}
-                        captionText={item.handle}
+                        altText={item.name}
+                        captionText={item.name}
                         containerHeight="350px"
                         containerWidth="300px"
                         imageHeight="350px"
@@ -34,23 +33,22 @@ export default function GuestLecture({ items }: GuestLectureProps) {
                         displayOverlayContent={true}
                         overlayContent={
                             <div
-                                className="w-[300px] h-[350px] flex flex-col justify-end p-6 rounded-[15px] border-2 transition-all duration-300 hover:border-[3px]"
+                                className="w-full h-full flex flex-col justify-end p-6 rounded-[15px] border-2 transition-all duration-300 hover:border-[3px] border-purple-500/50 hover:border-fuchsia-400"
                                 style={{
-                                    borderColor: item.borderColor,
-                                    background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%)'
+                                    background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%)'
                                 }}
                             >
-                                <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-md">{item.title}</h3>
-                                <p className="text-sm font-medium text-gray-200 mb-4 drop-shadow-sm">{item.subtitle}</p>
+                                <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 drop-shadow-md leading-tight">{item.name}</h3>
+                                <p className="text-xs sm:text-sm font-medium text-gray-300 mb-2 drop-shadow-sm">{item.designation}</p>
+                                <p className="text-xs font-semibold text-fuchsia-400 mb-4 tracking-wide">{item.date} • {item.topic}</p>
                                 <a
                                     href={item.url}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="text-xs font-semibold uppercase tracking-wider w-fit px-4 py-1.5 rounded-full bg-black/40 hover:bg-black/80 transition-colors backdrop-blur-sm relative z-10"
-                                    style={{ color: item.borderColor, border: `1px solid ${item.borderColor}` }}
+                                    className="text-xs font-semibold uppercase tracking-wider w-fit px-4 py-1.5 rounded-full bg-fuchsia-500/20 hover:bg-fuchsia-500/40 text-fuchsia-300 transition-colors backdrop-blur-sm border border-fuchsia-500/50"
                                     onClick={(e) => e.stopPropagation()}
                                 >
-                                    {item.handle}
+                                    View Profile
                                 </a>
                             </div>
                         }

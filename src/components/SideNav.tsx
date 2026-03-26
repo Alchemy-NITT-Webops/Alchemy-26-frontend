@@ -432,26 +432,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                     className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[2em] bg-transparent pointer-events-none z-20"
                     aria-label="Main navigation header"
                 >
-                    <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">
+                    <div className="sm-logo backdrop-blur-md rounded-full justify-center flex items-center select-none pointer-events-auto" aria-label="Logo">
                         <img
                             src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
                             alt="Logo"
-                            className="sm-logo-img block scale-[300%] h-8 w-auto object-contain"
+                            className="sm-logo-img block h-8 w-auto object-contain"
                             draggable={false}
 
                         />
                     </div>
 
-                    <button
-                        ref={toggleBtnRef}
-                        className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible pointer-events-auto ${open ? 'text-black' : 'text-[#e9e9ef]'
-                            }`}
-                        aria-label={open ? 'Close menu' : 'Open menu'}
-                        aria-expanded={open}
-                        aria-controls="staggered-menu-panel"
-                        onClick={toggleMenu}
-                        type="button"
-                    >
+                    <div className="flex items-center backdrop-blur-md rounded-full p-2 justify-center gap-4 sm:gap-6 pointer-events-auto">
+                        <button
+                            ref={toggleBtnRef}
+                            className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible ${open ? 'text-black' : 'text-[#e9e9ef]'
+                                }`}
+                            aria-label={open ? 'Close menu' : 'Open menu'}
+                            aria-expanded={open}
+                            aria-controls="staggered-menu-panel"
+                            onClick={toggleMenu}
+                            type="button"
+                        >
                         <span
                             ref={textWrapRef}
                             className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-(--sm-toggle-width,auto) min-w-(--sm-toggle-width,auto)"
@@ -481,6 +482,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                             />
                         </span>
                     </button>
+                    </div>
                 </header>
 
                 <aside
