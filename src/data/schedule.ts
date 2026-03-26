@@ -23,24 +23,23 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d1-1",
                 type: "Event",
                 time: "09:30 AM",
-                venue: "EEE Audi",
+                venue: "EEE Auditorium",
                 title: "Inauguration Ceremony"
             },
             {
                 id: "d1-2",
                 type: "Workshop",
-                time: "11:30 PM",
-                venue: "Chem Dept Simulation Lab",
-                title: "Workshop 1"
+                time: "11:30 AM",
+                venue: "Chemical Department Simulation Lab",
+                title: "MATLAB Workshop"
             },
             {
                 id: "d1-3",
                 type: "Guest Lecture",
                 time: "02:00 PM",
-                venue: "EEE Audi",
-                title: "Murugan Guest Lecture"
+                venue: "EEE Auditorium",
+                title: "Guest Lecture by Mr. Murugan"
             },
-            
             {
                 id: "d1-4",
                 type: "Event",
@@ -58,29 +57,29 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d2-1",
                 type: "Event",
                 time: "09:30 AM",
-                venue: "EEE Audi",
+                venue: "Chemical Department",
                 title: "BIS Case Study"
             },
             {
                 id: "d2-2",
                 type: "Guest Lecture",
                 time: "11:30 AM",
-                venue: "EEE Audi",
-                title: "BIS Talk"
+                venue: "Chemical Department",
+                title: "BIS Technical Talk"
             },
             {
                 id: "d2-3",
                 type: "Guest Lecture",
                 time: "02:00 PM",
                 venue: "Seminar Hall",
-                title: "Solar Guest Lecture"
+                title: "Guest Lecture on Solar Energy"
             },
             {
                 id: "d2-4",
                 type: "Workshop",
                 time: "03:00 PM",
-                venue: "TBD",
-                title: "Workshop 2"
+                venue: "Chemical Department",
+                title: "Informals Workshop"
             }
         ]
     },
@@ -92,29 +91,29 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d3-1",
                 type: "Workshop",
                 time: "09:30 AM",
-                venue: "Chem Dept Simulation Lab",
-                title: "Workshop 3"
+                venue: "Chemical Department Simulation Lab",
+                title: "Molecular Dynamics & Simulation Workshop"
             },
             {
                 id: "d3-2",
                 type: "Guest Lecture",
                 time: "11:30 AM",
                 venue: "Seminar Hall",
-                title: "Deloitte Guest Lecture"
+                title: "Guest Lecture by Mr. Rama Satya Kamesh"
             },
             {
                 id: "d3-3",
                 type: "Event",
                 time: "02:00 PM",
-                venue: "EEE Audi",
+                venue: "Chemical Department",
                 title: "Bidathon"
             },
             {
                 id: "d3-4",
                 type: "Event",
                 time: "04:00 PM",
-                venue: "EEE Audi",
-                title: "Valediction"
+                venue: "EEE Auditorium",
+                title: "Valediction Ceremony"
             }
         ]
     }
