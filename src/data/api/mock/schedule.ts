@@ -1,20 +1,6 @@
-export type EventType = 'Event' | 'Workshop' | 'Guest Lecture';
+import type { ApiDaySchedule } from '../mockTypes';
 
-export interface ScheduleEvent {
-    id: string;
-    type: EventType;
-    time: string;
-    venue: string;
-    title: string;
-}
-
-export interface DaySchedule {
-    day: number;
-    date: string;
-    events: ScheduleEvent[];
-}
-
-export const SCHEDULE_DATA: DaySchedule[] = [
+const API_SCHEDULE_DATA: ApiDaySchedule[] = [
     {
         day: 1,
         date: "April 10, 2026",
@@ -40,7 +26,6 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 venue: "EEE Audi",
                 title: "Murugan Guest Lecture"
             },
-            
             {
                 id: "d1-4",
                 type: "Event",
@@ -119,3 +104,5 @@ export const SCHEDULE_DATA: DaySchedule[] = [
         ]
     }
 ];
+
+export default API_SCHEDULE_DATA;

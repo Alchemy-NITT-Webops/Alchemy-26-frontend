@@ -22,9 +22,9 @@ export default function CountdownTimer() {
 
     return (
         <div className="countdown-section" id="countdown">
-            <div className="countdown-grid">
+            <div className="countdown-grid" style={{ position: 'relative' }}>
                 {units.map(({ label, value, places }) => (
-                    <div className="countdown-unit" key={label}>
+                    <div className="countdown-unit" style={{ position: 'relative' }} key={label}>
                         <Counter
                             value={value}
                             fontSize={48}

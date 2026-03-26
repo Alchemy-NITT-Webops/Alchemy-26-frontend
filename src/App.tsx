@@ -7,27 +7,62 @@ import HeroSection from './components/herosection/HeroSection';
 import Preloader from './components/Preloader';
 import ZoomParallax from './components/ZoomParalax/ZoomParallax';
 import About from './components/Aboutus/About';
-import EVENTS_DATA from './data/events';
 import SplashCursor from './components/SplashCursor';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar/Navbar';
-import WORKSHOPS_DATA from './data/workshops';
 import AlchemyFAQ from './components/FAQ/Faq';
 import Footer from './components/Footer/Footer';
 import GuestLecture from './components/GuestLecture/GuestLecture';
-import { GUEST_LECTURES_DATA } from './data/guestLectures';
 import Schedule from './components/Schedule/Schedule';
 
-gsap.registerPlugin(ScrollToPlugin);
+import { strapiApi } from './data/api/strapiApi';
+import { mockApi } from './data/api/mockApi';
+import {
+  strapiEventsToEventItems,
+  strapiGuestLecturesToItems,
+  toEventItems,
+  toGuestLectureItems
+} from './data/domain/converters';
+import type { EventItem, GuestLectureItem } from './data/domain/types';
 
+gsap.registerPlugin(ScrollToPlugin);
 
 
 
 /* ───── App ───── */
 function App() {
   const [complete, setComplete] = useState(false);
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [workshops, setWorkshops] = useState<EventItem[]>([]);
+  const [guestLectures, setGuestLectures] = useState<GuestLectureItem[]>([]);
 
   const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    // Try Strapi first, fallback to mock data
+    strapiApi.getEvents({ filters: { category: { $ne: 'WORKSHOP' } } })
+      .then(res => setEvents(strapiEventsToEventItems(res.data)))
+      .catch((err) => {
+        console.warn('Failed to fetch events from Strapi, falling back to mock:', err);
+        setEvents(toEventItems(mockApi.getEvents()));
+      });
+
+    // Currently workshops and events are the same endpoint, but we can filter by category if needed
+    // For now, if Strapi fails, we use mock workshops
+    strapiApi.getEvents({ filters: { category: { $eq: 'WORKSHOP' } } })
+      .then(res => setWorkshops(strapiEventsToEventItems(res.data)))
+      .catch((err) => {
+        console.warn('Failed to fetch workshops from Strapi, falling back to mock:', err);
+        setWorkshops(toEventItems(mockApi.getWorkshops()));
+      });
+
+    strapiApi.getGuestLectures()
+      .then(res => setGuestLectures(strapiGuestLecturesToItems(res.data)))
+      .catch((err) => {
+        console.warn('Failed to fetch guest lectures from Strapi, falling back to mock:', err);
+        setGuestLectures(toGuestLectureItems(mockApi.getGuestLectures()));
+      });
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -84,12 +119,12 @@ function App() {
 
         {/* ─── Events ─── */}
         <section id="events">
-          <EventCarousel events={EVENTS_DATA} title="Events" />
+          <EventCarousel events={events} title="Events" />
         </section>
 
         {/* ─── Workshops ─── */}
         <section id="workshops">
-          <EventCarousel events={WORKSHOPS_DATA} title="Workshops" />
+          <EventCarousel events={workshops} title="Workshops" />
         </section>
 
         {/* ─── Guest Lectures ─── */}
@@ -101,7 +136,7 @@ function App() {
           }}>
             Guest Lectures
           </h2>
-          <GuestLecture items={GUEST_LECTURES_DATA} />
+          <GuestLecture items={guestLectures} />
         </section>
 
         <div id="faq">

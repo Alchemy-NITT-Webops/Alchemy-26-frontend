@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
 
@@ -63,10 +63,23 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick, in
   );
 };
 
-import { faqs } from "../../data/faq";
+import { strapiApi } from "../../data/api/strapiApi";
+import { mockApi } from "../../data/api/mockApi";
+import { strapiFaqsToFaqItems, toFaqItems } from "../../data/domain/converters";
+import type { FaqItem } from "../../data/domain/types";
 
 export default function AlchemyFAQ() {
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    strapiApi.getFaqs()
+      .then(res => setFaqs(strapiFaqsToFaqItems(res.data)))
+      .catch(err => {
+        console.warn("Failed to fetch FAQs from Strapi, falling back to mock:", err);
+        setFaqs(toFaqItems(mockApi.getFaqs()));
+      });
+  }, []);
 
   return (
     <section className="min-h-screen bg-slate-950 px-4 py-20 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans selection:bg-pink-500/30">

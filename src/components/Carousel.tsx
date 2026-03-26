@@ -33,30 +33,11 @@ import {
     Tag,
     Users,
     Ticket,
-    ExternalLink,
 } from "lucide-react";
 
 import "swiper/swiper-bundle.css";
 
-export interface EventItem {
-    id: number;
-    title: string;
-    shortDescription: string;
-    date: string;
-    time: string;
-    location: string;
-    category: string;
-    image: string;
-    accent: string;
-    details: {
-        fullDescription: string;
-        price: string;
-        capacity: string;
-        organizer: string;
-        tags: string[];
-        website?: string;
-    };
-}
+import type { EventItem } from "../data/domain/types";
 
 
 const rgbaCache = new Map<string, string>();
@@ -207,8 +188,8 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                             style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
                         >
                             {[
-                                { Icon: Ticket, label: "Price", value: event.details.price },
-                                { Icon: Users, label: "Capacity", value: event.details.capacity },
+                                { Icon: Ticket, label: "Price", value: event.details?.price || "TBA" },
+                                { Icon: Users, label: "Capacity", value: event.details?.capacity || "TBA" },
                             ].map(({ Icon, label, value }) => (
                                 <div key={label}>
                                     <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest mb-1 text-[#666]">
@@ -223,11 +204,11 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                         <div
                             className="ec-rich text-[13.5px] leading-[1.75] mb-4 text-[#bbb]"
                             style={{ "--accent": accent } as React.CSSProperties}
-                            dangerouslySetInnerHTML={{ __html: event.details.fullDescription }}
+                            dangerouslySetInnerHTML={{ __html: event.details?.fullDescription || "" }}
                         />
 
                         <div className="flex flex-wrap gap-2 mb-5">
-                            {event.details.tags.map((tag) => (
+                            {event.details?.tags?.map((tag) => (
                                 <span
                                     key={tag}
                                     className="flex items-center gap-1 text-[11px] font-semibold px-3 py-1 rounded-full"
@@ -240,29 +221,30 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                         </div>
 
                         <p className="text-[12px] mb-6 text-[#555]">
-                            Organized by <span className="font-semibold text-[#999]">{event.details.organizer}</span>
+                            Organized by <span className="font-semibold text-[#999]">{event.details?.organizer || "TBA"}</span>
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3">
-                            <button
-                                onClick={handleClose}
-                                className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98]"
-                                style={{ background: accent, color: "#000" }}
-                            >
-                                <Ticket size={15} />
-                                Register Now
-                            </button>
-                            {event.details.website && (
+                            {event.details?.website ? (
                                 <a
                                     href={event.details.website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 no-underline transition-opacity hover:opacity-75"
-                                    style={{ border: "1.5px solid rgba(255,255,255,0.15)", color: "#ccc" }}
+                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98] no-underline"
+                                    style={{ background: accent, color: "#000" }}
                                 >
-                                    <ExternalLink size={15} />
-                                    Visit Website
+                                    <Ticket size={15} />
+                                    Register Now
                                 </a>
+                            ) : (
+                                <button
+                                    disabled
+                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                                    style={{ background: accent, color: "#000" }}
+                                >
+                                    <Ticket size={15} />
+                                    Register Now
+                                </button>
                             )}
                         </div>
                     </div>
@@ -409,12 +391,26 @@ const EventCard = memo(
                                 >
                                     More Details
                                 </button>
-                                <button
-                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97]"
-                                    style={{ background: accent, color: "#000" }}
-                                >
-                                    Register
-                                </button>
+                                {event.details?.website ? (
+                                    <a
+                                        href={event.details.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97] no-underline flex items-center justify-center"
+                                        style={{ background: accent, color: "#000" }}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        Register
+                                    </a>
+                                ) : (
+                                    <button
+                                        disabled
+                                        className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                                        style={{ background: accent, color: "#000" }}
+                                    >
+                                        Register
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

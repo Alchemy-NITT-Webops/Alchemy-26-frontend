@@ -1,4 +1,6 @@
-export const faqs = [
+import type { ApiFaqItem } from '../mockTypes';
+
+const API_FAQ_DATA: ApiFaqItem[] = [
     {
         id: "question_1",
         question: "What are the necessary documents to be brought?",
@@ -80,3 +82,5 @@ export const faqs = [
         answer: "Certificates will be distributed then and there; prize money will be given within 7 days of the event.",
     }
 ];
+
+export default API_FAQ_DATA;

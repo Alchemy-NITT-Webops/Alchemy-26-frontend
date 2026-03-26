@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SCHEDULE_DATA } from '../../data/schedule';
+import { mockApi } from '../../data/api/mockApi';
+import { toDaySchedules } from '../../data/domain/converters';
+import type { DaySchedule } from '../../data/domain/types';
 
 export default function Schedule() {
+    const [scheduleData, setScheduleData] = useState<DaySchedule[]>([]);
     const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-    const selectedDay = SCHEDULE_DATA[selectedDayIndex];
+
+    useEffect(() => {
+        setScheduleData(toDaySchedules(mockApi.getSchedule()));
+    }, []);
+
+    const selectedDay = scheduleData[selectedDayIndex];
 
     const getBadgeColor = (type: string) => {
         switch (type) {
@@ -28,7 +36,7 @@ export default function Schedule() {
 
                 {/* Days Column */}
                 <div className="flex flex-col justify-around gap-3 md:gap-6 items-center shrink-0 w-8 md:w-16">
-                    {SCHEDULE_DATA.map((day, index) => {
+                    {scheduleData.map((day, index) => {
                         const isActive = selectedDayIndex === index;
                         return (
                             <div key={`day-wrapper-${day.day}`} className="relative flex items-center justify-center w-full group">
@@ -73,7 +81,7 @@ export default function Schedule() {
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4"
                             >
-                                {selectedDay.events.map((event, i) => (
+                                {selectedDay?.events.map((event, i) => (
                                     <motion.div
                                         key={event.id}
                                         initial={{ opacity: 0, scale: 0.95 }}

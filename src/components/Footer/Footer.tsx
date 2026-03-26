@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Linkedin, Instagram, PenTool } from 'lucide-react';
-import { contactDetails, socials } from '../../data/footer';
+import { strapiApi } from '../../data/api/strapiApi';
+import { mockApi } from '../../data/api/mockApi';
+import { strapiFooterToFooterData, toFooterData } from '../../data/domain/converters';
+import type { FooterData } from '../../data/domain/types';
 
 const Footer: React.FC = () => {
+  const [footerData, setFooterData] = useState<FooterData | null>(null);
+
+  useEffect(() => {
+    strapiApi.getFooter()
+      .then(res => setFooterData(strapiFooterToFooterData(res.data)))
+      .catch(err => {
+        console.warn("Failed to fetch Footer from Strapi, falling back to mock:", err);
+        setFooterData(toFooterData(mockApi.getFooter()));
+      });
+  }, []);
+
+  if (!footerData) return null;
+
+  const { contactDetails, socials } = footerData;
   // Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -62,6 +79,7 @@ const Footer: React.FC = () => {
                 {contactDetails.email}
               </motion.span>
             </a>
+            
             {contactDetails.contacts.map((contact) => (
               <a key={contact.name} href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors" />

@@ -350,6 +350,10 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
     const closeMenu = useCallback(() => {
         if (openRef.current) {
+            // Drop focus immediately before ARIA hidden kicks in
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
             openRef.current = false;
             setOpen(false);
             onMenuClose?.();
@@ -357,6 +361,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             animateIcon(false);
             animateColor(false);
             animateText(false);
+            setTimeout(() => {
+                toggleBtnRef.current?.focus();
+            }, 10);
         }
     }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
 
@@ -436,7 +443,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                         <img
                             src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
                             alt="Logo"
-                            className="sm-logo-img block scale-[300%] h-8 w-auto object-contain"
+                            className="sm-logo-img block h-8 w-auto object-contain"
                             draggable={false}
 
                         />
@@ -503,6 +510,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                                             className="sm-panel-item relative text-black font-semibold cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
                                             href={it.link}
                                             aria-label={it.ariaLabel}
+                                            tabIndex={open ? 0 : -1}
                                             data-index={idx + 1}
                                             onClick={(e) => {
                                                 if (onItemClick) {
@@ -542,6 +550,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="sm-socials-link text-[1.2rem] font-medium text-[#111] no-underline relative inline-block py-[2px] transition-[color,opacity] duration-300 ease-linear"
+                                                tabIndex={open ? 0 : -1}
                                             >
                                                 {s.label}
                                             </a>
