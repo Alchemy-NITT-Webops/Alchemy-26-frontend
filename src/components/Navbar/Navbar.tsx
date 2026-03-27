@@ -150,15 +150,13 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
                         handleClick('/#home');
                     }}
                 />
-                <img
-                    alt="nitt logo"
-                    src="/nitt.png"
-                    className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleClick('/#home');
-                    }}
-                />
+                <a href="https://nitt.edu" target="_blank">
+                    <img
+                        alt="nitt logo"
+                        src="/nitt.png"
+                        className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer"
+                    />
+                </a>
             </div>
 
             <div className="w-full h-full pointer-events-auto">

@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PR_HOSPITALITY_DATA } from '../../data/prHospitality';
@@ -20,6 +20,7 @@ export default function PrHospitality() {
     const sectionRef = useRef<HTMLElement>(null);
     const titleWrapRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
+    const [mapActive, setMapActive] = useState(false);
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -68,15 +69,7 @@ export default function PrHospitality() {
         >
             <div className="relative z-20 w-full max-w-6xl px-6 md:px-12 flex flex-col items-center">
 
-                {/* Intro label + line */}
-                <div className="flex items-center gap-4 mb-6 w-full max-w-lg overflow-hidden justify-center">
-                    <div className="flex-1 h-px bg-linear-to-l from-purple-500/60 to-transparent" />
-                    <span className="text-xs md:text-sm font-mono tracking-[0.3em] text-purple-400 uppercase whitespace-nowrap">
-                        Information
-                    </span>
-                    <div className="flex-1 h-px bg-linear-to-r from-purple-500/60 to-transparent" />
-                </div>
-
+                
                 {/* Title */}
                 <div ref={titleWrapRef} className="overflow-hidden mb-12 md:mb-16">
                     <h2
@@ -164,16 +157,29 @@ export default function PrHospitality() {
                         </div>
 
                         {/* Map Box */}
-                        <div className="relative p-2 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md flex-1 min-h-[300px] overflow-hidden group shadow-lg">
+                        <div
+                            className="relative p-2 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md flex-1 min-h-[300px] overflow-hidden group shadow-lg"
+                            onMouseLeave={() => setMapActive(false)}
+                        >
                             <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-transparent pointer-events-none" />
                             <iframe
                                 title={PR_HOSPITALITY_DATA.map.title}
                                 src={PR_HOSPITALITY_DATA.map.src}
-                                className="absolute inset-2 border-0 rounded-2xl w-[calc(100%-16px)] h-[calc(100%-16px)] transition-all duration-700 pointer-events-auto"
+                                className={`absolute inset-2 border-0 rounded-2xl w-[calc(100%-16px)] h-[calc(100%-16px)] transition-all duration-700 ${mapActive ? 'pointer-events-auto' : 'pointer-events-none'}`}
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                             ></iframe>
+                            {!mapActive && (
+                                <div
+                                    className="absolute inset-2 z-10 rounded-2xl cursor-pointer flex items-center justify-center"
+                                    onClick={() => setMapActive(true)}
+                                >
+                                    <span className="bg-black/60 backdrop-blur-sm text-white/80 text-xs font-medium px-4 py-2 rounded-full border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        Click to interact with map
+                                    </span>
+                                </div>
+                            )}
                         </div>
 
                     </div>

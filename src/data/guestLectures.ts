@@ -1,30 +1,37 @@
 import type { GuestLectureItem } from '../components/GuestLecture/GuestLecture';
 import gl1 from '../assets/gl/gl1.webp'
 import gl2 from '../assets/gl/gl2.webp'
+import gl3 from '../assets/gl/gl3.webp'
+import gl4 from '../assets/gl/gl4.webp'
+
 
 export const GUEST_LECTURES_DATA: GuestLectureItem[] = [
     {
-        image: gl1,
-        name: 'Rama Satya Kamesh',
-        designation: 'Associate Director (Sustainability and ESG) at Deloitte',
-        date: '12th April, 2026',
-        topic: 'Insights into Sustainability and ESG',
-        url: 'https://www.linkedin.com/in/rama-satya-kamesh-p-90850428?originalSubdomain=in'
+        image: gl3,
+        name: 'Murugan Natrajan',
+        designation: 'VP (Operations), Tamilnadu Petrolproducts Ltd.',
+        date: '10th April, 2026 | 2:00 pm',
+        topic: 'The Net-Zero Blueprint'
     },
     {
         image: gl2,
         name: 'Saravanan Kolandaivelu',
         designation: 'Director, centrotherm India Pvt Limited',
-        date: '13th April, 2026',
-        topic: 'Harvesting Sunshine: The Art and Science of PV Production',
-        url: 'https://linkedin.com/in/'
+        date: '11th April, 2026 | 2:00 pm',
+        topic: 'The Art and Science of PV Production'
     },
     {
-        image: 'https://i.pravatar.cc/300?img=3',
-        name: 'Morgan Blake',
-        designation: 'UI/UX Designer',
-        date: '14th April, 2026',
-        topic: 'Designing the Future of Web',
-        url: 'https://dribbble.com/'
+        image: gl1,
+        name: 'Rama Satya Kamesh',
+        designation: 'Associate Director (Sustainability and ESG), Deloitte',
+        date: '12th April, 2026 | 11:30 am',
+        topic: 'Technologies Powering the Net-zero transition'
+    },
+    {
+        image: gl4,
+        name: 'Ramadoss C',
+        designation: 'Senior Manager, CPCL',
+        date: '12th April, 2026 | 4:00 pm',
+        topic: 'Keynote Talk'
     }
 ];

@@ -11,7 +11,6 @@ export interface GuestLectureItem {
     designation: string;
     date: string;
     topic: string;
-    url: string;
 }
 
 interface GuestLectureProps {
@@ -62,7 +61,7 @@ export default function GuestLecture({ items }: GuestLectureProps) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 w-full max-w-7xl mx-auto px-4 md:px-8 pb-10">
+            <div className="flex flex-wrap justify-center gap-12 w-full max-w-7xl mx-auto px-4 md:px-8 pb-10">
                 {items.map((item, index) => (
                     <div key={index} className="flex justify-center flex-col items-center">
                         <TiltedCard
@@ -87,16 +86,7 @@ export default function GuestLecture({ items }: GuestLectureProps) {
                                 >
                                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 drop-shadow-md leading-tight">{item.name}</h3>
                                     <p className="text-xs sm:text-sm font-medium text-gray-300 mb-2 drop-shadow-sm">{item.designation}</p>
-                                    <p className="text-xs font-semibold text-fuchsia-400 mb-4 tracking-wide">{item.date} • {item.topic}</p>
-                                    <a
-                                        href={item.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-xs font-semibold uppercase tracking-wider w-fit px-4 py-1.5 rounded-full bg-fuchsia-500/20 hover:bg-fuchsia-500/40 text-fuchsia-300 transition-colors backdrop-blur-sm border border-fuchsia-500/50"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        View Profile
-                                    </a>
+                                    <p className="text-xs font-semibold text-fuchsia-400 mb-0 tracking-wide">{item.date} • {item.topic}</p>
                                 </div>
                             }
                         />

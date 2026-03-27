@@ -37,7 +37,7 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d1-3",
                 type: "Guest Lecture",
                 time: "02:00 PM",
-                venue: "EEE Auditorium",
+                venue: "Seminar Hall",
                 title: "Guest Lecture by Mr. Murugan"
             },
             {
@@ -57,7 +57,7 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d2-1",
                 type: "Event",
                 time: "09:30 AM",
-                venue: "Chemical Department",
+                venue: "EEE Auditorium",
                 title: "BIS Case Study"
             },
             {
@@ -71,7 +71,7 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d2-3",
                 type: "Guest Lecture",
                 time: "02:00 PM",
-                venue: "Seminar Hall",
+                venue: "Seminar Hall, Chemical Department",
                 title: "Guest Lecture on Solar Energy"
             },
             {
@@ -79,7 +79,7 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 type: "Workshop",
                 time: "03:00 PM",
                 venue: "Chemical Department",
-                title: "Informals Workshop"
+                title: "Teddy Bear Workshop"
             }
         ]
     },
@@ -98,7 +98,7 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 id: "d3-2",
                 type: "Guest Lecture",
                 time: "11:30 AM",
-                venue: "Seminar Hall",
+                venue: "Seminar Hall, Chemical Department",
                 title: "Guest Lecture by Mr. Rama Satya Kamesh"
             },
             {
