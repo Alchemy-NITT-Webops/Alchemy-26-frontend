@@ -125,6 +125,14 @@ export default function PrHospitality() {
                                     >
                                         Register for Accommodation →
                                     </a>
+                                    <a
+                                        href={PR_HOSPITALITY_DATA.tshirtRegistration.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block w-full text-center px-6 py-4 rounded-2xl bg-linear-to-r from-teal-600 to-cyan-600 text-white text-base sm:text-lg font-bold tracking-wide hover:from-teal-500 hover:to-cyan-500 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all transform hover:-translate-y-1"
+                                    >
+                                        👕 Register for Alchemy 26 T-Shirt →
+                                    </a>
                                 </div>
                             </div>
                         </div>

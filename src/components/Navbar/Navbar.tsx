@@ -140,7 +140,7 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="select-none z-50 fixed top-0 w-full h-28 pointer-events-none"
         >
-            <div className="absolute left-6 top-6 flex items-center pointer-events-auto">
+            <div className="absolute left-6 top-6 flex items-center gap-1 pointer-events-auto">
                 <img
                     alt="logo"
                     src="/logo.png"
@@ -150,7 +150,17 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
                         handleClick('/#home');
                     }}
                 />
+                <img
+                    alt="nitt logo"
+                    src="/nitt.png"
+                    className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleClick('/#home');
+                    }}
+                />
             </div>
+
             <div className="w-full h-full pointer-events-auto">
                 <Dock items={dockItems} dockHeight={80} panelHeight={64} baseItemSize={50} magnification={70} />
             </div>

@@ -40,6 +40,7 @@ const EVENTS_DATA: EventItem[] = [
             capacity: "Teams of 3–4 members",
             organizer: "TBA",
             tags: ["Strategy", "Chemical Engineering", "Time Pressure", "Bidding", "₹10k Prize"],
+            website: "https://forms.gle/NHfQ25GK7t1aTwZA9"
         },
     },
     {

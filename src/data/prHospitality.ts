@@ -8,6 +8,9 @@ export const PR_HOSPITALITY_DATA = {
     registration: {
         link: "https://docs.google.com/forms/d/e/1FAIpQLScAMYTvtbOS5U8VamcYyshmJQSAMkVWRNUzRQbEOtgNXiBL1w/viewform"
     },
+    tshirtRegistration: {
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSem3suZ5IFLt9sCfOL0DqgwOPZ0BXfj8sq9cch1tHOrFVuzbQ/viewform"
+    },
     contacts: [
         { name: "Aaqhil Ahmed", phone: "7845794627" },
         { name: "Mruthunya", phone: "8637403015" },

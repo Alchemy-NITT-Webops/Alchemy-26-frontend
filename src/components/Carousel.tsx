@@ -245,14 +245,18 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3">
-                            <button
-                                onClick={handleClose}
-                                className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98]"
-                                style={{ background: accent, color: "#000" }}
-                            >
-                                <Ticket size={15} />
-                                Register Now
-                            </button>
+                            {event.details.website && (
+                                <a
+                                    href={event.details.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[0.98] no-underline"
+                                    style={{ background: accent, color: "#000" }}
+                                >
+                                    <Ticket size={15} />
+                                    Register Now
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -397,12 +401,16 @@ const EventCard = memo(
                                 >
                                     More Details
                                 </button>
-                                <button
-                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97]"
+                                <a
+                                    href={event.details.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97] text-center no-underline"
                                     style={{ background: accent, color: "#000" }}
                                 >
                                     Register
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

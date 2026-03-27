@@ -1,6 +1,7 @@
 import type { EventItem } from './events';
 import workshop1 from '../assets/workshops/workshop1.webp'
 import workshop2 from '../assets/workshops/workshop2.webp'
+import workshop3 from '../assets/workshops/workshop3.webp'
 
 const WORKSHOPS_DATA: EventItem[] = [
     {
@@ -39,6 +40,25 @@ const WORKSHOPS_DATA: EventItem[] = [
             organizer: "Dr. Nandlal Pingua (NIT Tiruchirappalli)",
             tags: ["Molecular Simulation", "LAMMPS", "Material Design", "Energy Systems"],
             website: "https://forms.gle/sTERw29BPcqcZM3AA"
+        },
+    },
+    {
+        id: 3,
+        title: "DIY Teddy Bear Making Workshop",
+        shortDescription: "Unlock your creativity and craft your very own cuddly companion in this hands-on teddy bear making session.",
+        date: "April 10, 2026",
+        time: "11:30 AM - 1:00 PM",
+        location: "TBA",
+        category: "INFORMAL WORKSHOP",
+        image: workshop3,
+        accent: "#e91e63",
+        details: {
+            fullDescription: `<p>Unlock your creativity and craft your very own cuddly companion!</p><p>Join us for a hands-on workshop where you'll learn the art of making a handmade teddy bear from scratch. Whether you're looking to pick up a new hobby, create a personalized gift, or explore the basics of a small handicraft business, this session is perfect for you.</p><p>Materials will be provided.</p><p><strong>For Queries:</strong></p><ul><li>Vel Ashwin: 9994314713</li><li>Kajeshvaran: 6383172771</li><li>Yuvitha: 8248444925</li></ul>`,
+            price: "₹250",
+            capacity: "Individual Participation",
+            organizer: "Alchemy 26",
+            tags: ["DIY", "Teddy Bear", "Handicraft", "Creative Workshop"],
+            website: "https://docs.google.com/forms/d/e/1FAIpQLSf8VT1Or3h8Prvgike2vDMI8ODtj81Mz7Tv5OsFBkeyIvTShQ/viewform"
         },
     }
 ];
