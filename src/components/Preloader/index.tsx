@@ -23,7 +23,7 @@ const Preloader = ({
             ease: 'back.out(1.7)',
             duration: 1.4,
             stagger: 0.05,
-            delay: 0.5
+            delay: 0.7
         });
 
         tl.to([wrapperRef.current, secondOverlayRef.current], {

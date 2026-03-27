@@ -62,7 +62,7 @@
 }
 
 /* ─── Mobile: center everything, logo above text ─── */
-@media (max-width: 768px) {
+@media (max-width: 1030px) {
     .preloader-inner {
         flex-direction: column;
         gap: 1.5rem;
@@ -77,13 +77,31 @@
     }
 
     .preloader-letter {
-        font-size: 4rem;
+        font-size: 10rem;
+    }
+}
+@media (max-width: 760px) {
+    .preloader-inner {
+        flex-direction: column;
+        gap: 1.5rem;
+        height: auto;
+        padding: 2rem 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .preloader-letters {
+        flex-wrap: nowrap;
+    }
+
+    .preloader-letter {
+        font-size: 8rem;
     }
 }
 
 /* Extra small screens */
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     .preloader-letter {
-        font-size: 3rem;
+        font-size: 4.5rem;
     }
 }
