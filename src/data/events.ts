@@ -29,7 +29,7 @@ const EVENTS_DATA: EventItem[] = [
         shortDescription: "A high-intensity, strategy-driven technical competition combining chemical engineering with competitive bidding.",
         date: "April 12, 2026",
         time: "02:00 PM",
-        location: "Chemical Department",
+        location: "EEE Auditorium",
         category: "COMPETITION",
         image: event1,
 
@@ -48,7 +48,7 @@ const EVENTS_DATA: EventItem[] = [
         title: "Alchemy Paper Presentation",
         shortDescription: "Showcase your research, ignite innovation, and compete for a ₹10,000 prize pool.",
         date: "April 10, 2026",
-        time: "03:00 PM",
+        time: "02:00 PM",
         location: "Seminar Hall",
         category: "ACADEMIC",
         image: event2,
@@ -69,7 +69,7 @@ const EVENTS_DATA: EventItem[] = [
         shortDescription: "Analyze real-world industrial challenges and apply Bureau of Indian Standards (BIS) guidelines to develop structured compliance solutions.",
         date: "April 11, 2026",
         time: "09:30 AM",
-        location: "Chemical Department",
+        location: "EEE Auditorium",
         category: "CASE STUDY",
         image: event3,
 
