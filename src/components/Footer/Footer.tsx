@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
       >
         {/* Top Section / Header */}
         <motion.div variants={itemVariants} className="mb-16">
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-violet-400 to-pink-400 mb-4 leading-normal">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-violet-400 to-pink-400 mb-4 leading-normal">
             Alchemy 2026
           </h2>
           <p className="text-lg md:text-xl text-neutral-400 max-w-md">
@@ -131,7 +131,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Giant Background-like Text for Awwwards Feel */}
-          <h1 className="text-[12vw] md:text-[8vw] lg:text-[140px] leading-none font-black tracking-tighter text-transparent overflow-hidden w-full text-center">
+          <h1 className="text-[12vw] md:text-[8vw] lg:text-[140px] leading-none font-black text-transparent overflow-hidden w-full text-center">
             <span className="bg-clip-text bg-linear-to-b from-neutral-700 to-neutral-950 select-none">
               ALCHEMY 2026
             </span>

@@ -39,7 +39,7 @@ const WORKSHOPS_DATA: EventItem[] = [
             capacity: "Individual Participation",
             organizer: "Dr. Nandlal Pingua (NIT Tiruchirappalli)",
             tags: ["Molecular Simulation", "LAMMPS", "Material Design", "Energy Systems"],
-            website: "https://forms.gle/sTERw29BPcqcZM3AA"
+            website: "https://forms.gle/fmJySTaPDihoYBnH7"
         },
     },
     {

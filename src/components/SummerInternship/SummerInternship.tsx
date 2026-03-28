@@ -70,7 +70,7 @@ export default function SummerInternship() {
                     <div ref={titleWrapRef} className="overflow-hidden text-center mb-12 md:mb-16">
                         <h2
                             ref={titleRef}
-                            className="text-6xl md:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 leading-[0.9] will-change-transform"
+                            className="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600 will-change-transform"
                             style={{ clipPath: "inset(0 100% 0 0)" }}
                         >
                             {SUMMER_INTERNSHIP_DATA.title}
