@@ -6,6 +6,6 @@ export const SUMMER_INTERNSHIP_DATA = {
     ],
     button: {
         label: "Apply Now",
-        link: "#"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfNKzVUpS-P1wHlb-wbE1iGCjgEIquGIizm2GkzQog4sI0HEw/viewform"
     }
 };
