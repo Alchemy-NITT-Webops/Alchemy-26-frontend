@@ -91,7 +91,7 @@ const FloatingBrochureButton: React.FC = () => {
                 className="absolute inset-0 flex items-center justify-between gap-1.5 px-3 w-[180px]"
               >
                 <a
-                  href="/brochure.pdf"
+                      href="https://drive.google.com/file/d/1VVIA53YWAebV-_U9Y85ddetGhQHtkRPg/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsExpanded(false)}
