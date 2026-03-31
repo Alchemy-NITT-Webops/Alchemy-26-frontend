@@ -209,7 +209,7 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                         >
                             {[
                                 { Icon: Ticket, label: "Price", value: event.details.price },
-                                { Icon: Users, label: "Capacity", value: event.details.capacity },
+                                { Icon: Users, label: "Team Size", value: event.details.capacity },
                             ].map(({ Icon, label, value }) => (
                                 <div key={label}>
                                     <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest mb-1 text-[#666]">

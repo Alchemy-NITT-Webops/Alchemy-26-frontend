@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PR_HOSPITALITY_DATA } from '../../data/prHospitality';
+import tshirtImg from '../../assets/hospitality/tshirt.jpeg';
 import { VscCalendar, VscLock, VscCheck, VscHome, VscPerson, VscCallOutgoing } from 'react-icons/vsc';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -109,7 +110,7 @@ export default function PrHospitality() {
                                     ))}
                                 </div>
 
-                                <div className="mt-auto pt-6 sm:pt-8 border-t border-white/10 flex flex-col gap-4">
+                                <div className="mt-auto pt-6 sm:pt-8 border-t border-white/10">
                                     <a
                                         href={PR_HOSPITALITY_DATA.registration.link}
                                         target="_blank"
@@ -117,14 +118,6 @@ export default function PrHospitality() {
                                         className="block w-full text-center px-6 py-4 rounded-2xl bg-linear-to-r from-purple-600 to-pink-600 text-white text-base sm:text-lg font-bold tracking-wide hover:from-purple-500 hover:to-pink-500 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all transform hover:-translate-y-1"
                                     >
                                         Register for Accommodation →
-                                    </a>
-                                    <a
-                                        href={PR_HOSPITALITY_DATA.tshirtRegistration.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block w-full text-center px-6 py-4 rounded-2xl bg-linear-to-r from-teal-600 to-cyan-600 text-white text-base sm:text-lg font-bold tracking-wide hover:from-teal-500 hover:to-cyan-500 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all transform hover:-translate-y-1"
-                                    >
-                                        👕 Register for Alchemy 26 T-Shirt →
                                     </a>
                                 </div>
                             </div>
@@ -182,6 +175,35 @@ export default function PrHospitality() {
                             )}
                         </div>
 
+                    </div>
+                </div>
+
+                {/* Exclusive Alchemy Merch Section */}
+                <div className="pr-col w-full mt-16 md:mt-20 flex flex-col items-center">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 text-transparent bg-clip-text bg-linear-to-br from-white via-gray-200 to-gray-600">
+                        Exclusive Alchemy Merch
+                    </h3>
+                    <p className="text-gray-400 text-base sm:text-lg text-center mb-8 max-w-xl">
+                        Grab the official Alchemy '26 t-shirt
+                    </p>
+
+                    <div className="relative p-px rounded-3xl overflow-hidden group max-w-md w-full shadow-[0_0_60px_rgba(168,85,247,0.1)]">
+                        <div className="absolute inset-0 bg-linear-to-br from-purple-500/30 via-transparent to-pink-500/30 group-hover:from-purple-500/50 group-hover:to-pink-500/50 transition-colors duration-500" />
+                        <div className="relative bg-[#060010]/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 flex flex-col items-center">
+                            <img
+                                src={tshirtImg}
+                                alt="Alchemy 26 Exclusive T-Shirt"
+                                className="w-full rounded-2xl object-cover shadow-lg"
+                            />
+                            <a
+                                href={PR_HOSPITALITY_DATA.tshirtRegistration.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-6 block w-full text-center px-6 py-4 rounded-2xl bg-linear-to-r from-purple-600 to-pink-600 text-white text-base sm:text-lg font-bold tracking-wide hover:from-purple-500 hover:to-pink-500 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all transform hover:-translate-y-1"
+                            >
+                                👕 Get Your T-Shirt →
+                            </a>
+                        </div>
                     </div>
                 </div>
 

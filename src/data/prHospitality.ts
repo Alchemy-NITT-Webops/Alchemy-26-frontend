@@ -14,7 +14,9 @@ export const PR_HOSPITALITY_DATA = {
     contacts: [
         { name: "Aaqhil Ahmed", phone: "7845794627" },
         { name: "Mruthunya", phone: "8637403015" },
-        { name: "Rizwana", phone: "9042049270" }
+        { name: "Rizwana", phone: "9042049270" },
+        { name: "Pravesh", phone: '+919600518292' }
+
     ],
     map: {
         title: "Route to Campus",

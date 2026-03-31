@@ -28,7 +28,7 @@ const WORKSHOPS_DATA: EventItem[] = [
         title: "From Atoms to Applications: Molecular Simulation for Engineers",
         shortDescription: "A practical introduction to atomic-scale interactions and hands-on molecular modelling using LAMMPS.",
         date: "April 12, 2026",
-        time: "9:30 AM - 11:00 AM",
+        time: "09:30 AM",
         location: "Chemical Department Simulation Lab",
         category: "WORKSHOP",
         image: workshop2,

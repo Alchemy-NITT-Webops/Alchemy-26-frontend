@@ -53,7 +53,7 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
                         if (timeoutRef.current) clearTimeout(timeoutRef.current);
                         timeoutRef.current = setTimeout(() => {
                             setVisible(false);
-                        }, 3000);
+                        }, 1000);
                     }
                 }
                 return isMouseAtTop;
@@ -80,7 +80,7 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             if (latest > 100) {
                 timeoutRef.current = setTimeout(() => {
                     setVisible(false);
-                }, 3000);
+                }, 1000);
             }
         }
     });
@@ -150,6 +150,15 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
                         handleClick('/#home');
                     }}
                 />
+                <img
+                    alt="logo"
+                    src="/chea.png"
+                    className="h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer bg-gray-900 backdrop-blur-2xl rounded-full "
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleClick('/#home');
+                    }}
+                />
                 <a href="https://nitt.edu" target="_blank">
                     <img
                         alt="nitt logo"
@@ -160,7 +169,7 @@ const Header = ({ lenis }: { lenis: Lenis | null }) => {
             </div>
 
             <div className="w-full h-full pointer-events-auto">
-                <Dock items={dockItems} dockHeight={80} panelHeight={64} baseItemSize={50} magnification={70} />
+                <Dock items={dockItems} dockHeight={10} panelHeight={60} baseItemSize={45} magnification={70} />
             </div>
         </motion.nav>
     );
