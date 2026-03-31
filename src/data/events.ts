@@ -12,6 +12,7 @@ export interface EventItem {
     category: string;
     image: string;
     accent: string;
+    registrationClosed?: boolean;
     details: {
         fullDescription: string;
         price: string;
@@ -54,6 +55,7 @@ const EVENTS_DATA: EventItem[] = [
         image: event2,
 
         accent: "#92400e", // Brownish
+        registrationClosed: true,
         details: {
             fullDescription: `<p>The Alchemy Paper Presentation Competition is a distinguished academic platform encouraging innovation, research excellence, and scientific inquiry. It offers participants the opportunity to present original research, novel ideas, or experimental findings to a knowledgeable audience and judging panel.</p><p>Participants will compete for a prize pool of ₹10,000. This is an excellent opportunity to enhance presentation skills, demonstrate subject expertise, and gain academic recognition among peers and professionals.</p>`,
             price: "Rs. 300/-",

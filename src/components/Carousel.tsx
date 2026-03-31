@@ -49,6 +49,7 @@ export interface EventItem {
     category: string;
     image: string;
     accent: string;
+    registrationClosed?: boolean;
     details: {
         fullDescription: string;
         price: string;
@@ -245,7 +246,14 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3">
-                            {event.details.website && (
+                            {event.registrationClosed ? (
+                                <span
+                                    className="flex-1 py-[14px] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2"
+                                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#888", cursor: "not-allowed" }}
+                                >
+                                    Registration Closed
+                                </span>
+                            ) : event.details.website ? (
                                 <a
                                     href={event.details.website}
                                     target="_blank"
@@ -256,7 +264,7 @@ const EventDialog = memo(({ event, onClose }: { event: EventItem; onClose: () =>
                                     <Ticket size={15} />
                                     Register Now
                                 </a>
-                            )}
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -401,16 +409,26 @@ const EventCard = memo(
                                 >
                                     More Details
                                 </button>
-                                <a
-                                    href={event.details.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97] text-center no-underline"
-                                    style={{ background: accent, color: "#000" }}
-                                >
-                                    Register
-                                </a>
+                                {event.registrationClosed ? (
+                                    <span
+                                        className="flex-1 py-[13px] rounded-xl text-[13px] font-bold text-center no-underline flex items-center justify-center"
+                                        style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#888", cursor: "not-allowed" }}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        Closed
+                                    </span>
+                                ) : event.details.website ? (
+                                    <a
+                                        href={event.details.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="flex-1 py-[13px] rounded-xl text-[13px] font-bold transition-opacity hover:opacity-90 active:scale-[0.97] text-center no-underline flex items-center justify-center"
+                                        style={{ background: accent, color: "#000" }}
+                                    >
+                                        Register
+                                    </a>
+                                ) : null}
                             </div>
                         </div>
                     </div>
