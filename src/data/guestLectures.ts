@@ -2,7 +2,7 @@ import type { GuestLectureItem } from '../components/GuestLecture/GuestLecture';
 import gl1 from '../assets/gl/gl1.webp'
 import gl2 from '../assets/gl/gl2.webp'
 import gl3 from '../assets/gl/gl3.webp'
-import gl4 from '../assets/gl/gl4.webp'
+// import gl4 from '../assets/gl/gl4.webp'
 
 
 export const GUEST_LECTURES_DATA: GuestLectureItem[] = [
