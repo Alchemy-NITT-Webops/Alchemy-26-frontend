@@ -26,12 +26,13 @@ export const GUEST_LECTURES_DATA: GuestLectureItem[] = [
         designation: 'Associate Director (Sustainability and ESG), Deloitte',
         date: '12th April, 2026 | 11:30 am | Seminar Hall',
         topic: 'Technologies Powering the Net-zero transition'
-    },
-    {
-        image: gl4,
-        name: 'Ramadoss C',
-        designation: 'Senior Manager, CPCL',
-        date: '11th April, 2026 | 11:30 am | EEE Auditorium',
-        topic: 'Keynote Talk'
     }
+    // ,
+    // {
+    //     image: gl4,
+    //     name: 'Ramadoss C',
+    //     designation: 'Senior Manager, CPCL',
+    //     date: '11th April, 2026 | 11:30 am | EEE Auditorium',
+    //     topic: 'Keynote Talk'
+    // }
 ];
