@@ -60,29 +60,29 @@ export const SCHEDULE_DATA: DaySchedule[] = [
                 venue: "EEE Auditorium",
                 title: "BIS Case Study"
             },
+            // {
+            //     id: "d2-2",
+            //     type: "Guest Lecture",
+            //     time: "11:30 AM",
+            //     venue: "EEE Auditorium",
+            //     title: "Guest Lecture by Mr. Ramadoss"
+            // },
             {
                 id: "d2-2",
-                type: "Guest Lecture",
-                time: "11:30 AM",
-                venue: "EEE Auditorium",
-                title: "Guest Lecture by Mr. Ramadoss"
-            },
-            {
-                id: "d2-3",
                 type: "Guest Lecture",
                 time: "02:00 PM",
                 venue: "Seminar Hall",
                 title: "Guest Lecture on Solar Energy"
             },
             {
-                id: "d2-4",
+                id: "d2-3",
                 type: "Workshop",
                 time: "03:00 PM",
                 venue: "Chemical Department",
                 title: "Teddy Bear Workshop"
             },
             {
-                id: "d2-5",
+                id: "d2-4",
                 type: "Event",
                 time: "04:00 PM",
                 venue: "EEE Auditorium",
